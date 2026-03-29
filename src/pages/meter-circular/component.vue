@@ -99,9 +99,9 @@ defineExpose({
   --_stroke-radius: calc(var(--center) - (var(--stroke-width) + var(--bar-border-width)) / 2);
   --_circumference: calc(2 * 3.14159265 * var(--_stroke-radius));
 
-  --color-border: #d1d5db;
-  --color-track: #fff;
-  --color-bar: #22c55e;
+  --color-border: var(--border);
+  --color-track: var(--bg);
+  --color-bar: var(--accent);
   --color-label: var(--text-h);
 
   position: relative;
