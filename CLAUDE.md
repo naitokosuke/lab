@@ -1,3 +1,18 @@
+# Lab ページ構成規約
+
+各 UI 実験は `src/pages/<name>/` ディレクトリに以下の構成で配置する。
+
+```
+src/pages/<name>/
+  index.vue          # ページコンポーネント（デモ UI、コントロール）
+  component.vue      # 実際のコンポーネント実装
+  composable.ts      # composable（必要に応じて）
+```
+
+- `index.vue` がファイルベースルーティングのページとなる（`definePage()` で meta を定義）
+- `component.vue` にはコンポーネントの素朴な実装を置く
+- `composable.ts` は必要に応じて作成する
+
 <!--VITE PLUS START-->
 
 # Using Vite+, the Unified Toolchain for the Web
