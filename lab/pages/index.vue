@@ -8,7 +8,7 @@ const labPages = computed(() => router.getRoutes().filter((r) => r.name !== "/" 
 
 <template>
   <div class="home">
-    <h1>Lab</h1>
+    <h1>ナイトウコウスケ's Lab</h1>
     <div class="grid">
       <RouterLink v-for="route in labPages" :key="route.name" :to="route.path" class="card">
         <h2>{{ route.meta?.title }}</h2>
