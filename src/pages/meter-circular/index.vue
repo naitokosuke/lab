@@ -148,14 +148,14 @@ function setPlaybackRate(value: number) {
   margin: 0 auto;
 
   section {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    justify-items: center;
     padding: 32px 0;
   }
 
   output {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-auto-flow: column;
     gap: 8px;
     justify-content: center;
     margin-bottom: 24px;
@@ -170,8 +170,7 @@ function setPlaybackRate(value: number) {
   }
 
   form {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: 16px;
 
     fieldset {
@@ -188,10 +187,10 @@ function setPlaybackRate(value: number) {
     }
 
     label {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
       gap: 8px;
-      width: 100%;
       font-size: 14px;
       color: var(--text);
       margin-bottom: 8px;
@@ -201,14 +200,9 @@ function setPlaybackRate(value: number) {
       }
     }
 
-    input[type="range"] {
-      flex: 1;
-    }
-
     input[type="number"],
     input[type="text"],
     select {
-      flex: 1;
       font-size: 14px;
       padding: 4px 8px;
       border: 1px solid var(--border);
@@ -218,8 +212,8 @@ function setPlaybackRate(value: number) {
     }
 
     menu {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
       gap: 8px;
 
       button {
