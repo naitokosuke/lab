@@ -40,13 +40,7 @@ const {
   playState,
   currentTimeCtx,
   playbackRateCtx,
-} = useCircularAnimate(
-  barRef,
-  circumference,
-  percentage,
-  duration,
-  easing,
-);
+} = useCircularAnimate(barRef, circumference, percentage, duration, easing);
 
 const easingOptions = ["ease", "ease-in", "ease-out", "ease-in-out", "linear"];
 

@@ -5,7 +5,7 @@ import vueRouter from "vue-router/vite";
 export default defineConfig({
   plugins: [
     vueRouter({
-      dts: "src/route-map.d.ts",
+      dts: "lab/route-map.d.ts",
     }),
     vue(),
   ],

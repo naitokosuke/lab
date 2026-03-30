@@ -1,9 +1,9 @@
 # Lab ページ構成規約
 
-各 UI 実験は `src/pages/<name>/` ディレクトリに以下の構成で配置する。
+各 UI 実験は `lab/pages/<name>/` ディレクトリに以下の構成で配置する。
 
 ```
-src/pages/<name>/
+lab/pages/<name>/
   index.vue          # ページコンポーネント（デモ UI、コントロール）
   component.vue      # 実際のコンポーネント実装
   composable.ts      # composable（必要に応じて）
