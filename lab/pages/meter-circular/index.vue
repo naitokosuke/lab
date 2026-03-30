@@ -142,19 +142,19 @@ function setPlaybackRate(value: number) {
   section {
     display: grid;
     justify-items: center;
-    padding: 32px 0;
+    padding: var(--space-6) 0;
   }
 
   output {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 24px;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
 
     code {
-      font-size: 12px;
-      padding: 2px 8px;
-      border-radius: 4px;
+      font-size: var(--text-xs);
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-s);
       background: var(--accent-bg);
       color: var(--accent);
       font-variant-numeric: tabular-nums;
@@ -163,29 +163,29 @@ function setPlaybackRate(value: number) {
 
   form {
     display: grid;
-    gap: 16px;
+    gap: var(--space-4);
 
     fieldset {
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
+      border-radius: var(--radius-l);
+      padding: var(--space-4);
     }
 
     legend {
-      font-size: 14px;
+      font-size: var(--text-m);
       font-weight: 600;
       color: var(--text-h);
-      padding: 0 8px;
+      padding: 0 var(--space-2);
     }
 
     label {
       display: grid;
       grid-template-columns: 100px 1fr 40px;
       align-items: center;
-      gap: 8px;
-      font-size: 14px;
+      gap: var(--space-2);
+      font-size: var(--text-m);
       color: var(--text);
-      margin-bottom: 8px;
+      margin-bottom: var(--space-2);
       font-variant-numeric: tabular-nums;
 
       &:last-child {
@@ -196,10 +196,10 @@ function setPlaybackRate(value: number) {
     input[type="number"],
     input[type="text"],
     select {
-      font-size: 14px;
-      padding: 4px 8px;
+      font-size: var(--text-m);
+      padding: var(--space-1) var(--space-2);
       border: 1px solid var(--border);
-      border-radius: 4px;
+      border-radius: var(--radius-s);
       background: var(--bg);
       color: var(--text-h);
     }
@@ -207,7 +207,7 @@ function setPlaybackRate(value: number) {
     menu {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-      gap: 8px;
+      gap: var(--space-2);
     }
   }
 }

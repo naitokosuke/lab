@@ -88,13 +88,13 @@ defineExpose({ el: barRef });
     justify-items: center;
 
     & .value {
-      font-size: 24px;
+      font-size: var(--text-2xl);
       font-weight: 700;
       color: var(--color-label);
     }
 
     & .unit {
-      font-size: 14px;
+      font-size: var(--text-m);
       line-height: 1.2;
       letter-spacing: -0.02em;
       color: var(--color-label);
