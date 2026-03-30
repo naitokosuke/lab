@@ -33,7 +33,6 @@ const {
   play,
   pause,
   resume,
-  reverse,
   finish,
   cancel,
 
@@ -130,7 +129,7 @@ function setPlaybackRate(value: number) {
           <button @click="play()">play()</button>
           <button @click="pause()">pause()</button>
           <button @click="resume()">resume()</button>
-          <button @click="reverse()">reverse()</button>
+
           <button @click="finish()">finish()</button>
           <button @click="cancel()">cancel()</button>
         </menu>

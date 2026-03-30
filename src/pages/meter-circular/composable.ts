@@ -15,7 +15,7 @@ export interface UseCircularAnimateReturn {
   play: () => void;
   pause: () => void;
   resume: () => void;
-  reverse: () => void;
+
   finish: () => void;
   cancel: () => void;
 }
@@ -85,7 +85,6 @@ export function useCircularAnimate(
       {
         duration: duration.value,
         easing: easing.value,
-        fill: "forwards",
       },
     );
 
@@ -109,12 +108,6 @@ export function useCircularAnimate(
 
   const resume = () => {
     animation.value?.play();
-    syncResume();
-  };
-
-  const reverse = () => {
-    if (!animation.value) createAnimation();
-    animation.value?.reverse();
     syncResume();
   };
 
@@ -179,7 +172,6 @@ export function useCircularAnimate(
     play,
     pause,
     resume,
-    reverse,
     finish,
     cancel,
   };
