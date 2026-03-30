@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./index.css"
+    ".": "./index.css",
+    "./components": "./components/index.ts"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
   }
 }

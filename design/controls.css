@@ -1,0 +1,40 @@
+:root {
+  font: var(--text-l) / 1.5 var(--sans);
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2 {
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+input[type="range"] {
+  appearance: none;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+  }
+}
+
+select,
+input[type="text"],
+input[type="number"] {
+  accent-color: var(--accent);
+}
+
+button {
+  cursor: pointer;
+}

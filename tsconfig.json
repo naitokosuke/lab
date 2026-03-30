@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["lab", "lab/**/*.vue", "lab/route-map.d.ts"]
+  "include": ["lab", "lab/**/*.vue", "lab/route-map.d.ts", "design", "design/**/*.vue"]
 }

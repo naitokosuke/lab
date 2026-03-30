@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { NKLButton } from "@lab/design/components";
 
 definePage({
   meta: {
@@ -15,28 +16,12 @@ const count = ref(0);
 <template>
   <div id="counter-lab">
     <h2>Counter</h2>
-    <button @click="count++">Count is {{ count }}</button>
+    <NKLButton @click="count++">Count is {{ count }}</NKLButton>
   </div>
 </template>
 
 <style scoped>
 #counter-lab {
-  padding: 32px 24px;
-
-  button {
-    font-family: var(--mono);
-    font-size: 16px;
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: 2px solid transparent;
-    color: var(--accent);
-    background: var(--accent-bg);
-    cursor: pointer;
-    transition: border-color 0.2s;
-
-    &:hover {
-      border-color: var(--accent-border);
-    }
-  }
+  padding: var(--space-6) var(--space-5);
 }
 </style>

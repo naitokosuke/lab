@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, useTemplateRef } from "vue";
+import { NKLButton } from "@lab/design/components";
 import CircularProgress from "./component.vue";
 import { useCircularAnimate } from "./composable";
 
@@ -120,12 +121,12 @@ function setPlaybackRate(value: number) {
       <fieldset>
         <legend>Actions</legend>
         <menu>
-          <button @click="play()">play()</button>
-          <button @click="pause()">pause()</button>
-          <button @click="resume()">resume()</button>
+          <NKLButton @click="play()">play()</NKLButton>
+          <NKLButton @click="pause()">pause()</NKLButton>
+          <NKLButton @click="resume()">resume()</NKLButton>
 
-          <button @click="finish()">finish()</button>
-          <button @click="cancel()">cancel()</button>
+          <NKLButton @click="finish()">finish()</NKLButton>
+          <NKLButton @click="cancel()">cancel()</NKLButton>
         </menu>
       </fieldset>
     </form>
@@ -134,7 +135,7 @@ function setPlaybackRate(value: number) {
 
 <style scoped>
 #meter-circular-lab {
-  padding: 32px 24px;
+  padding: var(--space-6) var(--space-5);
   max-width: 480px;
   margin: 0 auto;
 
@@ -207,16 +208,6 @@ function setPlaybackRate(value: number) {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
       gap: 8px;
-
-      button {
-        font-family: var(--mono);
-        font-size: 13px;
-        padding: 6px 12px;
-        border-radius: 6px;
-        border: 1px solid var(--border);
-        background: var(--accent-bg);
-        color: var(--accent);
-      }
     }
   }
 }
