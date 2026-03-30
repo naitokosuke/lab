@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@lab/design": "workspace:*"
+    "@lab/design": "workspace:*",
+    "valibot": "^1.3.1"
   }
 }

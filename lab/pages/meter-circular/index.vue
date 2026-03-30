@@ -4,14 +4,6 @@ import { NKLButton } from "@lab/design/components";
 import CircularProgress from "./component.vue";
 import { useCircularAnimate } from "./composable";
 
-definePage({
-  meta: {
-    title: "Meter Circular",
-    description: "SVG-based circular meter",
-    tags: ["svg", "animation"],
-  },
-});
-
 const num = ref(72);
 const max = ref(100);
 const unit = ref("%");

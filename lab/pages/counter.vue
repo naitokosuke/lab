@@ -2,14 +2,6 @@
 import { ref } from "vue";
 import { NKLButton } from "@lab/design/components";
 
-definePage({
-  meta: {
-    title: "Counter",
-    description: "Naive counter example",
-    tags: ["basics", "reactivity"],
-  },
-});
-
 const count = ref(0);
 </script>
 

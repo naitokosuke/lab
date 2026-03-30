@@ -1,22 +1,19 @@
 <script setup lang="ts">
 import { NKLCard } from "@lab/design/components";
-import { RouterLink, useRouter } from "vue-router";
-import { computed } from "vue";
-
-const router = useRouter();
-const labPages = computed(() => router.getRoutes().filter((r) => r.name !== "/" && r.meta?.title));
+import { RouterLink } from "vue-router";
+import { labPages } from "./meta";
 </script>
 
 <template>
   <main id="home">
     <h1>ナイトウコウスケ's Lab</h1>
     <nav aria-label="Lab experiments">
-      <RouterLink v-for="route in labPages" :key="route.name" :to="route.path">
+      <RouterLink v-for="(meta, name) in labPages" :key="name" :to="{ name }">
         <NKLCard>
-          <h2>{{ route.meta?.title }}</h2>
-          <p v-if="route.meta?.description">{{ route.meta.description }}</p>
-          <ul v-if="route.meta?.tags" aria-label="Tags">
-            <li v-for="tag in (route.meta.tags as string[])" :key="tag">{{ tag }}</li>
+          <h2>{{ meta.title }}</h2>
+          <p>{{ meta.description }}</p>
+          <ul aria-label="Tags">
+            <li v-for="tag in meta.tags" :key="tag">{{ tag }}</li>
           </ul>
         </NKLCard>
       </RouterLink>
