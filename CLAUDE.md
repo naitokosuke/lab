@@ -1,26 +1,26 @@
-# Lab ページ構成規約
+# Lab Page Structure
 
-各 UI 実験は `lab/pages/<name>/` ディレクトリに以下の構成で配置する。
+Each UI experiment lives in `lab/pages/<name>/` with the following layout:
 
 ```
 lab/pages/<name>/
-  index.vue          # ページコンポーネント（デモ UI、コントロール）
-  component.vue      # 実際のコンポーネント実装
-  composable.ts      # composable（必要に応じて）
+  index.vue          # Page component (demo UI, controls)
+  component.vue      # Actual component implementation
+  composable.ts      # Composable (as needed)
 ```
 
-- `index.vue` がファイルベースルーティングのページとなる（`definePage()` で meta を定義）
-- `component.vue` にはコンポーネントの素朴な実装を置く
-- `composable.ts` は必要に応じて作成する
+- `index.vue` is the file-based routing page (define meta via `definePage()`)
+- `component.vue` holds the naive component implementation
+- `composable.ts` is created as needed
 
-# Ctx クロージャパターン
+# Ctx Closure Pattern
 
-composable から読み書き可能なリアクティブ値を返すとき、`WritableComputedRef` は使わない。代入に副作用が隠れるため。
+Do not use `WritableComputedRef` when returning readable/writable reactive values from composables. Assignment hides side effects.
 
-代わりに `Ctx` suffix 付きのクロージャオブジェクトで `value`（読み取り）と `set`（書き込み）を凝集させる。
+Instead, use a closure object with `Ctx` suffix that cohesively groups `value` (read) and `set` (write).
 
 ```ts
-// composable 内部
+// Inside composable
 const playbackRateCtx = (() => {
   const value = computed(() => store.playbackRate);
   const set = (v: number) => {
@@ -30,9 +30,9 @@ const playbackRateCtx = (() => {
   return { value, set };
 })();
 
-// 使用側
-playbackRateCtx.value.value; // 読み取り（ComputedRef を unwrap）
-playbackRateCtx.set(2); // 書き込み（副作用が明示的）
+// Usage
+playbackRateCtx.value.value; // Read (unwrap ComputedRef)
+playbackRateCtx.set(2); // Write (side effect is explicit)
 ```
 
 <!--VITE PLUS START-->
