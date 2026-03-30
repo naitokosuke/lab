@@ -60,15 +60,14 @@ function setPlaybackRate(value: number) {
 </script>
 
 <template>
-  <div class="page">
+  <div id="meter-circular-lab">
     <h2>Meter Circular</h2>
 
-    <div class="demo">
+    <section>
       <CircularProgress ref="progress" :num="num" :percentage="percentage" :unit="unit" />
-    </div>
+    </section>
 
-    <!-- State -->
-    <div class="state">
+    <output>
       <code>playState: {{ playState }}</code>
       <code>pending: {{ pending }}</code>
       <code
@@ -78,10 +77,9 @@ function setPlaybackRate(value: number) {
         }}</code
       >
       <code>playbackRate: {{ playbackRateCtx.value.value }}</code>
-    </div>
+    </output>
 
-    <!-- Controls -->
-    <div class="controls">
+    <form @submit.prevent>
       <fieldset>
         <legend>Props</legend>
 
@@ -130,111 +128,111 @@ function setPlaybackRate(value: number) {
 
       <fieldset>
         <legend>Actions</legend>
-        <div class="actions">
+        <menu>
           <button @click="play()">play()</button>
           <button @click="pause()">pause()</button>
           <button @click="resume()">resume()</button>
           <button @click="reverse()">reverse()</button>
           <button @click="finish()">finish()</button>
           <button @click="cancel()">cancel()</button>
-        </div>
+        </menu>
       </fieldset>
-    </div>
+    </form>
   </div>
 </template>
 
 <style scoped>
-.page {
+#meter-circular-lab {
   padding: 32px 24px;
   max-width: 480px;
   margin: 0 auto;
-}
 
-.demo {
-  display: flex;
-  justify-content: center;
-  padding: 32px 0;
-}
+  section {
+    display: flex;
+    justify-content: center;
+    padding: 32px 0;
+  }
 
-.state {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 24px;
-}
+  output {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 24px;
 
-.state code {
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background: var(--accent-bg);
-  color: var(--accent);
-}
+    code {
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--accent-bg);
+      color: var(--accent);
+    }
+  }
 
-.controls {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 
-.controls fieldset {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-}
+    fieldset {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
 
-.controls legend {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-h);
-  padding: 0 8px;
-}
+    legend {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-h);
+      padding: 0 8px;
+    }
 
-.controls label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  font-size: 14px;
-  color: var(--text);
-  margin-bottom: 8px;
-}
+    label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 8px;
 
-.controls label:last-child {
-  margin-bottom: 0;
-}
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
 
-.controls input[type="range"] {
-  flex: 1;
-}
+    input[type="range"] {
+      flex: 1;
+    }
 
-.controls input[type="number"],
-.controls input[type="text"],
-.controls select {
-  flex: 1;
-  font-size: 14px;
-  padding: 4px 8px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background: var(--bg);
-  color: var(--text-h);
-}
+    input[type="number"],
+    input[type="text"],
+    select {
+      flex: 1;
+      font-size: 14px;
+      padding: 4px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--bg);
+      color: var(--text-h);
+    }
 
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+    menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
 
-.actions button {
-  font-family: var(--mono);
-  font-size: 13px;
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: var(--accent-bg);
-  color: var(--accent);
-  cursor: pointer;
+      button {
+        font-family: var(--mono);
+        font-size: 13px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--accent-bg);
+        color: var(--accent);
+        cursor: pointer;
+      }
+    }
+  }
 }
 </style>
