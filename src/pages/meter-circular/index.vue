@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useTemplateRef, watch } from "vue";
+import { computed, ref, useTemplateRef } from "vue";
 import CircularProgress from "./component.vue";
 import { useCircularAnimate } from "./composable";
 
@@ -48,8 +48,6 @@ const {
   duration,
   easing,
 );
-
-watch(percentage, () => play());
 
 const easingOptions = ["ease", "ease-in", "ease-out", "ease-in-out", "linear"];
 
@@ -225,7 +223,6 @@ function setPlaybackRate(value: number) {
         border: 1px solid var(--border);
         background: var(--accent-bg);
         color: var(--accent);
-        cursor: pointer;
       }
     }
   }

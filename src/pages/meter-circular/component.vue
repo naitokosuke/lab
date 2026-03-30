@@ -3,11 +3,12 @@ import { useTemplateRef } from "vue";
 
 interface Props {
   num: number;
+  percentage: number;
 
   /** @default "%" */
   unit?: string;
 }
-const { num, unit = "%" } = defineProps<Props>();
+const { num, percentage, unit = "%" } = defineProps<Props>();
 
 const barRef = useTemplateRef<SVGCircleElement>("bar");
 
@@ -15,7 +16,7 @@ defineExpose({ el: barRef });
 </script>
 
 <template>
-  <div class="circular-progress">
+  <div class="circular-progress" :style="{ '--_percentage': percentage }">
     <svg viewBox="0 0 100 100">
       <circle class="border" />
       <circle class="track" />
@@ -74,7 +75,7 @@ defineExpose({ el: barRef });
         stroke: var(--color-bar);
         stroke-width: var(--stroke-width);
         stroke-dasharray: var(--_circumference);
-        stroke-dashoffset: var(--_circumference);
+        stroke-dashoffset: calc(var(--_circumference) * (1 - var(--_percentage) / 100));
       }
     }
   }
