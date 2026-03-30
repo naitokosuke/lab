@@ -1,78 +1,17 @@
 <script setup lang="ts">
-import { computed, useTemplateRef, watch } from "vue";
-import { useCircularAnimate } from "./composable";
+import { useTemplateRef } from "vue";
 
 interface Props {
   num: number;
 
-  /** @default 100 */
-  max?: number;
-
   /** @default "%" */
   unit?: string;
-
-  /** @default 600 */
-  duration?: number;
-
-  /** @default "ease" */
-  easing?: string;
 }
-const props = withDefaults(defineProps<Props>(), {
-  max: 100,
-  unit: "%",
-  duration: 600,
-  easing: "ease",
-});
+const { num, unit = "%" } = defineProps<Props>();
 
 const barRef = useTemplateRef<SVGCircleElement>("bar");
 
-const percentage = computed(() => {
-  if (props.max <= 0) throw new Error(`[CircularProgress] max must be positive, got ${props.max}`);
-  return Math.min(100, Math.max(0, (props.num / props.max) * 100));
-});
-
-const strokeRadius = 50 - (20 + 1) / 2;
-const circumference = 2 * Math.PI * strokeRadius;
-
-const {
-  play,
-  pause,
-  resume,
-  reverse,
-  finish,
-  cancel,
-  pending,
-  playState,
-  currentTime,
-  playbackRate,
-} = useCircularAnimate(
-  barRef,
-  () => circumference,
-  () => percentage.value,
-  {
-    get duration() {
-      return props.duration;
-    },
-    get easing() {
-      return props.easing;
-    },
-  },
-);
-
-watch(percentage, () => play());
-
-defineExpose({
-  play,
-  pause,
-  resume,
-  reverse,
-  finish,
-  cancel,
-  pending,
-  playState,
-  currentTime,
-  playbackRate,
-});
+defineExpose({ el: barRef });
 </script>
 
 <template>
@@ -83,8 +22,8 @@ defineExpose({
       <circle ref="bar" class="bar" />
     </svg>
     <div class="label">
-      <span class="value">{{ props.num }}</span>
-      <span class="unit">{{ props.unit }}</span>
+      <span class="value">{{ num }}</span>
+      <span class="unit">{{ unit }}</span>
     </div>
   </div>
 </template>

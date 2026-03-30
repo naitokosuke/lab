@@ -1,14 +1,16 @@
-import type { ComputedRef, Ref, ShallowRef, WritableComputedRef } from "vue";
+import type { ComputedRef, ShallowRef } from "vue";
 import { computed, onMounted, onScopeDispose, shallowReactive, shallowRef } from "vue";
-
-export interface UseCircularAnimateOptions {
-  duration?: number;
-  easing?: string;
-  immediate?: boolean;
-}
 
 export interface UseCircularAnimateReturn {
   animation: ShallowRef<Animation | undefined>;
+
+  pending: ComputedRef<boolean>;
+  playState: ComputedRef<AnimationPlayState>;
+  currentTimeCtx: {
+    value: ComputedRef<CSSNumberish | null>;
+    set: (value: CSSNumberish | null) => void;
+  };
+  playbackRateCtx: { value: ComputedRef<number>; set: (value: number) => void };
 
   play: () => void;
   pause: () => void;
@@ -16,18 +18,13 @@ export interface UseCircularAnimateReturn {
   reverse: () => void;
   finish: () => void;
   cancel: () => void;
-
-  pending: ComputedRef<boolean>;
-  playState: ComputedRef<AnimationPlayState>;
-  currentTime: WritableComputedRef<CSSNumberish | null>;
-  playbackRate: WritableComputedRef<number>;
 }
 
 export function useCircularAnimate(
-  el: Readonly<ShallowRef<SVGCircleElement | null>> | Ref<SVGCircleElement | null>,
+  el: Readonly<ShallowRef<SVGCircleElement | null>>,
   circumference: () => number,
   percentage: () => number,
-  options: UseCircularAnimateOptions = {},
+  options: { duration?: number; easing?: string; immediate?: boolean } = {},
 ): UseCircularAnimateReturn {
   const { immediate = true } = options;
   const animation = shallowRef<Animation>();
@@ -39,7 +36,9 @@ export function useCircularAnimate(
     playbackRate: 1,
   });
 
-  // --- raf sync ---
+  /* ============================================================
+   * RAF Sync
+   * ========================================================= */
 
   let rafId: number | null = null;
 
@@ -69,7 +68,9 @@ export function useCircularAnimate(
     }
   }
 
-  // --- core ---
+  /* ============================================================
+   * Core
+   * ========================================================= */
 
   function createAnimation() {
     if (!el.value) return;
@@ -94,7 +95,9 @@ export function useCircularAnimate(
     syncResume();
   }
 
-  // --- controls ---
+  /* ============================================================
+   * Controls
+   * ========================================================= */
 
   const play = () => createAnimation();
 
@@ -124,36 +127,41 @@ export function useCircularAnimate(
     syncPause();
   };
 
-  // --- reactive state ---
+  /* ============================================================
+   * Reactive State
+   * ========================================================= */
 
   const pending = computed(() => store.pending);
   const playState = computed(() => store.playState);
 
-  const currentTime = computed<CSSNumberish | null>({
-    get: () => store.currentTime,
-    set: (value) => {
-      store.currentTime = value;
+  const currentTimeCtx = (() => {
+    const value = computed(() => store.currentTime);
+    const set = (v: CSSNumberish | null) => {
+      store.currentTime = v;
       if (animation.value) {
-        animation.value.currentTime = value;
+        animation.value.currentTime = v;
         syncResume();
       }
-    },
-  });
+    };
+    return { value, set };
+  })();
 
-  const playbackRate = computed<number>({
-    get: () => store.playbackRate,
-    set: (value) => {
-      store.playbackRate = value;
-      if (animation.value) animation.value.playbackRate = value;
-    },
-  });
+  const playbackRateCtx = (() => {
+    const value = computed(() => store.playbackRate);
+    const set = (v: number) => {
+      store.playbackRate = v;
+      if (animation.value) animation.value.playbackRate = v;
+    };
+    return { value, set };
+  })();
 
-  // --- lifecycle ---
+  /* ============================================================
+   * Lifecycle
+   * ========================================================= */
 
   onMounted(() => {
     if (immediate) play();
   });
-
   onScopeDispose(() => {
     syncPause();
     animation.value?.cancel();
@@ -161,15 +169,17 @@ export function useCircularAnimate(
 
   return {
     animation,
+
+    pending,
+    playState,
+    currentTimeCtx,
+    playbackRateCtx,
+
     play,
     pause,
     resume,
     reverse,
     finish,
     cancel,
-    pending,
-    playState,
-    currentTime,
-    playbackRate,
   };
 }

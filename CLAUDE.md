@@ -13,6 +13,28 @@ src/pages/<name>/
 - `component.vue` にはコンポーネントの素朴な実装を置く
 - `composable.ts` は必要に応じて作成する
 
+# Ctx クロージャパターン
+
+composable から読み書き可能なリアクティブ値を返すとき、`WritableComputedRef` は使わない。代入に副作用が隠れるため。
+
+代わりに `Ctx` suffix 付きのクロージャオブジェクトで `value`（読み取り）と `set`（書き込み）を凝集させる。
+
+```ts
+// composable 内部
+const playbackRateCtx = (() => {
+  const value = computed(() => store.playbackRate);
+  const set = (v: number) => {
+    store.playbackRate = v;
+    if (animation.value) animation.value.playbackRate = v;
+  };
+  return { value, set };
+})();
+
+// 使用側
+playbackRateCtx.value.value; // 読み取り（ComputedRef を unwrap）
+playbackRateCtx.set(2); // 書き込み（副作用が明示的）
+```
+
 <!--VITE PLUS START-->
 
 # Using Vite+, the Unified Toolchain for the Web

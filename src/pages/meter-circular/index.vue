@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, useTemplateRef } from "vue";
+import { computed, ref, useTemplateRef, watch } from "vue";
 import CircularProgress from "./component.vue";
+import { useCircularAnimate } from "./composable";
 
 definePage({
   meta: {
@@ -18,12 +19,48 @@ const easing = ref("ease");
 const playbackRateInput = ref(1);
 
 const progressRef = useTemplateRef<InstanceType<typeof CircularProgress>>("progress");
+const barRef = computed(() => progressRef.value?.el ?? null);
+
+const strokeRadius = 50 - (20 + 1) / 2;
+const circumference = 2 * Math.PI * strokeRadius;
+
+const percentage = computed(() => {
+  if (max.value <= 0) throw new Error(`[CircularProgress] max must be positive, got ${max.value}`);
+  return Math.min(100, Math.max(0, (num.value / max.value) * 100));
+});
+
+const {
+  play,
+  pause,
+  resume,
+  reverse,
+  finish,
+  cancel,
+  pending,
+  playState,
+  currentTimeCtx,
+  playbackRateCtx,
+} = useCircularAnimate(
+  barRef,
+  () => circumference,
+  () => percentage.value,
+  {
+    get duration() {
+      return duration.value;
+    },
+    get easing() {
+      return easing.value;
+    },
+  },
+);
+
+watch(percentage, () => play());
 
 const easingOptions = ["ease", "ease-in", "ease-out", "ease-in-out", "linear"];
 
 function setPlaybackRate(value: number) {
   playbackRateInput.value = value;
-  if (progressRef.value) progressRef.value.playbackRate = value;
+  playbackRateCtx.set(value);
 }
 </script>
 
@@ -32,27 +69,20 @@ function setPlaybackRate(value: number) {
     <h2>Meter Circular</h2>
 
     <div class="demo">
-      <CircularProgress
-        ref="progress"
-        :num="num"
-        :max="max"
-        :unit="unit"
-        :duration="duration"
-        :easing="easing"
-      />
+      <CircularProgress ref="progress" :num="num" :percentage="percentage" :unit="unit" />
     </div>
 
     <!-- State -->
     <div class="state">
-      <code>playState: {{ progressRef?.playState }}</code>
-      <code>pending: {{ progressRef?.pending }}</code>
+      <code>playState: {{ playState }}</code>
+      <code>pending: {{ pending }}</code>
       <code
         >currentTime:
         {{
-          progressRef?.currentTime != null ? Math.round(Number(progressRef.currentTime)) : null
+          currentTimeCtx.value.value != null ? Math.round(Number(currentTimeCtx.value.value)) : null
         }}</code
       >
-      <code>playbackRate: {{ progressRef?.playbackRate }}</code>
+      <code>playbackRate: {{ playbackRateCtx.value.value }}</code>
     </div>
 
     <!-- Controls -->
@@ -106,12 +136,12 @@ function setPlaybackRate(value: number) {
       <fieldset>
         <legend>Actions</legend>
         <div class="actions">
-          <button @click="progressRef?.play()">play()</button>
-          <button @click="progressRef?.pause()">pause()</button>
-          <button @click="progressRef?.resume()">resume()</button>
-          <button @click="progressRef?.reverse()">reverse()</button>
-          <button @click="progressRef?.finish()">finish()</button>
-          <button @click="progressRef?.cancel()">cancel()</button>
+          <button @click="play()">play()</button>
+          <button @click="pause()">pause()</button>
+          <button @click="resume()">resume()</button>
+          <button @click="reverse()">reverse()</button>
+          <button @click="finish()">finish()</button>
+          <button @click="cancel()">cancel()</button>
         </div>
       </fieldset>
     </div>
