@@ -48,6 +48,20 @@ declare module "vue-router/auto-routes" {
       Record<never, never>,
       never
     >;
+    "/pretext/": RouteRecordInfo<
+      "/pretext/",
+      "/pretext",
+      Record<never, never>,
+      Record<never, never>,
+      never
+    >;
+    "/pretext/component": RouteRecordInfo<
+      "/pretext/component",
+      "/pretext/component",
+      Record<never, never>,
+      Record<never, never>,
+      never
+    >;
   }
 
   /**
@@ -75,6 +89,14 @@ declare module "vue-router/auto-routes" {
     };
     "lab/pages/meter-circular/component.vue": {
       routes: "/meter-circular/component";
+      views: never;
+    };
+    "lab/pages/pretext/index.vue": {
+      routes: "/pretext/";
+      views: never;
+    };
+    "lab/pages/pretext/component.vue": {
+      routes: "/pretext/component";
       views: never;
     };
   }

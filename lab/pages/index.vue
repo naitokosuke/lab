@@ -37,6 +37,10 @@ import { labPages } from "./meta";
     a {
       text-decoration: none;
       color: inherit;
+
+      :deep(.nkl-card) {
+        height: 100%;
+      }
     }
   }
 
