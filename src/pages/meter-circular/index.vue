@@ -155,9 +155,8 @@ function setPlaybackRate(value: number) {
 
   output {
     display: grid;
-    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
-    justify-content: center;
     margin-bottom: 24px;
 
     code {
@@ -166,6 +165,7 @@ function setPlaybackRate(value: number) {
       border-radius: 4px;
       background: var(--accent-bg);
       color: var(--accent);
+      font-variant-numeric: tabular-nums;
     }
   }
 
@@ -188,12 +188,13 @@ function setPlaybackRate(value: number) {
 
     label {
       display: grid;
-      grid-template-columns: auto 1fr auto;
+      grid-template-columns: 100px 1fr 40px;
       align-items: center;
       gap: 8px;
       font-size: 14px;
       color: var(--text);
       margin-bottom: 8px;
+      font-variant-numeric: tabular-nums;
 
       &:last-child {
         margin-bottom: 0;
