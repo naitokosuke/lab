@@ -29,7 +29,7 @@ export const labPages = {
   },
   "/pretext/": {
     title: "Pretext",
-    description: "Text measurement & layout without DOM reflow",
-    tags: ["text"],
+    description: "Interactive editorial layout — text reflows around draggable obstacles",
+    tags: ["text", "animation"],
   },
 } as const satisfies Record<LabRouteName, LabPageMeta>;
