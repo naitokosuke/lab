@@ -1,4 +1,4 @@
-import type { ComputedRef, ShallowRef } from "vue";
+import type { ComputedRef, Ref, ShallowRef } from "vue";
 import { computed, onMounted, onScopeDispose, shallowReactive, shallowRef } from "vue";
 
 export interface UseCircularAnimateReturn {
@@ -22,9 +22,11 @@ export interface UseCircularAnimateReturn {
 
 export function useCircularAnimate(
   el: Readonly<ShallowRef<SVGCircleElement | null>>,
-  circumference: () => number,
-  percentage: () => number,
-  options: { duration?: number; easing?: string; immediate?: boolean } = {},
+  circumference: number,
+  percentage: ComputedRef<number>,
+  duration: Ref<number>,
+  easing: Ref<string>,
+  options: { immediate?: boolean } = {},
 ): UseCircularAnimateReturn {
   const { immediate = true } = options;
   const animation = shallowRef<Animation>();
@@ -76,14 +78,13 @@ export function useCircularAnimate(
     if (!el.value) return;
     animation.value?.cancel();
 
-    const c = circumference();
-    const offsetEnd = c * (1 - percentage() / 100);
+    const offsetEnd = circumference * (1 - percentage.value / 100);
 
     const anim = el.value.animate(
-      [{ strokeDashoffset: String(c) }, { strokeDashoffset: String(offsetEnd) }],
+      [{ strokeDashoffset: String(circumference) }, { strokeDashoffset: String(offsetEnd) }],
       {
-        duration: options.duration ?? 600,
-        easing: options.easing ?? "ease",
+        duration: duration.value,
+        easing: easing.value,
         fill: "forwards",
       },
     );

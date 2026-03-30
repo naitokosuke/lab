@@ -6,7 +6,7 @@ import { useCircularAnimate } from "./composable";
 definePage({
   meta: {
     title: "Meter Circular",
-    description: "SVG ベースの円形メーター",
+    description: "SVG-based circular meter",
     tags: ["svg", "animation"],
   },
 });
@@ -36,22 +36,17 @@ const {
   reverse,
   finish,
   cancel,
+
   pending,
   playState,
   currentTimeCtx,
   playbackRateCtx,
 } = useCircularAnimate(
   barRef,
-  () => circumference,
-  () => percentage.value,
-  {
-    get duration() {
-      return duration.value;
-    },
-    get easing() {
-      return easing.value;
-    },
-  },
+  circumference,
+  percentage,
+  duration,
+  easing,
 );
 
 watch(percentage, () => play());
