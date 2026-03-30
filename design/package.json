@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./index.css",
+    ".": "./styles/index.css",
+    "./styles/*": "./styles/*",
     "./components": "./components/index.ts"
   },
   "peerDependencies": {
