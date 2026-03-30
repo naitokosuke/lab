@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, useTemplateRef } from "vue";
 import { NKLButton } from "@lab/design/components";
-import CircularProgress from "./component.vue";
+import MeterCircular from "./component.vue";
 import { useCircularAnimate } from "./composable";
 
 const num = ref(72);
@@ -11,14 +11,14 @@ const duration = ref(600);
 const easing = ref("ease");
 const playbackRateInput = ref(1);
 
-const progressRef = useTemplateRef<InstanceType<typeof CircularProgress>>("progress");
+const progressRef = useTemplateRef<InstanceType<typeof MeterCircular>>("progress");
 const barRef = computed(() => progressRef.value?.el ?? null);
 
 const strokeRadius = 50 - (20 + 1) / 2;
 const circumference = 2 * Math.PI * strokeRadius;
 
 const percentage = computed(() => {
-  if (max.value <= 0) throw new Error(`[CircularProgress] max must be positive, got ${max.value}`);
+  if (max.value <= 0) throw new Error(`[MeterCircular] max must be positive, got ${max.value}`);
   return Math.min(100, Math.max(0, (num.value / max.value) * 100));
 });
 
@@ -48,7 +48,7 @@ function setPlaybackRate(value: number) {
     <h2>Meter Circular</h2>
 
     <section>
-      <CircularProgress ref="progress" :num="num" :percentage="percentage" :unit="unit" />
+      <MeterCircular ref="progress" :num="num" :percentage="percentage" :unit="unit" />
     </section>
 
     <output>

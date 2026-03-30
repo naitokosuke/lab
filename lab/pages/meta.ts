@@ -1,7 +1,7 @@
 import * as v from "valibot";
 import type { RouteNamedMap } from "vue-router/auto-routes";
 
-export const LabTag = v.picklist(["basics", "reactivity", "svg", "animation"]);
+export const LabTag = v.picklist(["basics", "reactivity", "svg", "animation", "text"]);
 export type LabTag = v.InferOutput<typeof LabTag>;
 
 export const LabPageMeta = v.object({
@@ -11,7 +11,10 @@ export const LabPageMeta = v.object({
 });
 export type LabPageMeta = v.InferOutput<typeof LabPageMeta>;
 
-type LabRouteName = Exclude<keyof RouteNamedMap, "/" | "/meter-circular/component">;
+type LabRouteName = Exclude<
+  keyof RouteNamedMap,
+  "/" | "/meter-circular/component" | "/pretext/component"
+>;
 
 export const labPages = {
   "/counter": {
@@ -23,5 +26,10 @@ export const labPages = {
     title: "Meter Circular",
     description: "SVG-based circular meter",
     tags: ["svg", "animation"],
+  },
+  "/pretext/": {
+    title: "Pretext",
+    description: "Interactive editorial layout — text reflows around draggable obstacles",
+    tags: ["text", "animation"],
   },
 } as const satisfies Record<LabRouteName, LabPageMeta>;
