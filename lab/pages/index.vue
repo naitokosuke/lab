@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { NKLCard } from "@lab/design/components";
 import { RouterLink, useRouter } from "vue-router";
 import { computed } from "vue";
 
@@ -11,13 +12,13 @@ const labPages = computed(() => router.getRoutes().filter((r) => r.name !== "/" 
     <h1>ナイトウコウスケ's Lab</h1>
     <nav aria-label="Lab experiments">
       <RouterLink v-for="route in labPages" :key="route.name" :to="route.path">
-        <article>
+        <NKLCard>
           <h2>{{ route.meta?.title }}</h2>
           <p v-if="route.meta?.description">{{ route.meta.description }}</p>
           <ul v-if="route.meta?.tags" aria-label="Tags">
             <li v-for="tag in (route.meta.tags as string[])" :key="tag">{{ tag }}</li>
           </ul>
-        </article>
+        </NKLCard>
       </RouterLink>
     </nav>
   </main>
@@ -43,15 +44,6 @@ const labPages = computed(() => router.getRoutes().filter((r) => r.name !== "/" 
   }
 
   article {
-    padding: var(--space-5);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-l);
-    transition: box-shadow 0.2s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-
     h2 {
       margin: 0 0 var(--space-2);
       font-size: var(--text-xl);
