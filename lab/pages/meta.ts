@@ -11,13 +11,10 @@ export const LabPageMeta = v.object({
 });
 export type LabPageMeta = v.InferOutput<typeof LabPageMeta>;
 
-type LabRouteName = Exclude<
-  keyof RouteNamedMap,
-  "/" | "/meter-circular/component" | "/pretext/component"
->;
+type LabRouteName = Exclude<keyof RouteNamedMap, "/">;
 
 export const labPages = {
-  "/counter": {
+  "/counter/": {
     title: "Counter",
     description: "Naive counter example",
     tags: ["basics", "reactivity"],
