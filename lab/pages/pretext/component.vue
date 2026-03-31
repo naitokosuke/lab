@@ -1,331 +1,254 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, useTemplateRef, watch } from "vue";
-import { usePretext } from "./core/composable";
-import { layoutTextAroundObstacles, type Obstacle, type PositionedLine } from "./composable";
-import { BODY_COPY } from "@chenglou/pretext/demos/dynamic-layout-text.ts";
+import { onMounted, onUnmounted, ref, shallowRef } from "vue";
+import {
+  createSimulation,
+  stepSimulation,
+  ROWS,
+  LINE_HEIGHT,
+  TARGET_ROW_W,
+  CANVAS_W,
+  CANVAS_H,
+  FONT_SIZE,
+  PROP_FAMILY,
+  type FrameResult,
+} from "./composable";
 
-const FONT_FAMILY = '"Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, serif';
-const BODY_FONT_SIZE = 18;
-const BODY_LINE_HEIGHT = 30;
-const BODY_FONT = `${BODY_FONT_SIZE}px ${FONT_FAMILY}`;
-const HEADLINE_TEXT = "SITUATIONAL\nAWARENESS";
-const HEADLINE_FONT_SIZE = 56;
-const HEADLINE_FONT = `800 ${HEADLINE_FONT_SIZE}px ${FONT_FAMILY}`;
-const HEADLINE_LINE_HEIGHT = 60;
-const OBSTACLE_PADDING = 20;
+const sourceCanvasRef = ref<HTMLElement>();
+const monoRowRefs = ref<HTMLDivElement[]>([]);
+const propRowRefs = ref<HTMLDivElement[]>([]);
+const rowIndices = Array.from({ length: ROWS }, (_, i) => i);
 
-const canvasRef = useTemplateRef<HTMLCanvasElement>("canvas");
-const layoutTimeMs = ref(0);
+const mode = ref<"prop" | "mono" | "source">("prop");
+const sim = shallowRef<ReturnType<typeof createSimulation>>();
+let animId = 0;
 
-const obstacles = ref<Obstacle[]>([
-  {
-    id: 0,
-    cx: 260,
-    cy: 340,
-    r: 80,
-    color: "rgba(255, 140, 50, 0.15)",
-    glowColor: "rgba(255, 140, 50, 0.6)",
-  },
-  {
-    id: 1,
-    cx: 520,
-    cy: 560,
-    r: 65,
-    color: "rgba(80, 120, 255, 0.15)",
-    glowColor: "rgba(80, 120, 255, 0.6)",
-  },
-  {
-    id: 2,
-    cx: 140,
-    cy: 720,
-    r: 50,
-    color: "rgba(50, 200, 140, 0.15)",
-    glowColor: "rgba(50, 200, 140, 0.6)",
-  },
-]);
+function render(now: number) {
+  if (!sim.value) return;
+  const result: FrameResult = stepSimulation(sim.value, now);
 
-let dragging: { id: number; offsetX: number; offsetY: number } | null = null;
-let hoveredId: number | null = null;
-let animationId = 0;
-let canvasWidth = 0;
-let canvasHeight = 0;
-const { prepared } = usePretext(BODY_COPY, BODY_FONT);
-const { prepared: headlinePrepared } = usePretext(HEADLINE_TEXT, HEADLINE_FONT, {
-  whiteSpace: "pre-wrap" as const,
-});
-
-function hitTest(x: number, y: number): number | null {
-  for (let i = obstacles.value.length - 1; i >= 0; i--) {
-    const o = obstacles.value[i];
-    const dx = x - o.cx;
-    const dy = y - o.cy;
-    if (dx * dx + dy * dy <= o.r * o.r) return o.id;
-  }
-  return null;
-}
-
-function getCanvasCoords(e: MouseEvent | Touch): { x: number; y: number } {
-  const canvas = canvasRef.value;
-  if (!canvas) return { x: 0, y: 0 };
-  const rect = canvas.getBoundingClientRect();
-  return {
-    x: (e.clientX - rect.left) * (canvas.width / rect.width / (window.devicePixelRatio || 1)),
-    y: (e.clientY - rect.top) * (canvas.height / rect.height / (window.devicePixelRatio || 1)),
-  };
-}
-
-function onPointerDown(e: MouseEvent) {
-  const { x, y } = getCanvasCoords(e);
-  const id = hitTest(x, y);
-  if (id !== null) {
-    const o = obstacles.value.find((o) => o.id === id)!;
-    dragging = { id, offsetX: x - o.cx, offsetY: y - o.cy };
-    e.preventDefault();
-  }
-}
-
-function onPointerMove(e: MouseEvent) {
-  const { x, y } = getCanvasCoords(e);
-  if (dragging) {
-    const o = obstacles.value.find((o) => o.id === dragging!.id);
-    if (o) {
-      o.cx = x - dragging.offsetX;
-      o.cy = y - dragging.offsetY;
-    }
-    scheduleRender();
-  } else {
-    const id = hitTest(x, y);
-    if (id !== hoveredId) {
-      hoveredId = id;
-      const canvas = canvasRef.value;
-      if (canvas) canvas.style.cursor = hoveredId !== null ? "grab" : "default";
-      scheduleRender();
-    }
-  }
-}
-
-function onPointerUp() {
-  if (dragging) {
-    dragging = null;
-    const canvas = canvasRef.value;
-    if (canvas) canvas.style.cursor = hoveredId !== null ? "grab" : "default";
-  }
-}
-
-function onTouchStart(e: TouchEvent) {
-  if (e.touches.length !== 1) return;
-  const { x, y } = getCanvasCoords(e.touches[0]);
-  const id = hitTest(x, y);
-  if (id !== null) {
-    const o = obstacles.value.find((o) => o.id === id)!;
-    dragging = { id, offsetX: x - o.cx, offsetY: y - o.cy };
-    e.preventDefault();
-  }
-}
-
-function onTouchMove(e: TouchEvent) {
-  if (!dragging || e.touches.length !== 1) return;
-  const { x, y } = getCanvasCoords(e.touches[0]);
-  const o = obstacles.value.find((o) => o.id === dragging!.id);
-  if (o) {
-    o.cx = x - dragging.offsetX;
-    o.cy = y - dragging.offsetY;
-  }
-  scheduleRender();
-  e.preventDefault();
-}
-
-function onTouchEnd() {
-  dragging = null;
-}
-
-let renderScheduled = false;
-function scheduleRender() {
-  if (renderScheduled) return;
-  renderScheduled = true;
-  animationId = requestAnimationFrame(() => {
-    renderScheduled = false;
-    render();
-  });
-}
-
-function drawObstacle(ctx: CanvasRenderingContext2D, o: Obstacle, isHovered: boolean) {
-  // Glow
-  const glowGrad = ctx.createRadialGradient(o.cx, o.cy, o.r * 0.3, o.cx, o.cy, o.r * 1.8);
-  glowGrad.addColorStop(0, o.glowColor);
-  glowGrad.addColorStop(1, "transparent");
-  ctx.fillStyle = glowGrad;
-  ctx.beginPath();
-  ctx.arc(o.cx, o.cy, o.r * 1.8, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Circle body
-  const bodyGrad = ctx.createRadialGradient(o.cx - o.r * 0.3, o.cy - o.r * 0.3, 0, o.cx, o.cy, o.r);
-  bodyGrad.addColorStop(0, o.glowColor.replace(/[\d.]+\)$/, "0.35)"));
-  bodyGrad.addColorStop(1, o.color);
-  ctx.fillStyle = bodyGrad;
-  ctx.beginPath();
-  ctx.arc(o.cx, o.cy, o.r, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Border
-  ctx.strokeStyle = o.glowColor.replace(/[\d.]+\)$/, isHovered ? "0.8)" : "0.4)");
-  ctx.lineWidth = isHovered ? 2.5 : 1.5;
-  ctx.beginPath();
-  ctx.arc(o.cx, o.cy, o.r, 0, Math.PI * 2);
-  ctx.stroke();
-}
-
-function drawLines(
-  ctx: CanvasRenderingContext2D,
-  lines: PositionedLine[],
-  font: string,
-  lineHeight: number,
-  color: string,
-) {
-  ctx.font = font;
-  ctx.fillStyle = color;
-  ctx.textBaseline = "top";
-  const ascent = lineHeight * 0.76;
-  for (const line of lines) {
-    const yOffset = (lineHeight - ascent) / 2;
-    ctx.fillText(line.text, line.x, line.y + yOffset);
-  }
-}
-
-function render() {
-  const canvas = canvasRef.value;
-  if (!canvas) return;
-
-  const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
-  canvasWidth = rect.width;
-  canvasHeight = rect.height;
-
-  canvas.width = canvasWidth * dpr;
-  canvas.height = canvasHeight * dpr;
-
-  const ctx = canvas.getContext("2d")!;
-  ctx.scale(dpr, dpr);
-
-  // Background
-  const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  ctx.fillStyle = isDark ? "#0a0a0a" : "#fafaf8";
-  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-  // Subtle paper texture lines
-  ctx.strokeStyle = isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)";
-  ctx.lineWidth = 0.5;
-  for (let y = 0; y < canvasHeight; y += BODY_LINE_HEIGHT) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(canvasWidth, y);
-    ctx.stroke();
+  for (let i = 0; i < ROWS; i++) {
+    const monoEl = monoRowRefs.value[i];
+    const propEl = propRowRefs.value[i];
+    if (monoEl) monoEl.textContent = result.rows[i]!.monoText;
+    if (propEl) propEl.innerHTML = result.rows[i]!.propHtml;
   }
 
-  const gutter = Math.max(32, canvasWidth * 0.06);
-  const textColor = isDark ? "rgba(255,255,255,0.88)" : "rgba(0,0,0,0.82)";
-  const subtleColor = isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)";
-
-  // Headline
-  const headlineLines = layoutTextAroundObstacles(
-    headlinePrepared.value,
-    obstacles.value,
-    gutter,
-    gutter,
-    canvasWidth - gutter * 2,
-    HEADLINE_LINE_HEIGHT * 3,
-    HEADLINE_LINE_HEIGHT,
-    OBSTACLE_PADDING,
-  );
-  drawLines(ctx, headlineLines, HEADLINE_FONT, HEADLINE_LINE_HEIGHT, textColor);
-
-  const headlineBottom =
-    headlineLines.length > 0
-      ? Math.max(...headlineLines.map((l) => l.y + HEADLINE_LINE_HEIGHT))
-      : gutter + HEADLINE_LINE_HEIGHT * 2;
-
-  // Subtitle
-  const subtitleY = headlineBottom + 8;
-  ctx.font = `italic ${BODY_FONT_SIZE - 2}px ${FONT_FAMILY}`;
-  ctx.fillStyle = subtleColor;
-  ctx.textBaseline = "top";
-  ctx.fillText("Leopold Aschenbrenner — drag the circles to reflow text", gutter, subtitleY);
-
-  const bodyTop = subtitleY + BODY_LINE_HEIGHT + 8;
-
-  // Layout body text around obstacles
-  const t0 = performance.now();
-  const bodyLines = layoutTextAroundObstacles(
-    prepared.value,
-    obstacles.value,
-    gutter,
-    bodyTop,
-    canvasWidth - gutter * 2,
-    canvasHeight - bodyTop - gutter,
-    BODY_LINE_HEIGHT,
-    OBSTACLE_PADDING,
-  );
-  const t1 = performance.now();
-  layoutTimeMs.value = t1 - t0;
-
-  // Draw body text
-  drawLines(ctx, bodyLines, BODY_FONT, BODY_LINE_HEIGHT, textColor);
-
-  // Draw obstacles on top
-  for (const o of obstacles.value) {
-    drawObstacle(ctx, o, o.id === hoveredId);
-  }
-
-  // Performance badge
-  ctx.font = `11px ${getComputedStyle(canvas).getPropertyValue("--mono").trim() || "monospace"}`;
-  ctx.fillStyle = isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)";
-  ctx.textBaseline = "bottom";
-  ctx.textAlign = "right";
-  ctx.fillText(
-    `layout: ${layoutTimeMs.value.toFixed(2)}ms · ${bodyLines.length} lines`,
-    canvasWidth - gutter,
-    canvasHeight - 12,
-  );
-  ctx.textAlign = "left";
+  animId = requestAnimationFrame(render);
 }
-
-function onResize() {
-  scheduleRender();
-}
-
-watch(obstacles, () => scheduleRender(), { deep: true });
 
 onMounted(() => {
-  window.addEventListener("resize", onResize);
-  document.addEventListener("mousemove", onPointerMove);
-  document.addEventListener("mouseup", onPointerUp);
-  scheduleRender();
+  const s = createSimulation();
+  sim.value = s;
+  if (sourceCanvasRef.value) {
+    sourceCanvasRef.value.appendChild(s.simulationCanvas);
+    s.simulationCanvas.className = "source-canvas";
+  }
+  animId = requestAnimationFrame(render);
 });
 
 onUnmounted(() => {
-  cancelAnimationFrame(animationId);
-  window.removeEventListener("resize", onResize);
-  document.removeEventListener("mousemove", onPointerMove);
-  document.removeEventListener("mouseup", onPointerUp);
+  cancelAnimationFrame(animId);
 });
 </script>
 
 <template>
-  <canvas
-    ref="canvas"
-    class="editorial-canvas"
-    @mousedown="onPointerDown"
-    @touchstart.passive="onTouchStart"
-    @touchmove="onTouchMove"
-    @touchend="onTouchEnd"
-  />
+  <div class="typo-ascii">
+    <div class="controls">
+      <span class="title">Typographic ASCII Art</span>
+      <span class="sep">—</span>
+      <span class="desc"
+        >pretext measures each glyph's pixel width to pick the best proportional character</span
+      >
+      <div class="mode-switch">
+        <button :class="{ active: mode === 'prop' }" @click="mode = 'prop'">Proportional</button>
+        <button :class="{ active: mode === 'mono' }" @click="mode = 'mono'">Monospace</button>
+        <button :class="{ active: mode === 'source' }" @click="mode = 'source'">Source</button>
+      </div>
+    </div>
+
+    <div class="display-area">
+      <div v-show="mode === 'prop'" class="art-box prop-box">
+        <div
+          v-for="i in rowIndices"
+          :key="'p' + i"
+          :ref="
+            (el) => {
+              if (el) propRowRefs[i] = el as HTMLDivElement;
+            }
+          "
+          class="art-row"
+          :style="{ height: LINE_HEIGHT + 'px', lineHeight: LINE_HEIGHT + 'px' }"
+        />
+      </div>
+
+      <div v-show="mode === 'mono'" class="art-box mono-box">
+        <div
+          v-for="i in rowIndices"
+          :key="'m' + i"
+          :ref="
+            (el) => {
+              if (el) monoRowRefs[i] = el as HTMLDivElement;
+            }
+          "
+          class="art-row"
+          :style="{ height: LINE_HEIGHT + 'px', lineHeight: LINE_HEIGHT + 'px' }"
+        />
+      </div>
+
+      <div v-show="mode === 'source'" ref="sourceCanvasRef" class="source-box" />
+    </div>
+  </div>
 </template>
 
 <style scoped>
-.editorial-canvas {
-  display: block;
+.typo-ascii {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
+  background: #0a0a0a;
+  color: #e0e0e0;
+  font-family: system-ui, sans-serif;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.title {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 15px;
+}
+
+.sep {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.desc {
+  flex: 1;
+  min-width: 200px;
+}
+
+.mode-switch {
+  display: flex;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.mode-switch button {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.mode-switch button.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.display-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.art-box {
+  width: v-bind("TARGET_ROW_W + 'px'");
+  user-select: none;
+}
+
+.prop-box {
+  font-family: v-bind("PROP_FAMILY");
+  font-size: v-bind("FONT_SIZE + 'px'");
+}
+
+.mono-box {
+  font-family: "SF Mono", ui-monospace, Menlo, Monaco, "Courier New", monospace;
+  font-size: v-bind("FONT_SIZE + 'px'");
+  letter-spacing: 0.5px;
+}
+
+.art-row {
+  white-space: pre;
+  overflow: hidden;
+}
+
+.source-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.source-box :deep(.source-canvas) {
+  width: v-bind("CANVAS_W + 'px'");
+  height: v-bind("CANVAS_H + 'px'");
+  image-rendering: pixelated;
+}
+
+/* Font weight classes used in propHtml */
+:deep(.w3) {
+  font-weight: 300;
+}
+:deep(.w5) {
+  font-weight: 500;
+}
+:deep(.w8) {
+  font-weight: 800;
+}
+:deep(.it) {
+  font-style: italic;
+}
+
+/* Alpha classes */
+:deep(.a1) {
+  opacity: 0.1;
+}
+:deep(.a2) {
+  opacity: 0.2;
+}
+:deep(.a3) {
+  opacity: 0.3;
+}
+:deep(.a4) {
+  opacity: 0.4;
+}
+:deep(.a5) {
+  opacity: 0.5;
+}
+:deep(.a6) {
+  opacity: 0.6;
+}
+:deep(.a7) {
+  opacity: 0.7;
+}
+:deep(.a8) {
+  opacity: 0.8;
+}
+:deep(.a9) {
+  opacity: 0.9;
+}
+:deep(.a10) {
+  opacity: 1;
 }
 </style>
