@@ -7,6 +7,7 @@ export default defineConfig({
     vueRouter({
       routesFolder: "lab/pages",
       dts: "lab/route-map.d.ts",
+      filePatterns: ["**/index.vue"],
     }),
     vue(),
   ],

@@ -1,4 +1,4 @@
-import { layoutNextLine, type LayoutCursor, type PreparedTextWithSegments } from "@chenglou/pretext";
+import { layoutNextLine, type LayoutCursor, type PreparedTextWithSegments } from "./core";
 
 export interface Obstacle {
   id: number;
@@ -24,19 +24,16 @@ function getCircleBlockedInterval(
 ): { left: number; right: number } | null {
   const { cx, cy, r } = obstacle;
   const effectiveR = r + padding;
-
   if (bandTop > cy + effectiveR || bandBottom < cy - effectiveR) return null;
-
-  // Find the widest horizontal extent in the band.
-  // This occurs at the y value closest to the circle center.
   const yClosest = Math.max(bandTop, Math.min(bandBottom, cy));
   const dy = yClosest - cy;
   const halfWidth = Math.sqrt(Math.max(0, effectiveR * effectiveR - dy * dy));
-
   return { left: cx - halfWidth, right: cx + halfWidth };
 }
 
-function mergeIntervals(intervals: { left: number; right: number }[]): { left: number; right: number }[] {
+function mergeIntervals(
+  intervals: { left: number; right: number }[],
+): { left: number; right: number }[] {
   if (intervals.length === 0) return [];
   intervals.sort((a, b) => a.left - b.left);
   const merged: { left: number; right: number }[] = [{ ...intervals[0] }];
@@ -52,8 +49,8 @@ function mergeIntervals(intervals: { left: number; right: number }[]): { left: n
 }
 
 export function layoutTextAroundObstacles(
-  prepared: PreparedTextWithSegments,
-  obstacles: Obstacle[],
+  preparedText: PreparedTextWithSegments,
+  obstacleList: Obstacle[],
   regionX: number,
   regionY: number,
   regionWidth: number,
@@ -70,16 +67,12 @@ export function layoutTextAroundObstacles(
   while (y + lineHeight <= regionBottom) {
     const bandTop = y;
     const bandBottom = y + lineHeight;
-
     const blocked: { left: number; right: number }[] = [];
-    for (const obstacle of obstacles) {
+    for (const obstacle of obstacleList) {
       const interval = getCircleBlockedInterval(obstacle, bandTop, bandBottom, padding);
       if (interval) blocked.push(interval);
     }
-
     const merged = mergeIntervals(blocked);
-
-    // Carve available slots from the region
     const slots: { left: number; right: number }[] = [];
     let slotLeft = regionX;
     for (const interval of merged) {
@@ -95,21 +88,18 @@ export function layoutTextAroundObstacles(
       continue;
     }
 
-    // Pick the widest slot
     let best = slots[0];
     for (let i = 1; i < slots.length; i++) {
       if (slots[i].right - slots[i].left > best.right - best.left) best = slots[i];
     }
-
     const slotWidth = best.right - best.left;
     if (slotWidth < 40) {
       y += lineHeight;
       continue;
     }
 
-    const line = layoutNextLine(prepared, cursor, slotWidth);
+    const line = layoutNextLine(preparedText, cursor, slotWidth);
     if (line === null) break;
-
     lines.push({ x: best.left, y, text: line.text, width: line.width });
     cursor = line.end;
     y += lineHeight;

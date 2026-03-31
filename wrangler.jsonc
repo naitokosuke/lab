@@ -2,11 +2,9 @@
   "name": "lab",
   "account_id": "2490abe091582fd4dba33db2524550dd",
   "compatibility_date": "2026-03-31",
-  "routes": [
-    { "pattern": "lab.naito.dev", "custom_domain": true }
-  ],
+  "routes": [{ "pattern": "lab.naito.dev", "custom_domain": true }],
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "single-page-application"
-  }
+    "not_found_handling": "single-page-application",
+  },
 }

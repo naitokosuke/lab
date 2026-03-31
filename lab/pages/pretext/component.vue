@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, useTemplateRef, watch } from "vue";
-import { prepareWithSegments } from "@chenglou/pretext";
+import { usePretext } from "./core/composable";
 import { layoutTextAroundObstacles, type Obstacle, type PositionedLine } from "./composable";
 import { BODY_COPY } from "@chenglou/pretext/demos/dynamic-layout-text.ts";
 
@@ -18,9 +18,30 @@ const canvasRef = useTemplateRef<HTMLCanvasElement>("canvas");
 const layoutTimeMs = ref(0);
 
 const obstacles = ref<Obstacle[]>([
-  { id: 0, cx: 260, cy: 340, r: 80, color: "rgba(255, 140, 50, 0.15)", glowColor: "rgba(255, 140, 50, 0.6)" },
-  { id: 1, cx: 520, cy: 560, r: 65, color: "rgba(80, 120, 255, 0.15)", glowColor: "rgba(80, 120, 255, 0.6)" },
-  { id: 2, cx: 140, cy: 720, r: 50, color: "rgba(50, 200, 140, 0.15)", glowColor: "rgba(50, 200, 140, 0.6)" },
+  {
+    id: 0,
+    cx: 260,
+    cy: 340,
+    r: 80,
+    color: "rgba(255, 140, 50, 0.15)",
+    glowColor: "rgba(255, 140, 50, 0.6)",
+  },
+  {
+    id: 1,
+    cx: 520,
+    cy: 560,
+    r: 65,
+    color: "rgba(80, 120, 255, 0.15)",
+    glowColor: "rgba(80, 120, 255, 0.6)",
+  },
+  {
+    id: 2,
+    cx: 140,
+    cy: 720,
+    r: 50,
+    color: "rgba(50, 200, 140, 0.15)",
+    glowColor: "rgba(50, 200, 140, 0.6)",
+  },
 ]);
 
 let dragging: { id: number; offsetX: number; offsetY: number } | null = null;
@@ -28,8 +49,10 @@ let hoveredId: number | null = null;
 let animationId = 0;
 let canvasWidth = 0;
 let canvasHeight = 0;
-let prepared = prepareWithSegments(BODY_COPY, BODY_FONT);
-let headlinePrepared = prepareWithSegments(HEADLINE_TEXT, HEADLINE_FONT, { whiteSpace: "pre-wrap" });
+const { prepared } = usePretext(BODY_COPY, BODY_FONT);
+const { prepared: headlinePrepared } = usePretext(HEADLINE_TEXT, HEADLINE_FONT, {
+  whiteSpace: "pre-wrap" as const,
+});
 
 function hitTest(x: number, y: number): number | null {
   for (let i = obstacles.value.length - 1; i >= 0; i--) {
@@ -153,7 +176,13 @@ function drawObstacle(ctx: CanvasRenderingContext2D, o: Obstacle, isHovered: boo
   ctx.stroke();
 }
 
-function drawLines(ctx: CanvasRenderingContext2D, lines: PositionedLine[], font: string, lineHeight: number, color: string) {
+function drawLines(
+  ctx: CanvasRenderingContext2D,
+  lines: PositionedLine[],
+  font: string,
+  lineHeight: number,
+  color: string,
+) {
   ctx.font = font;
   ctx.fillStyle = color;
   ctx.textBaseline = "top";
@@ -200,7 +229,7 @@ function render() {
 
   // Headline
   const headlineLines = layoutTextAroundObstacles(
-    headlinePrepared,
+    headlinePrepared.value,
     obstacles.value,
     gutter,
     gutter,
@@ -211,9 +240,10 @@ function render() {
   );
   drawLines(ctx, headlineLines, HEADLINE_FONT, HEADLINE_LINE_HEIGHT, textColor);
 
-  const headlineBottom = headlineLines.length > 0
-    ? Math.max(...headlineLines.map((l) => l.y + HEADLINE_LINE_HEIGHT))
-    : gutter + HEADLINE_LINE_HEIGHT * 2;
+  const headlineBottom =
+    headlineLines.length > 0
+      ? Math.max(...headlineLines.map((l) => l.y + HEADLINE_LINE_HEIGHT))
+      : gutter + HEADLINE_LINE_HEIGHT * 2;
 
   // Subtitle
   const subtitleY = headlineBottom + 8;
@@ -227,7 +257,7 @@ function render() {
   // Layout body text around obstacles
   const t0 = performance.now();
   const bodyLines = layoutTextAroundObstacles(
-    prepared,
+    prepared.value,
     obstacles.value,
     gutter,
     bodyTop,
@@ -252,7 +282,11 @@ function render() {
   ctx.fillStyle = isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)";
   ctx.textBaseline = "bottom";
   ctx.textAlign = "right";
-  ctx.fillText(`layout: ${layoutTimeMs.value.toFixed(2)}ms · ${bodyLines.length} lines`, canvasWidth - gutter, canvasHeight - 12);
+  ctx.fillText(
+    `layout: ${layoutTimeMs.value.toFixed(2)}ms · ${bodyLines.length} lines`,
+    canvasWidth - gutter,
+    canvasHeight - 12,
+  );
   ctx.textAlign = "left";
 }
 
