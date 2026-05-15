@@ -5,6 +5,8 @@
   "type": "module",
   "dependencies": {
     "@lab/design": "workspace:*",
+    "@tanstack/vue-virtual": "^3.13.24",
+    "@vuetify/v0": "1.0.0-alpha.4",
     "valibot": "^1.3.1"
   }
 }
