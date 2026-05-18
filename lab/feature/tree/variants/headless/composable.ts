@@ -1,5 +1,5 @@
 import { ref, shallowRef } from "vue";
-import { mockFetchTree, type RawNode } from "../../shared/tree";
+import { mockFetchTree, type RawNode } from "../../core";
 
 export function useHeadlessTree() {
   const roots = shallowRef<readonly RawNode[]>([]);

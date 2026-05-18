@@ -2,7 +2,7 @@
 import { computed, useTemplateRef } from "vue";
 import { useVirtualizer } from "@tanstack/vue-virtual";
 import { NKLButton } from "@lab/design/components";
-import { TreeChip, TreeRow, TreeShell } from "../../shared/tree/ui";
+import { TreeChip, TreeRow, TreeShell } from "../../core/ui";
 import { useFlatTree } from "./composable";
 
 const tree = useFlatTree(10_000);

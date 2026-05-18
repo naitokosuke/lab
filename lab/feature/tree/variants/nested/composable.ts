@@ -6,7 +6,7 @@ import {
   mockFetchTree,
   type NodeId,
   type RawNode,
-} from "../../shared/tree";
+} from "../../core";
 
 /**
  * children-only な RawNode 木をそのまま保持。UI 状態 (opened / selected) は

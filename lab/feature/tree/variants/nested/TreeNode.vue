@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, inject } from "vue";
-import { TreeRow } from "../../shared/tree/ui";
-import type { RawNode } from "../../shared/tree";
+import { TreeRow } from "../../core/ui";
+import type { RawNode } from "../../core";
 import { nestedCtxKey } from "./ctx";
 import TreeNode from "./TreeNode.vue";
 

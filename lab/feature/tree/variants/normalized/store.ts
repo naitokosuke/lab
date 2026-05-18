@@ -1,5 +1,5 @@
 import { computed, reactive } from "vue";
-import { iterateDepthFirst, type NodeId, type RawTree } from "../../shared/tree";
+import { iterateDepthFirst, type NodeId, type RawTree } from "../../core";
 
 /**
  * Pinia は依存に含めていないので、module-level reactive() シングルトン +

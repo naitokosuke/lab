@@ -1,5 +1,5 @@
 import type { InjectionKey, Ref } from "vue";
-import type { NodeId } from "../../shared/tree";
+import type { NodeId } from "../../core";
 
 export type NormalizedTreeCtx = {
   readonly openedIds: Ref<Set<NodeId>>;

@@ -1,5 +1,5 @@
 import { computed, ref } from "vue";
-import { mockFetchTree, type NodeId } from "../../shared/tree";
+import { mockFetchTree, type NodeId } from "../../core";
 import { useTreeStore } from "./store";
 
 export function useNormalizedTree() {

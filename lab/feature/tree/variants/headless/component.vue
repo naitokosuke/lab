@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, useTemplateRef, watch } from "vue";
 import { NKLButton } from "@lab/design/components";
-import { TreeChip, TreeShell } from "../../shared/tree/ui";
+import { TreeChip, TreeShell } from "../../core/ui";
 import type { OpenMode, SelectionMode } from "./ctx";
 import { useHeadlessTree } from "./composable";
 import TreeBranch from "./TreeBranch.vue";
@@ -21,7 +21,7 @@ watch(
     await nextTick();
     const r = rootRef.value;
     if (!r) return;
-    function visit(node: import("../../shared/tree").RawNode, depth: number) {
+    function visit(node: import("../../core").RawNode, depth: number) {
       if (depth <= 1 && (node.children?.length ?? 0) > 0) {
         if (!r!.ctx.isOpen(node.id)) r!.ctx.toggle(node.id);
       }
@@ -44,7 +44,7 @@ function revealRandom() {
   const r = rootRef.value;
   if (!r) return;
   const ids: string[] = [];
-  function walk(node: import("../../shared/tree").RawNode) {
+  function walk(node: import("../../core").RawNode) {
     ids.push(node.id);
     for (const c of node.children ?? []) walk(c);
   }

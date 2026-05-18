@@ -1,5 +1,5 @@
 import { computed, ref, shallowRef, triggerRef } from "vue";
-import { mockFetchTree, type NodeId, type RawNode } from "../../shared/tree";
+import { mockFetchTree, type NodeId, type RawNode } from "../../core";
 
 /**
  * 親 backref つきの BiNode。UI 状態 (isOpened / isSelected) は node 自体に置く。

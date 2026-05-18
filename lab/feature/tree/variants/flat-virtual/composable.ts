@@ -1,5 +1,5 @@
 import { computed, ref, shallowRef } from "vue";
-import { generateTree, type NodeId, type RawNode } from "../../shared/tree";
+import { generateTree, type NodeId, type RawNode } from "../../core";
 
 export type FlatNode = {
   readonly id: NodeId;

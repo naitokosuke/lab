@@ -1,5 +1,5 @@
 import { computed, inject, type ComputedRef, type InjectionKey, provide, ref, type Ref } from "vue";
-import type { NodeId } from "../../shared/tree";
+import type { NodeId } from "../../core";
 
 /**
  * hand-rolled headless compound components の provide/inject 接点。

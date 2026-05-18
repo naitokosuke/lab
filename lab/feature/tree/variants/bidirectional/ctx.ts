@@ -1,5 +1,5 @@
 import type { InjectionKey } from "vue";
-import type { NodeId } from "../../shared/tree";
+import type { NodeId } from "../../core";
 import type { BiNode } from "./composable";
 
 export type BiTreeCtx = {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { provide, ref } from "vue";
 import { NKLButton } from "@lab/design/components";
-import { TreeBreadcrumb, TreeChip, TreeFilter, TreeShell } from "../../shared/tree/ui";
+import { TreeBreadcrumb, TreeChip, TreeFilter, TreeShell } from "../../core/ui";
 import { biCtxKey } from "./ctx";
 import { serializeWithoutParent, useBidirectionalTree } from "./composable";
 import TreeNode from "./TreeNode.vue";

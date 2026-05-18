@@ -38,29 +38,9 @@ export const labPages = {
     description: "Interactive editorial layout — text reflows around draggable obstacles",
     tags: ["text", "animation"],
   },
-  "/tree-nested/": {
-    title: "Tree — Nested",
-    description: "Recursive component, children-only data shape (baseline)",
-    tags: ["tree", "basics"],
-  },
-  "/tree-bidirectional/": {
-    title: "Tree — Bidirectional",
-    description: "Parent backref + identity-preserving refresh",
-    tags: ["tree", "reactivity"],
-  },
-  "/tree-normalized/": {
-    title: "Tree — Normalized",
-    description: "Entity graph with DAG support (multi-parent nodes)",
-    tags: ["tree", "reactivity"],
-  },
-  "/tree-flat-virtual/": {
-    title: "Tree — Flat + Virtual",
-    description: "Flattened list with depth, virtual scrolling for 10k+ nodes",
-    tags: ["tree", "performance"],
-  },
-  "/tree-headless/": {
-    title: "Tree — Headless",
-    description: "Vuetify 0 compound components, DOM-driven hierarchy",
-    tags: ["tree", "a11y"],
+  "/tree/": {
+    title: "Tree",
+    description: "Compare tree-rendering strategies (nested / normalized / virtual / headless)",
+    tags: ["tree", "reactivity", "performance", "a11y"],
   },
 } as const satisfies Record<LabRouteName, LabPageMeta>;

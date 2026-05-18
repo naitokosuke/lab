@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject } from "vue";
-import { TreeRow } from "../../shared/tree/ui";
+import { TreeRow } from "../../core/ui";
 import type { BiNode } from "./composable";
 import { biCtxKey } from "./ctx";
 import TreeNode from "./TreeNode.vue";

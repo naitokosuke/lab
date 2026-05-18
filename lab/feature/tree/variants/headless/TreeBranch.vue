@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, onUnmounted, provide } from "vue";
-import { TreeRow } from "../../shared/tree/ui";
-import type { RawNode } from "../../shared/tree";
+import { TreeRow } from "../../core/ui";
+import type { RawNode } from "../../core";
 import { groupCtxKey, useRootCtx } from "./ctx";
 import TreeBranch from "./TreeBranch.vue";
 
