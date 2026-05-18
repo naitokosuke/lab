@@ -1,16 +1,70 @@
-<script setup lang="ts">
-import { computed, ref } from "vue";
+<script lang="ts">
+import { computed, ref, type ComputedRef } from "vue";
 import { NKLSelect } from "@lab/design/components";
-import { treeVariants, type TreeVariantId } from "../../feature/tree/variants";
+import { treeVariants, type TreeVariant, type TreeVariantId } from "../../feature/tree/variants";
 
-const leftId = ref<TreeVariantId>("nested");
-const rightId = ref<TreeVariantId>("flat-virtual");
-
-const options = treeVariants.map((v) => ({ value: v.id, label: v.label }));
+type VariantSlotCtx = {
+  value: ComputedRef<TreeVariant>;
+  /** id of the variant the *other* slot has — must be disabled in this slot's selector. */
+  excluded: ComputedRef<TreeVariantId>;
+  set: (id: TreeVariantId) => void;
+};
 
 const byId = new Map(treeVariants.map((v) => [v.id, v]));
-const left = computed(() => byId.get(leftId.value)!);
-const right = computed(() => byId.get(rightId.value)!);
+
+/**
+ * Pair of variant slots that stay mutually exclusive by *exclusion*: each side
+ * exposes the other side's current id as `excluded`, so the UI can disable that
+ * option in its selector. `set` rejects the excluded id defensively. No swap,
+ * no surprise reshuffling.
+ */
+function useExclusiveVariantPair(
+  initialLeft: TreeVariantId,
+  initialRight: TreeVariantId,
+): {
+  leftCtx: VariantSlotCtx;
+  rightCtx: VariantSlotCtx;
+} {
+  if (initialLeft === initialRight) {
+    throw new Error("useExclusiveVariantPair: initial values must differ");
+  }
+
+  const leftId = ref<TreeVariantId>(initialLeft);
+  const rightId = ref<TreeVariantId>(initialRight);
+
+  const makeCtx = (self: typeof leftId, other: typeof rightId): VariantSlotCtx => ({
+    value: computed(() => byId.get(self.value)!),
+    excluded: computed(() => other.value),
+    set: (id) => {
+      if (id === other.value) return;
+      self.value = id;
+    },
+  });
+
+  return {
+    leftCtx: makeCtx(leftId, rightId),
+    rightCtx: makeCtx(rightId, leftId),
+  };
+}
+</script>
+
+<script setup lang="ts">
+const { leftCtx, rightCtx } = useExclusiveVariantPair("nested", "flat-virtual");
+
+const leftOptions = computed(() =>
+  treeVariants.map((v) => ({
+    value: v.id,
+    label: v.label,
+    disabled: v.id === leftCtx.excluded.value,
+  })),
+);
+const rightOptions = computed(() =>
+  treeVariants.map((v) => ({
+    value: v.id,
+    label: v.label,
+    disabled: v.id === rightCtx.excluded.value,
+  })),
+);
 </script>
 
 <template>
@@ -22,18 +76,28 @@ const right = computed(() => byId.get(rightId.value)!);
     <div class="split">
       <section class="pane">
         <div class="pane-header">
-          <NKLSelect v-model="leftId" label="Left variant" :options="options" />
+          <NKLSelect
+            :model-value="leftCtx.value.value.id"
+            label="Left variant"
+            :options="leftOptions"
+            @update:model-value="leftCtx.set"
+          />
         </div>
-        <div :key="left.id" class="pane-body">
-          <component :is="left.component" />
+        <div :key="leftCtx.value.value.id" class="pane-body">
+          <component :is="leftCtx.value.value.component" />
         </div>
       </section>
       <section class="pane">
         <div class="pane-header">
-          <NKLSelect v-model="rightId" label="Right variant" :options="options" />
+          <NKLSelect
+            :model-value="rightCtx.value.value.id"
+            label="Right variant"
+            :options="rightOptions"
+            @update:model-value="rightCtx.set"
+          />
         </div>
-        <div :key="right.id" class="pane-body">
-          <component :is="right.component" />
+        <div :key="rightCtx.value.value.id" class="pane-body">
+          <component :is="rightCtx.value.value.component" />
         </div>
       </section>
     </div>

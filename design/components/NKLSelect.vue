@@ -4,7 +4,7 @@ defineOptions({ name: "NKLSelect" });
 const model = defineModel<T>({ required: true });
 
 defineProps<{
-  options: ReadonlyArray<{ value: T; label: string }>;
+  options: ReadonlyArray<{ value: T; label: string; disabled?: boolean }>;
   label?: string;
 }>();
 </script>
@@ -13,7 +13,7 @@ defineProps<{
   <label class="nkl-select">
     <span v-if="label" class="label">{{ label }}</span>
     <select v-model="model">
-      <option v-for="opt in options" :key="opt.value" :value="opt.value">
+      <option v-for="opt in options" :key="opt.value" :value="opt.value" :disabled="opt.disabled">
         {{ opt.label }}
       </option>
     </select>
