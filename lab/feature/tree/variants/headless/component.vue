@@ -153,7 +153,6 @@ function revealRandom() {
     background: transparent;
     border: 0;
     padding: 4px var(--space-3);
-    cursor: pointer;
 
     & + button {
       border-inline-start: 1px solid var(--border);

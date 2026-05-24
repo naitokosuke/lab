@@ -110,7 +110,6 @@ defineProps<{
 }
 
 .tree {
-  margin: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-m);
   background: var(--bg);

@@ -93,7 +93,6 @@ const emit = defineEmits<{
   background: transparent;
   color: var(--text);
   font: inherit;
-  cursor: pointer;
   border-radius: var(--radius-s);
   transition: transform 140ms ease;
 
@@ -133,7 +132,6 @@ const emit = defineEmits<{
   font: inherit;
   font-family: var(--mono);
   font-size: var(--text-s);
-  cursor: pointer;
   padding: 2px var(--space-2);
   border-radius: var(--radius-s);
   text-align: start;
