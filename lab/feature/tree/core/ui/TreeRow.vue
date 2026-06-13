@@ -50,12 +50,18 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
+@property --depth {
+  syntax: "<integer>";
+  inherits: true;
+  initial-value: 0;
+}
+
 .row {
   display: flex;
   align-items: center;
   gap: var(--space-1);
   padding-block: 2px;
-  padding-inline: calc(var(--space-2) + var(--depth, 0) * var(--space-4)) var(--space-2);
+  padding-inline: calc(var(--space-2) + var(--depth) * var(--space-4)) var(--space-2);
   border-radius: var(--radius-s);
   cursor: default;
   position: relative;
@@ -64,15 +70,11 @@ const emit = defineEmits<{
     content: "";
     position: absolute;
     inset-block: 0;
-    inset-inline-start: calc(var(--space-2) + var(--depth, 0) * var(--space-4) - 2px);
+    inset-inline-start: calc(var(--space-2) + var(--depth) * var(--space-4) - 2px);
     inline-size: 2px;
     background: var(--border);
-    opacity: 0;
+    opacity: calc(min(var(--depth), 1) * 0.5);
     transition: opacity 120ms;
-  }
-  &[data-depth]::before,
-  &:where(:not([style*="--depth: 0"]))::before {
-    opacity: 0.5;
   }
 
   &:hover {

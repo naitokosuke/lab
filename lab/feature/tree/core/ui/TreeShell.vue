@@ -58,6 +58,7 @@ defineProps<{
       margin: 0 0 var(--space-2);
       font-size: var(--text-2xl);
       letter-spacing: -0.01em;
+      text-wrap: balance;
     }
     .lede {
       margin: 0;
@@ -65,6 +66,7 @@ defineProps<{
       font-size: var(--text-m);
       line-height: 1.55;
       max-inline-size: 70ch;
+      text-wrap: pretty;
     }
   }
 }
@@ -127,6 +129,8 @@ defineProps<{
   overflow: auto;
   padding: var(--space-2);
   scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }
 
 .detail {
