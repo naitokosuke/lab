@@ -55,6 +55,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/tree/': RouteRecordInfo<
+      '/tree/',
+      '/tree',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -89,6 +96,12 @@ declare module 'vue-router/auto-routes' {
     'lab/pages/pretext/index.vue': {
       routes:
         | '/pretext/'
+      views:
+        | never
+    }
+    'lab/pages/tree/index.vue': {
+      routes:
+        | '/tree/'
       views:
         | never
     }

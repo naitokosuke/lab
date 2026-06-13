@@ -1,7 +1,16 @@
 import * as v from "valibot";
 import type { RouteNamedMap } from "vue-router/auto-routes";
 
-export const LabTag = v.picklist(["basics", "reactivity", "svg", "animation", "text"]);
+export const LabTag = v.picklist([
+  "basics",
+  "reactivity",
+  "svg",
+  "animation",
+  "text",
+  "tree",
+  "performance",
+  "a11y",
+]);
 export type LabTag = v.InferOutput<typeof LabTag>;
 
 export const LabPageMeta = v.object({
@@ -28,5 +37,10 @@ export const labPages = {
     title: "Pretext",
     description: "Interactive editorial layout — text reflows around draggable obstacles",
     tags: ["text", "animation"],
+  },
+  "/tree/": {
+    title: "Tree",
+    description: "Compare tree-rendering strategies (nested / normalized / virtual / headless)",
+    tags: ["tree", "reactivity", "performance", "a11y"],
   },
 } as const satisfies Record<LabRouteName, LabPageMeta>;
