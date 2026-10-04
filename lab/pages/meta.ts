@@ -38,6 +38,11 @@ export const labPages = {
     description: "Interactive editorial layout — text reflows around draggable obstacles",
     tags: ["text", "animation"],
   },
+  "/swipe-row/": {
+    title: "Swipe Row",
+    description: "A list row a finger slides aside to show its trailing actions",
+    tags: ["animation", "a11y"],
+  },
   "/text-morph/": {
     title: "Text Morph",
     description: "Text that morphs: shared characters slide, the rest fade out and in",

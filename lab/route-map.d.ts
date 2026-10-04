@@ -55,6 +55,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/swipe-row/': RouteRecordInfo<
+      '/swipe-row/',
+      '/swipe-row',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/text-morph/': RouteRecordInfo<
       '/text-morph/',
       '/text-morph',
@@ -103,6 +110,12 @@ declare module 'vue-router/auto-routes' {
     'lab/pages/pretext/index.vue': {
       routes:
         | '/pretext/'
+      views:
+        | never
+    }
+    'lab/pages/swipe-row/index.vue': {
+      routes:
+        | '/swipe-row/'
       views:
         | never
     }
