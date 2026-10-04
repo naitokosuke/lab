@@ -38,6 +38,11 @@ export const labPages = {
     description: "Interactive editorial layout — text reflows around draggable obstacles",
     tags: ["text", "animation"],
   },
+  "/segmented/": {
+    title: "Segmented",
+    description: "Segmented control and tab list with an indicator that slides and stretches",
+    tags: ["animation", "a11y"],
+  },
   "/swipe-row/": {
     title: "Swipe Row",
     description: "A list row a finger slides aside to show its trailing actions",

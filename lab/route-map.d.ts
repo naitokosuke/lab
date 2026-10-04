@@ -55,6 +55,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/segmented/': RouteRecordInfo<
+      '/segmented/',
+      '/segmented',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/swipe-row/': RouteRecordInfo<
       '/swipe-row/',
       '/swipe-row',
@@ -110,6 +117,12 @@ declare module 'vue-router/auto-routes' {
     'lab/pages/pretext/index.vue': {
       routes:
         | '/pretext/'
+      views:
+        | never
+    }
+    'lab/pages/segmented/index.vue': {
+      routes:
+        | '/segmented/'
       views:
         | never
     }
