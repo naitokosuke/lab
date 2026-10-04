@@ -38,6 +38,11 @@ export const labPages = {
     description: "Interactive editorial layout — text reflows around draggable obstacles",
     tags: ["text", "animation"],
   },
+  "/text-morph/": {
+    title: "Text Morph",
+    description: "Text that morphs: shared characters slide, the rest fade out and in",
+    tags: ["text", "animation"],
+  },
   "/tree/": {
     title: "Tree",
     description: "Compare tree-rendering strategies (nested / normalized / virtual / headless)",
