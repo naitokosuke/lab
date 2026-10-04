@@ -41,6 +41,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/dock/': RouteRecordInfo<
+      '/dock/',
+      '/dock',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/meter-circular/': RouteRecordInfo<
       '/meter-circular/',
       '/meter-circular',
@@ -105,6 +112,12 @@ declare module 'vue-router/auto-routes' {
     'lab/pages/counter/index.vue': {
       routes:
         | '/counter/'
+      views:
+        | never
+    }
+    'lab/pages/dock/index.vue': {
+      routes:
+        | '/dock/'
       views:
         | never
     }

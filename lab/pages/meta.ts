@@ -28,6 +28,11 @@ export const labPages = {
     description: "Naive counter example",
     tags: ["basics", "reactivity"],
   },
+  "/dock/": {
+    title: "Dock",
+    description: "A glass dock that magnifies under the mouse, with a sliding current-item dot",
+    tags: ["animation"],
+  },
   "/meter-circular/": {
     title: "Meter Circular",
     description: "SVG-based circular meter",
