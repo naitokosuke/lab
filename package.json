@@ -7,17 +7,17 @@
     "build": "vp run typecheck && vp build"
   },
   "dependencies": {
-    "@chenglou/pretext": "^1.0.0",
+    "@chenglou/pretext": "catalog:",
     "@lab/design": "workspace:*",
-    "@tanstack/vue-virtual": "^3.13.52",
-    "valibot": "^1.5.0",
+    "@tanstack/vue-virtual": "catalog:",
+    "valibot": "catalog:",
     "vue": "catalog:vue",
-    "vue-router": "^5.4.0"
+    "vue-router": "catalog:"
   },
   "devDependencies": {
     "@vizejs/vite-plugin": "catalog:vize",
-    "lightningcss": "^1.33.0",
-    "tsrs": "0.22.0-ts7.1.0-beta",
+    "lightningcss": "catalog:",
+    "tsrs": "catalog:",
     "vite": "catalog:vite-plus",
     "vite-plus": "catalog:vite-plus",
     "vize": "catalog:vize"

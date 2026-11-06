@@ -1,7 +1,15 @@
 packages:
   - design
 
-# Each catalog groups packages whose versions must move together.
+catalog:
+  "@chenglou/pretext": ^1.0.0
+  "@tanstack/vue-virtual": ^3.13.52
+  lightningcss: ^1.33.0
+  tsrs: 0.22.0-ts7.1.0-beta
+  valibot: ^1.5.0
+  vue-router: ^5.4.0
+
+# Each named catalog groups packages whose versions must move together.
 catalogs:
   vue:
     vue: 3.6.0-rc.14
