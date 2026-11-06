@@ -95,15 +95,15 @@ const current = computed(() => tabs.find((t) => t.value === tab.value));
     <form @submit.prevent>
       <fieldset>
         <legend>Options</legend>
-        <NKLRadioGroup v-model="labels" name="labels" legend="Labels" :options="labelOptions" />
+        <NKLRadioGroup v-model="labels" legend="Labels" name="labels" :options="labelOptions" />
         <label>
           count
-          <input v-model.number="count" type="range" min="2" :max="POOL.length" step="1" />
+          <input v-model.number="count" min="2" type="range" :max="POOL.length" step="1" />
           <span>{{ count }}</span>
         </label>
         <label>
           font (px)
-          <input v-model.number="fontSize" type="range" min="10" max="22" step="1" />
+          <input v-model.number="fontSize" max="22" min="10" step="1" type="range" />
           <span>{{ fontSize }}</span>
         </label>
         <menu>
@@ -116,7 +116,7 @@ const current = computed(() => tabs.find((t) => t.value === tab.value));
         <legend>Motion</legend>
         <label>
           duration (ms)
-          <input v-model.number="duration" type="range" min="0" max="2000" step="10" />
+          <input v-model.number="duration" max="2000" min="0" step="10" type="range" />
           <span>{{ duration }}</span>
         </label>
         <NKLSelect v-model="easing" label="easing" :options="easingOptions" />

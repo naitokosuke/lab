@@ -54,12 +54,10 @@ function setPlaybackRate(value: number) {
     <output>
       <code>playState: {{ playState }}</code>
       <code>pending: {{ pending }}</code>
-      <code
-        >currentTime:
+      <code>currentTime:
         {{
           currentTimeCtx.value.value != null ? Math.round(Number(currentTimeCtx.value.value)) : null
-        }}</code
-      >
+        }}</code>
       <code>playbackRate: {{ playbackRateCtx.value.value }}</code>
     </output>
 
@@ -69,13 +67,13 @@ function setPlaybackRate(value: number) {
 
         <label>
           num
-          <input v-model.number="num" type="range" min="0" :max="max" />
+          <input v-model.number="num" min="0" type="range" :max="max" />
           <span>{{ num }}</span>
         </label>
 
         <label>
           max
-          <input v-model.number="max" type="number" min="1" />
+          <input v-model.number="max" min="1" type="number" />
         </label>
 
         <label>
@@ -85,7 +83,7 @@ function setPlaybackRate(value: number) {
 
         <label>
           duration (ms)
-          <input v-model.number="duration" type="range" min="100" max="3000" step="100" />
+          <input v-model.number="duration" max="3000" min="100" step="100" type="range" />
           <span>{{ duration }}</span>
         </label>
 
@@ -100,10 +98,10 @@ function setPlaybackRate(value: number) {
           playbackRate
           <input
             v-model.number="playbackRateInput"
-            type="range"
-            min="0.1"
             max="5"
+            min="0.1"
             step="0.1"
+            type="range"
             @input="setPlaybackRate(playbackRateInput)"
           />
           <span>{{ playbackRateInput }}x</span>

@@ -87,7 +87,7 @@ const foldOptions = [
           :current="current === i.id"
           @click="current = i.id"
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path :d="i.d" /></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path :d="i.d" /></svg>
         </DockItem>
         <DockGroup :open="fold === 'open'">
           <DockItem
@@ -97,7 +97,7 @@ const foldOptions = [
             :current="current === i.id"
             @click="current = i.id"
           >
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path :d="i.d" /></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path :d="i.d" /></svg>
           </DockItem>
         </DockGroup>
         <DockDivider />
@@ -106,7 +106,7 @@ const foldOptions = [
           :current="current === settings.id"
           @click="current = settings.id"
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path :d="settings.d" /></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path :d="settings.d" /></svg>
         </DockItem>
       </Dock>
     </section>
@@ -128,17 +128,17 @@ const foldOptions = [
         />
         <label>
           reach (px)
-          <input v-model.number="reach" type="range" min="40" max="300" step="10" />
+          <input v-model.number="reach" max="300" min="40" step="10" type="range" />
           <span>{{ reach }}</span>
         </label>
         <label>
           grow
-          <input v-model.number="grow" type="range" min="0" max="1.5" step="0.05" />
+          <input v-model.number="grow" max="1.5" min="0" step="0.05" type="range" />
           <span>{{ grow.toFixed(2) }}</span>
         </label>
       </fieldset>
 
-      <NKLRadioGroup v-model="fold" name="fold" legend="Group" :options="foldOptions" />
+      <NKLRadioGroup v-model="fold" legend="Group" name="fold" :options="foldOptions" />
 
       <fieldset>
         <legend>Away</legend>

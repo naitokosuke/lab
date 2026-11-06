@@ -57,8 +57,7 @@ onUnmounted(() => {
       <span class="title">Typographic ASCII Art</span>
       <span class="sep">—</span>
       <span class="desc"
-        >pretext measures each glyph's pixel width to pick the best proportional character</span
-      >
+      >pretext measures each glyph's pixel width to pick the best proportional character</span>
       <div class="mode-switch">
         <button :class="{ active: mode === 'prop' }" @click="mode = 'prop'">Proportional</button>
         <button :class="{ active: mode === 'mono' }" @click="mode = 'mono'">Monospace</button>
@@ -71,11 +70,9 @@ onUnmounted(() => {
         <div
           v-for="i in rowIndices"
           :key="'p' + i"
-          :ref="
-            (el) => {
-              if (el) propRowRefs[i] = el as HTMLDivElement;
-            }
-          "
+          :ref="(el) => {
+            if (el) propRowRefs[i] = el as HTMLDivElement;
+          }"
           class="art-row"
           :style="{ height: LINE_HEIGHT + 'px', lineHeight: LINE_HEIGHT + 'px' }"
         />
@@ -85,11 +82,9 @@ onUnmounted(() => {
         <div
           v-for="i in rowIndices"
           :key="'m' + i"
-          :ref="
-            (el) => {
-              if (el) monoRowRefs[i] = el as HTMLDivElement;
-            }
-          "
+          :ref="(el) => {
+            if (el) monoRowRefs[i] = el as HTMLDivElement;
+          }"
           class="art-row"
           :style="{ height: LINE_HEIGHT + 'px', lineHeight: LINE_HEIGHT + 'px' }"
         />

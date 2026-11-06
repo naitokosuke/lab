@@ -1,5 +1,4 @@
-import { defineConfig } from "vite-plus";
-import vue from "@vitejs/plugin-vue";
+import { defineConfig } from "@vizejs/vite-plugin/vite-plus";
 import vueRouter from "vue-router/vite";
 
 export default defineConfig({
@@ -9,7 +8,6 @@ export default defineConfig({
       dts: "lab/route-map.d.ts",
       filePatterns: ["**/index"],
     }),
-    vue(),
   ],
   css: {
     transformer: "lightningcss",
@@ -17,6 +15,11 @@ export default defineConfig({
   build: {
     cssMinify: "lightningcss",
   },
-  fmt: {},
-  lint: { options: { typeAware: true, typeCheck: true } },
-});
+  fmt: { ignorePatterns: ["lab/route-map.d.ts"] },
+  lint: { options: { typeAware: true } },
+  run: {
+    tasks: {
+      typecheck: "tsrs --runExternalCode --noEmit -p tsconfig.json",
+    },
+  },
+}).withVue({});

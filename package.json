@@ -4,27 +4,23 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vp dev",
-    "build": "tsc && vp build",
-    "preview": "vp preview"
+    "build": "vp run typecheck && vp build"
   },
   "dependencies": {
-    "@chenglou/pretext": "^0.0.3",
-    "@vitejs/plugin-vue": "^6.0.5",
-    "vue": "^3.5.31",
-    "vue-router": "^5.0.4"
+    "@chenglou/pretext": "catalog:text-layout",
+    "@lab/design": "workspace:*",
+    "@tanstack/vue-virtual": "catalog:virtual-scroll",
+    "valibot": "catalog:validation",
+    "vue": "catalog:vue",
+    "vue-router": "catalog:vue"
   },
   "devDependencies": {
-    "lightningcss": "^1.32.0",
-    "typescript": "~5.9.3",
-    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-    "vite-plus": "latest"
+    "@vizejs/vite-plugin": "catalog:vue",
+    "lightningcss": "catalog:css-transform",
+    "tsrs": "catalog:typecheck",
+    "vite": "catalog:vite-plus",
+    "vite-plus": "catalog:vite-plus",
+    "vize": "catalog:vue"
   },
-  "packageManager": "pnpm@10.33.0",
-  "pnpm": {
-    "overrides": {
-      "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-      "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
-    }
-  }
+  "packageManager": "pnpm@12.18.0"
 }
