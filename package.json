@@ -5,23 +5,19 @@
   "type": "module",
   "dependencies": {
     "@chenglou/pretext": "^1.0.0",
+    "@lab/design": "workspace:*",
+    "@tanstack/vue-virtual": "^3.13.52",
+    "valibot": "^1.5.0",
     "vue": "3.6.0-rc.14",
     "vue-router": "^5.4.0"
   },
   "devDependencies": {
-    "@vizejs/vite-plugin": "^0.696.0",
+    "@vizejs/vite-plugin": "^0.697.0",
     "lightningcss": "^1.33.0",
-    "oxlint-plugin-vize": "^0.696.0",
     "tsrs": "0.22.0-ts7.1.0-beta",
-    "typescript": "~7.0.2",
     "vite": "npm:@voidzero-dev/vite-plus-core@^1.5.0",
-    "vite-plus": "latest",
-    "vize": "^0.696.0"
+    "vite-plus": "^1.5.0",
+    "vize": "^0.697.0"
   },
-  "packageManager": "pnpm@10.33.0",
-  "pnpm": {
-    "overrides": {
-      "vite": "npm:@voidzero-dev/vite-plus-core@^1.5.0"
-    }
-  }
+  "packageManager": "pnpm@12.18.0"
 }

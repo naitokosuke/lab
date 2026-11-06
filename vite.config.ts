@@ -15,8 +15,7 @@ export default defineConfig({
   build: {
     cssMinify: "lightningcss",
   },
-  fmt: {},
-  lint: { options: { typeAware: true, typeCheck: true } },
+  lint: { options: { typeAware: true } },
   run: {
     tasks: {
       typecheck: "tsrs --runExternalCode --noEmit -p tsconfig.json",
