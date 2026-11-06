@@ -163,22 +163,30 @@ settings:
   excludeLinksFromLockfile: false
 
 catalogs:
-  lightningcss:
+  css-transform:
     lightningcss:
       specifier: ^1.33.0
       version: 1.33.0
-  pretext:
+  routing:
+    vue-router:
+      specifier: ^5.4.0
+      version: 5.4.0
+  text-layout:
     '@chenglou/pretext':
       specifier: ^1.0.0
       version: 1.0.0
-  tsrs:
+  typecheck:
     tsrs:
       specifier: 0.22.0-ts7.1.0-beta
       version: 0.22.0-ts7.1.0-beta
-  valibot:
+  validation:
     valibot:
       specifier: ^1.5.0
       version: 1.5.0
+  virtual-scroll:
+    '@tanstack/vue-virtual':
+      specifier: ^3.13.52
+      version: 3.13.52
   vite-plus:
     vite-plus:
       specifier: ^1.5.0
@@ -194,14 +202,6 @@ catalogs:
     vue:
       specifier: 3.6.0-rc.14
       version: 3.6.0-rc.14
-  vue-router:
-    vue-router:
-      specifier: ^5.4.0
-      version: 5.4.0
-  vue-virtual:
-    '@tanstack/vue-virtual':
-      specifier: ^3.13.52
-      version: 3.13.52
 
 overrides:
   vite: npm:@voidzero-dev/vite-plus-core@^1.5.0
@@ -212,32 +212,32 @@ importers:
   .:
     dependencies:
       '@chenglou/pretext':
-        specifier: catalog:pretext
+        specifier: catalog:text-layout
         version: 1.0.0
       '@lab/design':
         specifier: workspace:*
         version: link:design
       '@tanstack/vue-virtual':
-        specifier: catalog:vue-virtual
+        specifier: catalog:virtual-scroll
         version: 3.13.52(vue@3.6.0-rc.14)
       valibot:
-        specifier: catalog:valibot
+        specifier: catalog:validation
         version: 1.5.0
       vue:
         specifier: catalog:vue
         version: 3.6.0-rc.14
       vue-router:
-        specifier: catalog:vue-router
+        specifier: catalog:routing
         version: 5.4.0(@voidzero-dev/vite-plus-core@1.5.0)(@vue/compiler-sfc@3.6.0-rc.14)(vue@3.6.0-rc.14)
     devDependencies:
       '@vizejs/vite-plugin':
         specifier: catalog:vize
         version: 0.697.0(@voidzero-dev/vite-plus-core@1.5.0)(vite-plus@1.5.0(@vitest/ui@5.1.0))(vue@3.6.0-rc.14)
       lightningcss:
-        specifier: catalog:lightningcss
+        specifier: catalog:css-transform
         version: 1.33.0
       tsrs:
-        specifier: catalog:tsrs
+        specifier: catalog:typecheck
         version: 0.22.0-ts7.1.0-beta
       vite:
         specifier: npm:@voidzero-dev/vite-plus-core@^1.5.0
