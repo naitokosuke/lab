@@ -1,8 +1,21 @@
 packages:
   - design
 
+# Each catalog groups packages whose versions must move together.
+catalogs:
+  vue:
+    vue: 3.6.0-rc.14
+    "@vue/compiler-sfc": 3.6.0-rc.14
+  vite-plus:
+    vite: npm:@voidzero-dev/vite-plus-core@^1.5.0
+    vite-plus: ^1.5.0
+  vize:
+    vize: ^0.697.0
+    "@vizejs/vite-plugin": ^0.697.0
+
 overrides:
-  vite: npm:@voidzero-dev/vite-plus-core@^1.5.0
+  vite: "catalog:vite-plus"
+  "@vue/compiler-sfc": "catalog:vue"
 
 minimumReleaseAgeExclude:
   - vize

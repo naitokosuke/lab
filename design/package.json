@@ -9,6 +9,6 @@
     "./components": "./components/index.ts"
   },
   "peerDependencies": {
-    "vue": "^3.5.0 || ^3.6.0-0"
+    "vue": "catalog:vue"
   }
 }
