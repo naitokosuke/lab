@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "build": "vp run typecheck && vp build"
+  },
   "dependencies": {
     "@chenglou/pretext": "^1.0.0",
     "@lab/design": "workspace:*",

@@ -20,7 +20,6 @@ export default defineConfig({
   run: {
     tasks: {
       typecheck: "tsrs --runExternalCode --noEmit -p tsconfig.json",
-      build: { command: "vp build", dependsOn: ["typecheck"] },
     },
   },
 }).withVue({});
