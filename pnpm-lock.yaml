@@ -167,10 +167,6 @@ catalogs:
     lightningcss:
       specifier: ^1.33.0
       version: 1.33.0
-  routing:
-    vue-router:
-      specifier: ^5.4.0
-      version: 5.4.0
   text-layout:
     '@chenglou/pretext':
       specifier: ^1.0.0
@@ -191,17 +187,19 @@ catalogs:
     vite-plus:
       specifier: ^1.5.0
       version: 1.5.0
-  vize:
+  vue:
     '@vizejs/vite-plugin':
       specifier: ^0.697.0
       version: 0.697.0
     vize:
       specifier: ^0.697.0
       version: 0.697.0
-  vue:
     vue:
       specifier: 3.6.0-rc.14
       version: 3.6.0-rc.14
+    vue-router:
+      specifier: ^5.4.0
+      version: 5.4.0
 
 overrides:
   vite: npm:@voidzero-dev/vite-plus-core@^1.5.0
@@ -227,11 +225,11 @@ importers:
         specifier: catalog:vue
         version: 3.6.0-rc.14
       vue-router:
-        specifier: catalog:routing
+        specifier: catalog:vue
         version: 5.4.0(@voidzero-dev/vite-plus-core@1.5.0)(@vue/compiler-sfc@3.6.0-rc.14)(vue@3.6.0-rc.14)
     devDependencies:
       '@vizejs/vite-plugin':
-        specifier: catalog:vize
+        specifier: catalog:vue
         version: 0.697.0(@voidzero-dev/vite-plus-core@1.5.0)(vite-plus@1.5.0(@vitest/ui@5.1.0))(vue@3.6.0-rc.14)
       lightningcss:
         specifier: catalog:css-transform
@@ -246,7 +244,7 @@ importers:
         specifier: catalog:vite-plus
         version: 1.5.0(@vitest/ui@5.1.0)
       vize:
-        specifier: catalog:vize
+        specifier: catalog:vue
         version: 0.697.0(vue@3.6.0-rc.14)
 
   design:

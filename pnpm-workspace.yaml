@@ -2,27 +2,23 @@ packages:
   - design
 
 # Each catalog is named after the concern it covers, so the name survives
-# swapping the library that fills it. Packages in one catalog move together.
+# swapping the library that fills it.
 catalogs:
-  # Runtime
   vue:
     vue: 3.6.0-rc.14
     "@vue/compiler-sfc": 3.6.0-rc.14
-  routing:
     vue-router: ^5.4.0
+    vize: ^0.697.0
+    "@vizejs/vite-plugin": ^0.697.0
   validation:
     valibot: ^1.5.0
   text-layout:
     "@chenglou/pretext": ^1.0.0
   virtual-scroll:
     "@tanstack/vue-virtual": ^3.13.52
-  # Toolchain
   vite-plus:
     vite: npm:@voidzero-dev/vite-plus-core@^1.5.0
     vite-plus: ^1.5.0
-  vize:
-    vize: ^0.697.0
-    "@vizejs/vite-plugin": ^0.697.0
   css-transform:
     lightningcss: ^1.33.0
   typecheck:

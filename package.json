@@ -12,15 +12,15 @@
     "@tanstack/vue-virtual": "catalog:virtual-scroll",
     "valibot": "catalog:validation",
     "vue": "catalog:vue",
-    "vue-router": "catalog:routing"
+    "vue-router": "catalog:vue"
   },
   "devDependencies": {
-    "@vizejs/vite-plugin": "catalog:vize",
+    "@vizejs/vite-plugin": "catalog:vue",
     "lightningcss": "catalog:css-transform",
     "tsrs": "catalog:typecheck",
     "vite": "catalog:vite-plus",
     "vite-plus": "catalog:vite-plus",
-    "vize": "catalog:vize"
+    "vize": "catalog:vue"
   },
   "packageManager": "pnpm@12.18.0"
 }
