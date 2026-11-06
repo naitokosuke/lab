@@ -63,7 +63,7 @@ const totalSize = computed(() => virtualizer.value.getTotalSize());
         <div class="canvas" :style="{ height: `${totalSize}px` }">
           <div
             v-for="vi in virtualItems"
-            :key="vi.key"
+            :key="String(vi.key)"
             class="vrow"
             :style="{ transform: `translateY(${vi.start}px)`, height: `${vi.size}px` }"
           >
