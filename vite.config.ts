@@ -15,6 +15,7 @@ export default defineConfig({
   build: {
     cssMinify: "lightningcss",
   },
+  fmt: { ignorePatterns: ["lab/route-map.d.ts"] },
   lint: { options: { typeAware: true } },
   run: {
     tasks: {

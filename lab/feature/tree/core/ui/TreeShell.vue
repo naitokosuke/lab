@@ -21,25 +21,25 @@ defineProps<{
       <p v-if="description" class="lede">{{ description }}</p>
     </header>
 
-    <section class="controls" aria-label="Controls">
+    <section aria-label="Controls" class="controls">
       <slot name="controls" />
     </section>
 
-    <section v-if="$slots.stats" class="stats" aria-label="Stats">
+    <section v-if="$slots.stats" aria-label="Stats" class="stats">
       <slot name="stats" />
     </section>
 
-    <section class="breadcrumb" aria-label="Selected node path">
+    <section aria-label="Selected node path" class="breadcrumb">
       <slot name="breadcrumb">
         <span class="empty">Click a node title to see its path.</span>
       </slot>
     </section>
 
-    <section class="tree" aria-label="Tree">
+    <section aria-label="Tree" class="tree">
       <slot name="tree" />
     </section>
 
-    <section v-if="$slots.detail" class="detail" aria-label="Details">
+    <section v-if="$slots.detail" aria-label="Details" class="detail">
       <slot name="detail" />
     </section>
   </main>

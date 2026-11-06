@@ -23,8 +23,8 @@ const totalSize = computed(() => virtualizer.value.getTotalSize());
 
 <template>
   <TreeShell
-    title="Tree — Flat + Virtual"
     description="Arbitrarily deep tree flattened into a 1D array; each row carries its depth integer. @tanstack/vue-virtual renders only viewport rows — DOM node count stays O(viewport) even at 50k nodes. Trade-off: cannot represent DAGs (same id can't appear twice as separate rows here)."
+    title="Tree — Flat + Virtual"
   >
     <template #controls>
       <NKLButton @click="tree.setSize(10_000)">10k nodes</NKLButton>
@@ -35,7 +35,7 @@ const totalSize = computed(() => virtualizer.value.getTotalSize());
     </template>
 
     <template #stats>
-      <TreeChip :value="tree.totalSource.value" label="source nodes" emphasis />
+      <TreeChip :value="tree.totalSource.value" emphasis label="source nodes" />
       <TreeChip :value="tree.visibleCount.value" label="flat rows" />
       <TreeChip :value="virtualItems.length" label="rendered" />
       <TreeChip

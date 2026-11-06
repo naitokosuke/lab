@@ -40,8 +40,8 @@ function tryCustomStringify() {
 
 <template>
   <TreeShell
-    title="Tree — Bidirectional"
     description="Each BiNode carries both children and a parent backref. Ancestor walks (breadcrumb / reveal) are O(depth). Refresh reconciles by id and mutates existing objects in place, so reference identity survives. The cost: a cycle that breaks naive JSON.stringify."
+    title="Tree — Bidirectional"
   >
     <template #controls>
       <NKLButton :disabled="tree.loading.value" @click="tree.refresh()">Refresh</NKLButton>
@@ -51,7 +51,7 @@ function tryCustomStringify() {
     </template>
 
     <template #stats>
-      <TreeChip :value="tree.totalNodes.value" label="nodes" emphasis />
+      <TreeChip :value="tree.totalNodes.value" emphasis label="nodes" />
       <TreeChip :value="tree.selectedId.value ? 1 : 0" label="selected" />
       <TreeChip :value="`#${tree.seed.value}`" label="seed" />
       <TreeChip

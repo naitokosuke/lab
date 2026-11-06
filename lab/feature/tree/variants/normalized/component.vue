@@ -36,8 +36,8 @@ function doLink() {
 
 <template>
   <TreeShell
-    title="Tree — Normalized"
     description="Entities stored in dictionaries (nodes / childrenIds / parentIds / rootIds). The same entity can appear under multiple parents (DAG). Recursive components take an id prop — there's no object-identity coupling, so editing a title updates every appearance at once."
+    title="Tree — Normalized"
   >
     <template #controls>
       <NKLButton :disabled="tree.loading.value" @click="tree.refresh()">Refresh</NKLButton>
@@ -47,7 +47,7 @@ function doLink() {
     </template>
 
     <template #stats>
-      <TreeChip :value="tree.store.totalEntities.value" label="entities" emphasis />
+      <TreeChip :value="tree.store.totalEntities.value" emphasis label="entities" />
       <TreeChip :value="tree.store.totalAppearances.value" label="appearances" />
       <TreeChip :value="tree.store.dagNodeCount.value" label="DAG nodes" />
       <TreeChip :value="`#${tree.seed.value}`" label="seed" />

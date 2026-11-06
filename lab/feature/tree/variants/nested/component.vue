@@ -18,8 +18,8 @@ provide(nestedCtxKey, {
 
 <template>
   <TreeShell
-    title="Tree — Nested"
     description="Children-only data shape, rendered by a self-recursive <TreeNode>. UI state (openedIds / selectedIds) lives outside the data, so a fresh-seed refresh — which swaps every node identity — does not blow away your selection."
+    title="Tree — Nested"
   >
     <template #controls>
       <NKLButton :disabled="tree.loading.value" @click="tree.refresh()"> Refresh </NKLButton>
@@ -29,7 +29,7 @@ provide(nestedCtxKey, {
     </template>
 
     <template #stats>
-      <TreeChip :value="tree.totalNodes.value" label="nodes" emphasis />
+      <TreeChip :value="tree.totalNodes.value" emphasis label="nodes" />
       <TreeChip :value="tree.openedIds.value.size" label="opened" />
       <TreeChip :value="tree.selectedId.value ? 1 : 0" label="selected" />
       <TreeChip :value="`#${tree.seed.value}`" label="seed" />
