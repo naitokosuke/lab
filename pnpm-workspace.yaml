@@ -1,25 +1,30 @@
 packages:
   - design
 
-catalog:
-  "@chenglou/pretext": ^1.0.0
-  "@tanstack/vue-virtual": ^3.13.52
-  lightningcss: ^1.33.0
-  tsrs: 0.22.0-ts7.1.0-beta
-  valibot: ^1.5.0
-  vue-router: ^5.4.0
-
-# Each named catalog groups packages whose versions must move together.
+# Each catalog is named after the package, or the group of packages whose
+# versions must move together, that it pins.
 catalogs:
   vue:
     vue: 3.6.0-rc.14
     "@vue/compiler-sfc": 3.6.0-rc.14
+  vue-router:
+    vue-router: ^5.4.0
   vite-plus:
     vite: npm:@voidzero-dev/vite-plus-core@^1.5.0
     vite-plus: ^1.5.0
   vize:
     vize: ^0.697.0
     "@vizejs/vite-plugin": ^0.697.0
+  pretext:
+    "@chenglou/pretext": ^1.0.0
+  vue-virtual:
+    "@tanstack/vue-virtual": ^3.13.52
+  valibot:
+    valibot: ^1.5.0
+  lightningcss:
+    lightningcss: ^1.33.0
+  tsrs:
+    tsrs: 0.22.0-ts7.1.0-beta
 
 overrides:
   vite: "catalog:vite-plus"

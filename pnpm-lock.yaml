@@ -163,25 +163,22 @@ settings:
   excludeLinksFromLockfile: false
 
 catalogs:
-  default:
-    '@chenglou/pretext':
-      specifier: ^1.0.0
-      version: 1.0.0
-    '@tanstack/vue-virtual':
-      specifier: ^3.13.52
-      version: 3.13.52
+  lightningcss:
     lightningcss:
       specifier: ^1.33.0
       version: 1.33.0
+  pretext:
+    '@chenglou/pretext':
+      specifier: ^1.0.0
+      version: 1.0.0
+  tsrs:
     tsrs:
       specifier: 0.22.0-ts7.1.0-beta
       version: 0.22.0-ts7.1.0-beta
+  valibot:
     valibot:
       specifier: ^1.5.0
       version: 1.5.0
-    vue-router:
-      specifier: ^5.4.0
-      version: 5.4.0
   vite-plus:
     vite-plus:
       specifier: ^1.5.0
@@ -197,6 +194,14 @@ catalogs:
     vue:
       specifier: 3.6.0-rc.14
       version: 3.6.0-rc.14
+  vue-router:
+    vue-router:
+      specifier: ^5.4.0
+      version: 5.4.0
+  vue-virtual:
+    '@tanstack/vue-virtual':
+      specifier: ^3.13.52
+      version: 3.13.52
 
 overrides:
   vite: npm:@voidzero-dev/vite-plus-core@^1.5.0
@@ -207,32 +212,32 @@ importers:
   .:
     dependencies:
       '@chenglou/pretext':
-        specifier: 'catalog:'
+        specifier: catalog:pretext
         version: 1.0.0
       '@lab/design':
         specifier: workspace:*
         version: link:design
       '@tanstack/vue-virtual':
-        specifier: 'catalog:'
+        specifier: catalog:vue-virtual
         version: 3.13.52(vue@3.6.0-rc.14)
       valibot:
-        specifier: 'catalog:'
+        specifier: catalog:valibot
         version: 1.5.0
       vue:
         specifier: catalog:vue
         version: 3.6.0-rc.14
       vue-router:
-        specifier: 'catalog:'
+        specifier: catalog:vue-router
         version: 5.4.0(@voidzero-dev/vite-plus-core@1.5.0)(@vue/compiler-sfc@3.6.0-rc.14)(vue@3.6.0-rc.14)
     devDependencies:
       '@vizejs/vite-plugin':
         specifier: catalog:vize
         version: 0.697.0(@voidzero-dev/vite-plus-core@1.5.0)(vite-plus@1.5.0(@vitest/ui@5.1.0))(vue@3.6.0-rc.14)
       lightningcss:
-        specifier: 'catalog:'
+        specifier: catalog:lightningcss
         version: 1.33.0
       tsrs:
-        specifier: 'catalog:'
+        specifier: catalog:tsrs
         version: 0.22.0-ts7.1.0-beta
       vite:
         specifier: npm:@voidzero-dev/vite-plus-core@^1.5.0
