@@ -22,5 +22,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
+  "contentMappers": [{ "package": "vize", "extensions": [".vue"] }],
   "include": ["lab", "lab/**/*.vue", "lab/route-map.d.ts", "design", "design/**/*.vue"]
 }

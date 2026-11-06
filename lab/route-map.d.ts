@@ -14,11 +14,15 @@ import type {
   ParamValueZeroOrMore,
   ParamValueZeroOrOne,
 } from 'vue-router'
+import type {
+  _ExtractParamParserType,
+} from 'vue-router/experimental'
 
 declare module 'vue-router' {
   interface TypesConfig {
-    ParamParsers:
-      | never
+    _ParamParsers: {}
+    RouteNamedMap: import('vue-router/auto-routes').RouteNamedMap
+    _RouteFileInfoMap: import('vue-router/auto-routes')._RouteFileInfoMap
   }
 }
 
@@ -108,11 +112,15 @@ declare module 'vue-router/auto-routes' {
         | '/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'lab/pages/counter/index.vue': {
       routes:
         | '/counter/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'lab/pages/dock/index.vue': {
@@ -120,11 +128,15 @@ declare module 'vue-router/auto-routes' {
         | '/dock/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'lab/pages/meter-circular/index.vue': {
       routes:
         | '/meter-circular/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'lab/pages/pretext/index.vue': {
@@ -132,11 +144,15 @@ declare module 'vue-router/auto-routes' {
         | '/pretext/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'lab/pages/segmented/index.vue': {
       routes:
         | '/segmented/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'lab/pages/swipe-row/index.vue': {
@@ -144,17 +160,23 @@ declare module 'vue-router/auto-routes' {
         | '/swipe-row/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'lab/pages/text-morph/index.vue': {
       routes:
         | '/text-morph/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'lab/pages/tree/index.vue': {
       routes:
         | '/tree/'
       views:
+        | never
+      pathParamNames:
         | never
     }
   }

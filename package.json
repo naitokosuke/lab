@@ -3,28 +3,25 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "scripts": {
-    "dev": "vp dev",
-    "build": "tsc && vp build",
-    "preview": "vp preview"
-  },
   "dependencies": {
-    "@chenglou/pretext": "^0.0.3",
-    "@vitejs/plugin-vue": "^6.0.5",
-    "vue": "^3.5.31",
-    "vue-router": "^5.0.4"
+    "@chenglou/pretext": "^1.0.0",
+    "vue": "3.6.0-rc.14",
+    "vue-router": "^5.4.0"
   },
   "devDependencies": {
-    "lightningcss": "^1.32.0",
-    "typescript": "~5.9.3",
-    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-    "vite-plus": "latest"
+    "@vizejs/vite-plugin": "^0.696.0",
+    "lightningcss": "^1.33.0",
+    "oxlint-plugin-vize": "^0.696.0",
+    "tsrs": "0.22.0-ts7.1.0-beta",
+    "typescript": "~7.0.2",
+    "vite": "npm:@voidzero-dev/vite-plus-core@^1.5.0",
+    "vite-plus": "latest",
+    "vize": "^0.696.0"
   },
   "packageManager": "pnpm@10.33.0",
   "pnpm": {
     "overrides": {
-      "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-      "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
+      "vite": "npm:@voidzero-dev/vite-plus-core@^1.5.0"
     }
   }
 }
