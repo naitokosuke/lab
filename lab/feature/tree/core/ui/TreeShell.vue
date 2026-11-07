@@ -18,7 +18,7 @@ defineProps<{
   <main class="tree-shell">
     <header>
       <h2>{{ title }}</h2>
-      <p v-if="description" class="lede">{{ description }}</p>
+      <p v-if="description !== undefined" class="lede">{{ description }}</p>
     </header>
 
     <section aria-label="Controls" class="controls">

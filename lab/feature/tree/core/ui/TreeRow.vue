@@ -42,7 +42,7 @@ const emit = defineEmits<{
     </button>
     <button class="title" type="button" @click="emit('select')">
       <span class="title-text">{{ title }}</span>
-      <span v-if="appearances && appearances > 1" aria-label="linked appearance" class="badge">
+      <span v-if="appearances !== undefined && appearances > 1" aria-label="linked appearance" class="badge">
         ⇄ ×{{ appearances }}
       </span>
     </button>

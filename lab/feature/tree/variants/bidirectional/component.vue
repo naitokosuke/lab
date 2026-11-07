@@ -20,7 +20,7 @@ const customSerialized = ref<string | null>(null);
 function tryNaiveStringify() {
   stringifyError.value = null;
   customSerialized.value = null;
-  const r = tree.roots.value[0];
+  const r = tree.roots.value.at(0);
   if (!r) return;
   try {
     JSON.stringify(r);
@@ -31,7 +31,7 @@ function tryNaiveStringify() {
 }
 function tryCustomStringify() {
   customSerialized.value = null;
-  const r = tree.roots.value[0];
+  const r = tree.roots.value.at(0);
   if (!r) return;
   const out = serializeWithoutParent(r);
   customSerialized.value = out.length > 360 ? `${out.slice(0, 360)}…` : out;
@@ -90,8 +90,8 @@ function tryCustomStringify() {
           <NKLButton @click="tryNaiveStringify()">Try JSON.stringify</NKLButton>
           <NKLButton @click="tryCustomStringify()">Use custom serializer</NKLButton>
         </menu>
-        <pre v-if="stringifyError" class="err">{{ stringifyError }}</pre>
-        <pre v-if="customSerialized" class="ok-pre">{{ customSerialized }}</pre>
+        <pre v-if="stringifyError !== null" class="err">{{ stringifyError }}</pre>
+        <pre v-if="customSerialized !== null" class="ok-pre">{{ customSerialized }}</pre>
       </section>
     </template>
   </TreeShell>

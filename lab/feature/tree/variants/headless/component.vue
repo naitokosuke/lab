@@ -36,7 +36,7 @@ const focusedItem = computed(() => {
   const r = rootRef.value;
   if (!r) return null;
   const id = r.ctx.focusedId.value;
-  if (!id) return null;
+  if (id === null) return null;
   return { id, info: r.ctx.itemInfo(id) };
 });
 
@@ -56,7 +56,7 @@ function revealRandom() {
   const chain: string[] = [];
   while (cur) {
     const info = r.ctx.itemInfo(cur);
-    if (!info?.parentId) break;
+    if (info === undefined || info.parentId === null) break;
     chain.push(info.parentId);
     cur = info.parentId;
   }
