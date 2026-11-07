@@ -29,20 +29,20 @@ const emit = defineEmits<{
     :style="{ '--depth': depth }"
   >
     <button
-      type="button"
       class="caret"
+      type="button"
       :aria-label="hasChildren ? (isOpened ? 'Collapse' : 'Expand') : 'Leaf'"
       :disabled="!hasChildren"
       @click="emit('toggle')"
     >
-      <svg v-if="hasChildren" class="caret-glyph" viewBox="0 0 10 10" aria-hidden="true">
+      <svg v-if="hasChildren" aria-hidden="true" class="caret-glyph" viewBox="0 0 10 10">
         <path d="M3 2 L7 5 L3 8 Z" fill="currentColor" />
       </svg>
-      <span v-else class="leaf-dot" aria-hidden="true">·</span>
+      <span v-else aria-hidden="true" class="leaf-dot">·</span>
     </button>
-    <button type="button" class="title" @click="emit('select')">
+    <button class="title" type="button" @click="emit('select')">
       <span class="title-text">{{ title }}</span>
-      <span v-if="appearances && appearances > 1" class="badge" aria-label="linked appearance">
+      <span v-if="appearances && appearances > 1" aria-label="linked appearance" class="badge">
         ⇄ ×{{ appearances }}
       </span>
     </button>

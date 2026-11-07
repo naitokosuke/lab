@@ -13,7 +13,7 @@ defineProps<{
   <template v-else>
     <template v-for="(node, i) in path" :key="node.id">
       <span class="crumb">{{ node.title }}</span>
-      <span v-if="i < path.length - 1" class="sep" aria-hidden="true">/</span>
+      <span v-if="i < path.length - 1" aria-hidden="true" class="sep">/</span>
     </template>
   </template>
 </template>

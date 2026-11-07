@@ -4,30 +4,26 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vp dev",
-    "build": "tsc && vp build",
-    "preview": "vp preview",
-    "deploy": "vp run build && cf deploy --prebuilt"
+    "build": "vp run typecheck && vp build",
+    "deploy": "cf deploy --prebuilt"
   },
   "dependencies": {
-    "@chenglou/pretext": "^0.0.3",
-    "@vitejs/plugin-vue": "^6.0.5",
-    "vue": "^3.5.31",
-    "vue-router": "^5.0.4"
+    "@chenglou/pretext": "catalog:text-layout",
+    "@lab/design": "workspace:*",
+    "@tanstack/vue-virtual": "catalog:virtual-scroll",
+    "valibot": "catalog:validation",
+    "vue": "catalog:vue",
+    "vue-router": "catalog:vue"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "2.0.0-beta.v.12",
-    "cf": "1.0.0-beta.28",
-    "lightningcss": "^1.32.0",
-    "typescript": "~5.9.3",
-    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-    "vite-plus": "latest"
+    "@cloudflare/vite-plugin": "catalog:cloudflare-deploy",
+    "@vizejs/vite-plugin": "catalog:vue",
+    "cf": "catalog:cloudflare-deploy",
+    "lightningcss": "catalog:css-transform",
+    "tsrs": "catalog:typecheck",
+    "vite": "catalog:vite-plus",
+    "vite-plus": "catalog:vite-plus",
+    "vize": "catalog:vue"
   },
-  "packageManager": "pnpm@10.33.0",
-  "pnpm": {
-    "overrides": {
-      "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-      "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
-    }
-  }
+  "packageManager": "pnpm@12.18.0"
 }

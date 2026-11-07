@@ -7,11 +7,15 @@ lab/pages/<name>/
   index.vue          # Page component (demo UI, controls)
   component.vue      # Actual component implementation
   composable.ts      # Composable (as needed)
+  core/              # Framework-free logic and its *.test.ts (as needed)
 ```
 
-- `index.vue` is the file-based routing page (define meta via `definePage()`)
+- `index.vue` is the file-based routing page; only `**/index` files become routes
+- Register each page's title, description, and tags in `lab/pages/meta.ts`
 - `component.vue` holds the naive component implementation
-- `composable.ts` is created as needed
+- `composable.ts` and `core/` are created as needed
+- An experiment with several variants lives in `lab/feature/<name>/`, and its page imports it
+- Shared UI comes from `@lab/design` (`design/`)
 
 # Ctx Closure Pattern
 
@@ -122,4 +126,5 @@ For GitHub Actions, consider using [`voidzero-dev/setup-vp`](https://github.com/
 
 - [ ] Run `vp install` after pulling remote changes and before getting started.
 - [ ] Run `vp check` and `vp test` to validate changes.
+
 <!--VITE PLUS END-->

@@ -69,12 +69,12 @@ function revealRandom() {
 
 <template>
   <TreeShell
-    title="Tree — Headless"
     description="Hand-rolled headless compound components. Hierarchy lives in DOM nesting (Treeview.Root / Group / Item), not in a single data prop. State flows through provide/inject. Same row visual as the other patterns — different way to express the structure."
+    title="Tree — Headless"
   >
     <template #controls>
       <NKLButton :disabled="tree.loading.value" @click="tree.refresh()">Refresh</NKLButton>
-      <div class="seg" role="radiogroup" aria-label="Open mode">
+      <div aria-label="Open mode" class="seg" role="radiogroup">
         <button
           v-for="m in ['multiple', 'single', 'all'] as const"
           :key="m"
@@ -84,7 +84,7 @@ function revealRandom() {
           {{ m }}
         </button>
       </div>
-      <div class="seg" role="radiogroup" aria-label="Selection mode">
+      <div aria-label="Selection mode" class="seg" role="radiogroup">
         <button
           v-for="m in ['cascade', 'independent', 'leaf'] as const"
           :key="m"
@@ -100,8 +100,8 @@ function revealRandom() {
     <template #stats>
       <TreeChip
         :value="rootRef ? rootRef.ctx.visibleOrderedIds.value.length : 0"
-        label="visible"
         emphasis
+        label="visible"
       />
       <TreeChip :value="rootRef ? rootRef.ctx.selectedIds.value.size : 0" label="selected" />
       <TreeChip :value="openMode" label="open" />

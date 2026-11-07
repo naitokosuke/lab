@@ -86,8 +86,8 @@ const morph = useTemplateRef<InstanceType<typeof TextMorph>>("morph");
         :parts="parts"
         :duration="duration"
         :easing="easing"
-        class="stage"
         aria-live="polite"
+        class="stage"
       />
     </section>
 
@@ -100,8 +100,8 @@ const morph = useTemplateRef<InstanceType<typeof TextMorph>>("morph");
     <form @submit.prevent>
       <NKLRadioGroup
         v-model="scenario"
-        name="scenario"
         legend="Scenario"
+        name="scenario"
         :options="scenarioOptions"
       />
 
@@ -128,7 +128,7 @@ const morph = useTemplateRef<InstanceType<typeof TextMorph>>("morph");
         <legend>Motion</legend>
         <label>
           duration (ms)
-          <input v-model.number="duration" type="range" min="0" max="2000" step="20" />
+          <input v-model.number="duration" max="2000" min="0" step="20" type="range" />
           <span>{{ duration }}</span>
         </label>
         <NKLSelect v-model="easing" label="easing" :options="easingOptions" />

@@ -75,8 +75,8 @@ function reset() {
                 <span>{{ note.detail }}</span>
               </div>
               <button
-                type="button"
                 class="more"
+                type="button"
                 :aria-expanded="openId === note.id"
                 :aria-label="`Actions for ${note.title}`"
                 @click="toggle(note.id, openId !== note.id)"
@@ -85,8 +85,8 @@ function reset() {
               </button>
             </div>
             <template #actions>
-              <button type="button" class="action edit" @click="edit(note)">Edit</button>
-              <button type="button" class="action delete" @click="remove(note)">Delete</button>
+              <button class="action edit" type="button" @click="edit(note)">Edit</button>
+              <button class="action delete" type="button" @click="remove(note)">Delete</button>
             </template>
           </SwipeRow>
         </li>
@@ -111,7 +111,7 @@ function reset() {
         <legend>Motion</legend>
         <label>
           duration (ms)
-          <input v-model.number="duration" type="range" min="0" max="2000" step="20" />
+          <input v-model.number="duration" max="2000" min="0" step="20" type="range" />
           <span>{{ duration }}</span>
         </label>
         <NKLSelect v-model="easing" label="easing" :options="easingOptions" />
