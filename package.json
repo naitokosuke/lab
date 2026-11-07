@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vp run typecheck && vp build"
+    "build": "vp run typecheck && vp build",
+    "deploy": "vp exec cf deploy --prebuilt",
+    "upload": "vp exec cf workers versions create --prebuilt"
   },
   "dependencies": {
     "@chenglou/pretext": "catalog:text-layout",
@@ -15,7 +17,9 @@
     "vue-router": "catalog:vue"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "catalog:cloudflare-deploy",
     "@vizejs/vite-plugin": "catalog:vue",
+    "cf": "catalog:cloudflare-deploy",
     "lightningcss": "catalog:css-transform",
     "tsrs": "catalog:typecheck",
     "vite": "catalog:vite-plus",

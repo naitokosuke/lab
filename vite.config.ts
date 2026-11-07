@@ -1,4 +1,5 @@
 import { defineConfig } from "@vizejs/vite-plugin/vite-plus";
+import { lazyPlugins } from "vite-plus";
 import vueRouter from "vue-router/vite";
 
 export default defineConfig({
@@ -7,6 +8,12 @@ export default defineConfig({
       routesFolder: "lab/pages",
       dts: "lab/route-map.d.ts",
       filePatterns: ["**/index"],
+    }),
+    // The Cloudflare plugin wipes .cloudflare/output whenever the config resolves
+    // as a build, which vp lint / fmt / run do just to read their config blocks.
+    lazyPlugins(async () => {
+      const { cloudflare } = await import("@cloudflare/vite-plugin");
+      return [cloudflare()];
     }),
   ],
   css: {

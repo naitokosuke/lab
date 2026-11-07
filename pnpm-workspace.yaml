@@ -23,10 +23,17 @@ catalogs:
     lightningcss: ^1.33.0
   typecheck:
     tsrs: 0.22.0-ts7.1.0-beta
+  cloudflare-deploy:
+    cf: 1.0.0-beta.28
+    "@cloudflare/vite-plugin": 2.0.0-beta.v.12
 
 overrides:
   vite: "catalog:vite-plus"
   "@vue/compiler-sfc": "catalog:vue"
+
+# workerd ships the local runtime binary; its postinstall only validates it.
+allowBuilds:
+  workerd: true
 
 minimumReleaseAgeExclude:
   - vize
