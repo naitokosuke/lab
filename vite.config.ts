@@ -22,6 +22,13 @@ export default defineConfig({
   build: {
     cssMinify: "lightningcss",
   },
+  // in-source tests: `if (import.meta.vitest)` blocks run under vp test, drop out of builds
+  define: {
+    "import.meta.vitest": "undefined",
+  },
+  test: {
+    includeSource: ["lab/**/*.ts"],
+  },
   fmt: { ignorePatterns: ["lab/route-map.d.ts"] },
   lint: { options: { typeAware: true } },
   run: {
