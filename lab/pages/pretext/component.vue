@@ -27,8 +27,8 @@ function render(now: number) {
   const result: FrameResult = stepSimulation(sim.value, now);
 
   for (let i = 0; i < ROWS; i++) {
-    const monoEl = monoRowRefs.value[i];
-    const propEl = propRowRefs.value[i];
+    const monoEl = monoRowRefs.value.at(i);
+    const propEl = propRowRefs.value.at(i);
     if (monoEl) monoEl.textContent = result.rows[i]!.monoText;
     if (propEl) propEl.innerHTML = result.rows[i]!.propHtml;
   }

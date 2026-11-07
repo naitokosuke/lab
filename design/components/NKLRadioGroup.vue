@@ -12,12 +12,12 @@ defineProps<{
 
 <template>
   <fieldset class="nkl-radio-group" role="radiogroup">
-    <legend v-if="legend">{{ legend }}</legend>
+    <legend v-if="legend !== undefined">{{ legend }}</legend>
     <div class="options">
       <label v-for="opt in options" :key="opt.value" :class="{ active: model === opt.value }">
         <input v-model="model" type="radio" :name="name" :value="opt.value" />
         <span class="label">{{ opt.label }}</span>
-        <span v-if="opt.description" class="description">{{ opt.description }}</span>
+        <span v-if="opt.description !== undefined" class="description">{{ opt.description }}</span>
       </label>
     </div>
   </fieldset>

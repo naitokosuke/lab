@@ -23,7 +23,13 @@ export default defineConfig({
     cssMinify: "lightningcss",
   },
   fmt: { ignorePatterns: ["lab/route-map.d.ts"] },
-  lint: { options: { typeAware: true } },
+  lint: {
+    options: { typeAware: true },
+    vue: {
+      typeAware: true,
+      rules: { "type/strict-boolean-expressions": "error" },
+    },
+  },
   run: {
     tasks: {
       typecheck: "tsrs --runExternalCode --noEmit -p tsconfig.json",

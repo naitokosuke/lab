@@ -11,7 +11,7 @@ defineProps<{
 
 <template>
   <label class="nkl-select">
-    <span v-if="label" class="label">{{ label }}</span>
+    <span v-if="label !== undefined" class="label">{{ label }}</span>
     <select v-model="model">
       <option v-for="opt in options" :key="opt.value" :value="opt.value" :disabled="opt.disabled">
         {{ opt.label }}
