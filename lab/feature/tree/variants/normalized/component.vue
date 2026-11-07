@@ -101,7 +101,7 @@ function doLink() {
           <NKLButton @click="doMove()">Move</NKLButton>
           <NKLButton @click="doLink()">Add parent link (DAG)</NKLButton>
         </div>
-        <div v-if="tree.toast.value" class="toast" :data-kind="tree.toast.value.kind">
+        <div v-if="tree.toast.value !== null" class="toast" :data-kind="tree.toast.value.kind">
           {{ tree.toast.value.text }}
         </div>
       </section>

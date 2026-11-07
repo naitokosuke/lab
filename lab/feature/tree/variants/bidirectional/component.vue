@@ -21,7 +21,7 @@ function tryNaiveStringify() {
   stringifyError.value = null;
   customSerialized.value = null;
   const r = tree.roots.value.at(0);
-  if (!r) return;
+  if (r === undefined) return;
   try {
     JSON.stringify(r);
     stringifyError.value = "(no error — unexpected)";
@@ -32,7 +32,7 @@ function tryNaiveStringify() {
 function tryCustomStringify() {
   customSerialized.value = null;
   const r = tree.roots.value.at(0);
-  if (!r) return;
+  if (r === undefined) return;
   const out = serializeWithoutParent(r);
   customSerialized.value = out.length > 360 ? `${out.slice(0, 360)}…` : out;
 }

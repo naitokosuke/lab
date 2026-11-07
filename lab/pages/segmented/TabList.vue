@@ -30,8 +30,9 @@ const { style, ready } = useIndicator(list, () => [props.modelValue, props.tabs.
 async function reveal(smooth: boolean) {
   await nextTick();
   const row = list.value;
-  const tab = row?.querySelector<HTMLElement>('[aria-selected="true"]');
-  if (!row || !tab) return;
+  if (row === null) return;
+  const tab = row.querySelector<HTMLElement>('[aria-selected="true"]');
+  if (tab === null) return;
   const to = revealScroll({
     start: tab.offsetLeft,
     size: tab.offsetWidth,

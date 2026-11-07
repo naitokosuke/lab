@@ -25,7 +25,7 @@ defineProps<{
       <slot name="controls" />
     </section>
 
-    <section v-if="$slots.stats" aria-label="Stats" class="stats">
+    <section v-if="$slots.stats !== undefined" aria-label="Stats" class="stats">
       <slot name="stats" />
     </section>
 
@@ -39,7 +39,7 @@ defineProps<{
       <slot name="tree" />
     </section>
 
-    <section v-if="$slots.detail" aria-label="Details" class="detail">
+    <section v-if="$slots.detail !== undefined" aria-label="Details" class="detail">
       <slot name="detail" />
     </section>
   </main>

@@ -8,7 +8,7 @@ import TreeNode from "./TreeNode.vue";
 const props = defineProps<{ node: BiNode; depth: number }>();
 
 const ctx = inject(biCtxKey);
-if (!ctx) throw new Error("TreeNode must be used inside <component.vue>");
+if (ctx === undefined) throw new Error("TreeNode must be used inside <component.vue>");
 
 const children = computed(() => ctx.filteredChildren(props.node));
 const hasChildren = computed(() => props.node.children.length > 0);

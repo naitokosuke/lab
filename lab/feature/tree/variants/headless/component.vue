@@ -20,7 +20,7 @@ watch(
   async (roots) => {
     await nextTick();
     const r = rootRef.value;
-    if (!r) return;
+    if (r === null) return;
     function visit(node: import("../../core").RawNode, depth: number) {
       if (depth <= 1 && (node.children?.length ?? 0) > 0) {
         if (!r!.ctx.isOpen(node.id)) r!.ctx.toggle(node.id);
@@ -34,7 +34,7 @@ watch(
 
 const focusedItem = computed(() => {
   const r = rootRef.value;
-  if (!r) return null;
+  if (r === null) return null;
   const id = r.ctx.focusedId.value;
   if (id === null) return null;
   return { id, info: r.ctx.itemInfo(id) };
@@ -42,7 +42,7 @@ const focusedItem = computed(() => {
 
 function revealRandom() {
   const r = rootRef.value;
-  if (!r) return;
+  if (r === null) return;
   const ids: string[] = [];
   function walk(node: import("../../core").RawNode) {
     ids.push(node.id);
@@ -109,7 +109,7 @@ function revealRandom() {
     </template>
 
     <template #breadcrumb>
-      <template v-if="focusedItem">
+      <template v-if="focusedItem !== null">
         <span class="aria-label">role=</span>
         <code>treeitem</code>
         <span class="aria-label">level=</span>
