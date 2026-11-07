@@ -31,6 +31,10 @@ overrides:
   vite: "catalog:vite-plus"
   "@vue/compiler-sfc": "catalog:vue"
 
+# workerd ships the local runtime binary; its postinstall only validates it.
+allowBuilds:
+  workerd: true
+
 minimumReleaseAgeExclude:
   - vize
   - "@vizejs/*"
