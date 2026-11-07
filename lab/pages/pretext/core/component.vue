@@ -29,7 +29,7 @@ let observer: ResizeObserver | null = null;
 
 onMounted(() => {
   const el = containerRef.value;
-  if (!el) return;
+  if (el === null) return;
   width.value = el.clientWidth;
   observer = new ResizeObserver((entries) => {
     width.value = entries[0].contentRect.width;

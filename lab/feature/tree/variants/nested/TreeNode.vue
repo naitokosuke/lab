@@ -11,7 +11,7 @@ const props = defineProps<{
 }>();
 
 const ctx = inject(nestedCtxKey);
-if (!ctx) throw new Error("TreeNode must be used inside <component.vue>");
+if (ctx === undefined) throw new Error("TreeNode must be used inside <component.vue>");
 
 const hasChildren = computed(() => (props.node.children?.length ?? 0) > 0);
 const isOpened = computed(() => ctx.openedIds.value.has(props.node.id));

@@ -56,14 +56,14 @@ function onKeydown(e: KeyboardEvent) {
 watch(
   () => ctx.focusedId.value,
   (id) => {
-    if (id === null || !rootEl.value) return;
+    if (id === null || rootEl.value === null) return;
     const node = rootEl.value.querySelector<HTMLElement>(`[data-treeitem-id="${id}"]`);
     node?.focus();
   },
 );
 
 onMounted(() => {
-  if (rootEl.value && ctx.visibleOrderedIds.value.length > 0) {
+  if (rootEl.value !== null && ctx.visibleOrderedIds.value.length > 0) {
     ctx.focus(ctx.visibleOrderedIds.value[0] ?? null);
   }
 });

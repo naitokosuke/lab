@@ -28,6 +28,7 @@ export default defineConfig({
     vue: {
       typeAware: true,
       rules: { "type/strict-boolean-expressions": "error" },
+      ruleOptions: { "type/strict-boolean-expressions": { allowNullableObject: false } },
     },
   },
   run: {

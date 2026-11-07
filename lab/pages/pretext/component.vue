@@ -23,14 +23,14 @@ const sim = shallowRef<ReturnType<typeof createSimulation>>();
 let animId = 0;
 
 function render(now: number) {
-  if (!sim.value) return;
+  if (sim.value === undefined) return;
   const result: FrameResult = stepSimulation(sim.value, now);
 
   for (let i = 0; i < ROWS; i++) {
     const monoEl = monoRowRefs.value.at(i);
     const propEl = propRowRefs.value.at(i);
-    if (monoEl) monoEl.textContent = result.rows[i]!.monoText;
-    if (propEl) propEl.innerHTML = result.rows[i]!.propHtml;
+    if (monoEl !== undefined) monoEl.textContent = result.rows[i]!.monoText;
+    if (propEl !== undefined) propEl.innerHTML = result.rows[i]!.propHtml;
   }
 
   animId = requestAnimationFrame(render);
@@ -39,7 +39,7 @@ function render(now: number) {
 onMounted(() => {
   const s = createSimulation();
   sim.value = s;
-  if (sourceCanvasRef.value) {
+  if (sourceCanvasRef.value !== undefined) {
     sourceCanvasRef.value.appendChild(s.simulationCanvas);
     s.simulationCanvas.className = "source-canvas";
   }

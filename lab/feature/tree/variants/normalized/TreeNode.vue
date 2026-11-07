@@ -13,7 +13,7 @@ const props = defineProps<{
 }>();
 
 const ctx = inject(normalizedCtxKey);
-if (!ctx) throw new Error("TreeNode must be used inside <component.vue>");
+if (ctx === undefined) throw new Error("TreeNode must be used inside <component.vue>");
 
 const title = computed(() => ctx.titleOf(props.id));
 const childIds = computed(() => ctx.childrenOf(props.id));
@@ -22,7 +22,7 @@ const isOpened = computed(() => ctx.openedIds.value.has(props.id));
 const appearances = computed(() => ctx.appearanceCount(props.id));
 const isSelected = computed(() => {
   const sel = ctx.selectedAppearance.value;
-  if (!sel) return false;
+  if (sel === null) return false;
   if (sel.id !== props.id) return false;
   // 同じ id を持つ別 appearance を区別: path も一致する場合だけ selected
   if (sel.path.length !== props.path.length) return false;
