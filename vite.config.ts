@@ -1,6 +1,7 @@
 import { defineConfig } from "vite-plus";
 import vue from "@vitejs/plugin-vue";
 import vueRouter from "vue-router/vite";
+import { cloudflare } from "@cloudflare/vite-plugin";
 
 export default defineConfig({
   plugins: [
@@ -10,6 +11,7 @@ export default defineConfig({
       filePatterns: ["**/index"],
     }),
     vue(),
+    cloudflare(),
   ],
   css: {
     transformer: "lightningcss",
