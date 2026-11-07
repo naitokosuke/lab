@@ -10,7 +10,6 @@ export const LabTag = v.picklist([
   "tree",
   "performance",
   "a11y",
-  "audio",
 ]);
 export type LabTag = v.InferOutput<typeof LabTag>;
 
@@ -24,11 +23,6 @@ export type LabPageMeta = v.InferOutput<typeof LabPageMeta>;
 type LabRouteName = Exclude<keyof RouteNamedMap, "/">;
 
 export const labPages = {
-  "/audio-analyzer/": {
-    title: "Audio Analyzer",
-    description: "Live spectrum and waveform of a tone, the microphone, or a file via AnalyserNode",
-    tags: ["audio"],
-  },
   "/counter/": {
     title: "Counter",
     description: "Naive counter example",
