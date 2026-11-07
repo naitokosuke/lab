@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "vp run typecheck && vp build",
-    "deploy": "cf deploy --prebuilt"
+    "deploy": "vp exec cf deploy --prebuilt",
+    "upload": "vp exec cf workers versions create --prebuilt"
   },
   "dependencies": {
     "@chenglou/pretext": "catalog:text-layout",
