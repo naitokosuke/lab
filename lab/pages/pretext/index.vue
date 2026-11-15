@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Pretext from "./component.vue";
+import Pretext from "../../feature/pretext/component.vue";
 </script>
 
 <template>

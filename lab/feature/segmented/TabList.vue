@@ -77,13 +77,18 @@ onMounted(() => void reveal(false));
 <style scoped>
 .tab-list {
   --duration-swap: 0.28s;
+  --tab-list-ease-swap: ease;
+  --tab-list-tab-pad-block: 10px;
+  --tab-list-tab-pad-inline: 14px;
+  --tab-list-label-weight: 700;
+  --tab-list-underline-width: 2px;
 
   position: relative;
   display: flex;
-  gap: 4px;
+  gap: var(--space-1);
   overflow-x: auto;
   scrollbar-width: none;
-  border-block-end: 1px solid var(--border);
+  border-block-end: var(--border-width) solid var(--border);
 
   &::-webkit-scrollbar {
     display: none;
@@ -92,31 +97,31 @@ onMounted(() => void reveal(false));
   > button {
     position: relative;
     flex-shrink: 0;
-    padding: 10px 14px;
+    padding: var(--tab-list-tab-pad-block) var(--tab-list-tab-pad-inline);
     border: 0;
     background: none;
     font: inherit;
     font-size: var(--text-s);
-    font-weight: 700;
+    font-weight: var(--tab-list-label-weight);
     color: var(--text);
-    transition: color var(--duration-swap) ease;
+    transition: color var(--duration-swap) var(--tab-list-ease-swap);
 
     &[aria-selected="true"] {
       color: var(--text-h);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: -2px;
+      outline: var(--focus-ring-width) solid var(--accent);
+      outline-offset: calc(-1 * var(--focus-ring-offset));
     }
   }
 
-  /* as tall as the tab; only its bottom 2px is drawn */
+  /* as tall as the tab; only its bottom edge is drawn */
   > span {
     position: absolute;
     inset-block-start: 0;
     inset-inline-start: 0;
-    border-block-end: 2px solid var(--text-h);
+    border-block-end: var(--tab-list-underline-width) solid var(--text-h);
     pointer-events: none;
 
     &[data-ready] {

@@ -141,7 +141,7 @@ function revealRandom() {
 <style scoped>
 .seg {
   display: inline-flex;
-  border: 1px solid var(--border);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--radius-s);
   overflow: hidden;
 
@@ -152,10 +152,10 @@ function revealRandom() {
     color: var(--text);
     background: transparent;
     border: 0;
-    padding: 4px var(--space-3);
+    padding: var(--space-1) var(--space-3);
 
     & + button {
-      border-inline-start: 1px solid var(--border);
+      border-inline-start: var(--border-width) solid var(--border);
     }
     &:hover {
       color: var(--text-h);
@@ -165,28 +165,32 @@ function revealRandom() {
       color: var(--accent);
     }
     &:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: -2px;
+      outline: var(--focus-ring-width) solid var(--accent);
+      outline-offset: calc(var(--focus-ring-width) * -1);
     }
   }
 }
 
 code {
+  --tree-code-font-size: 0.9em;
+
   font-family: var(--mono);
-  font-size: 0.9em;
+  font-size: var(--tree-code-font-size);
   padding: 0 var(--space-1);
   background: var(--accent-bg);
   color: var(--accent);
   border-radius: var(--radius-s);
 }
 .aria-label {
+  --tree-aria-label-opacity: 0.65;
+
   color: var(--text);
-  opacity: 0.65;
+  opacity: var(--tree-aria-label-opacity);
   font-family: var(--sans);
 }
 .empty {
   color: var(--text);
-  opacity: 0.7;
+  opacity: var(--tree-empty-opacity);
   font-style: italic;
   font-family: var(--sans);
 }

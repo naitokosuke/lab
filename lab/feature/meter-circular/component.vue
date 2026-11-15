@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useTemplateRef } from "vue";
+import { barBorderWidth, center, circumference, strokeRadius, strokeWidth } from "./core/geometry";
 
 interface Props {
   num: number;
@@ -12,11 +13,20 @@ const { num, percentage, unit = "%" } = defineProps<Props>();
 
 const barRef = useTemplateRef<SVGCircleElement>("bar");
 
+/** The ring's geometry, from the one place the animation reads it too */
+const geometry = {
+  "--meter-center": `${center}px`,
+  "--meter-stroke-width": `${strokeWidth}px`,
+  "--meter-bar-border-width": `${barBorderWidth}px`,
+  "--meter-stroke-radius": `${strokeRadius}px`,
+  "--meter-circumference": `${circumference}px`,
+};
+
 defineExpose({ el: barRef });
 </script>
 
 <template>
-  <div class="circular-progress" :style="{ '--_percentage': percentage }">
+  <div class="circular-progress" :style="{ ...geometry, '--_percentage': percentage }">
     <svg viewBox="0 0 100 100">
       <circle class="border" />
       <circle class="track" />
@@ -31,13 +41,12 @@ defineExpose({ el: barRef });
 
 <style scoped>
 .circular-progress {
-  --radius: 70px;
-  --stroke-width: 20px;
-  --bar-border-width: 1px;
-  --center: 50px;
-
-  --_stroke-radius: calc(var(--center) - (var(--stroke-width) + var(--bar-border-width)) / 2);
-  --_circumference: calc(2 * 3.14159265 * var(--_stroke-radius));
+  /* --meter-center, --meter-stroke-width, --meter-bar-border-width, --meter-stroke-radius and
+     --meter-circumference are bound from core/geometry.ts */
+  --meter-radius: 70px;
+  --meter-value-weight: 700;
+  --meter-unit-line-height: 1.2;
+  --meter-unit-tracking: -0.02em;
 
   --color-border: var(--border);
   --color-track: var(--bg);
@@ -47,8 +56,8 @@ defineExpose({ el: barRef });
   position: relative;
   display: inline-grid;
   place-items: center;
-  width: calc(var(--radius) * 2);
-  height: calc(var(--radius) * 2);
+  width: calc(var(--meter-radius) * 2);
+  height: calc(var(--meter-radius) * 2);
 
   & svg {
     width: 100%;
@@ -56,26 +65,26 @@ defineExpose({ el: barRef });
     transform: rotate(-90deg);
 
     & circle {
-      cx: var(--center);
-      cy: var(--center);
-      r: var(--_stroke-radius);
+      cx: var(--meter-center);
+      cy: var(--meter-center);
+      r: var(--meter-stroke-radius);
       fill: none;
 
       &.border {
         stroke: var(--color-border);
-        stroke-width: calc(var(--stroke-width) + var(--bar-border-width));
+        stroke-width: calc(var(--meter-stroke-width) + var(--meter-bar-border-width));
       }
 
       &.track {
         stroke: var(--color-track);
-        stroke-width: var(--stroke-width);
+        stroke-width: var(--meter-stroke-width);
       }
 
       &.bar {
         stroke: var(--color-bar);
-        stroke-width: var(--stroke-width);
-        stroke-dasharray: var(--_circumference);
-        stroke-dashoffset: calc(var(--_circumference) * (1 - var(--_percentage) / 100));
+        stroke-width: var(--meter-stroke-width);
+        stroke-dasharray: var(--meter-circumference);
+        stroke-dashoffset: calc(var(--meter-circumference) * (1 - var(--_percentage) / 100));
       }
     }
   }
@@ -89,14 +98,14 @@ defineExpose({ el: barRef });
 
     & .value {
       font-size: var(--text-2xl);
-      font-weight: 700;
+      font-weight: var(--meter-value-weight);
       color: var(--color-label);
     }
 
     & .unit {
       font-size: var(--text-m);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
+      line-height: var(--meter-unit-line-height);
+      letter-spacing: var(--meter-unit-tracking);
       color: var(--color-label);
     }
   }

@@ -6,9 +6,9 @@
 <style scoped>
 span {
   flex-shrink: 0;
-  width: 1px;
-  height: 28px;
-  margin-inline: 6px;
+  width: var(--border-width);
+  height: var(--dock-divider-length);
+  margin-inline: var(--dock-divider-margin);
   background: var(--dock-line);
 }
 </style>

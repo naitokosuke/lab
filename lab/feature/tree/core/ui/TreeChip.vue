@@ -22,7 +22,7 @@ defineProps<{
 
   strong {
     color: var(--text-h);
-    font-weight: 600;
+    font-weight: var(--tree-emphasis-font-weight);
   }
   span {
     color: var(--text);

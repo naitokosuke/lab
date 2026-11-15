@@ -94,8 +94,10 @@ const totalSize = computed(() => virtualizer.value.getTotalSize());
   inset-block-start: 0;
 }
 .muted {
+  --tree-perf-note-opacity: 0.75;
+
   color: var(--text);
-  opacity: 0.75;
+  opacity: var(--tree-perf-note-opacity);
   font-style: italic;
   font-family: var(--sans);
 }

@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vp run typecheck && vp build",
+    "build": "vp run typecheck && vp run lint-vue && vp build",
     "deploy": "vp exec cf deploy --prebuilt",
     "upload": "vp exec cf workers versions create --prebuilt"
   },

@@ -341,4 +341,4 @@ export function stepSimulation(state: SimulationState, now: number): FrameResult
   return { rows };
 }
 
-export { ROWS, LINE_HEIGHT, TARGET_ROW_W, CANVAS_W, CANVAS_H, FONT_SIZE, PROP_FAMILY };
+export { ROWS, LINE_HEIGHT, TARGET_ROW_W, CANVAS_W, CANVAS_H, FONT_SIZE, PROP_FAMILY, WEIGHTS };

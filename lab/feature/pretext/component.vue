@@ -10,6 +10,7 @@ import {
   CANVAS_H,
   FONT_SIZE,
   PROP_FAMILY,
+  WEIGHTS,
   type FrameResult,
 } from "./composable";
 
@@ -52,7 +53,14 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="typo-ascii">
+  <div
+    class="typo-ascii"
+    :style="{
+      '--pretext-glyph-weight-light': WEIGHTS[0],
+      '--pretext-glyph-weight-medium': WEIGHTS[1],
+      '--pretext-glyph-weight-heavy': WEIGHTS[2],
+    }"
+  >
     <div class="controls">
       <span class="title">Typographic ASCII Art</span>
       <span class="sep">—</span>
@@ -97,66 +105,85 @@ onUnmounted(() => {
 
 <style scoped>
 .typo-ascii {
+  --pretext-bg: #0a0a0a;
+  --pretext-color: #e0e0e0;
+  --pretext-font-family: system-ui, sans-serif;
+  --pretext-controls-padding-inline: 20px;
+  --pretext-controls-color: rgba(255, 255, 255, 0.5);
+  --pretext-title-font-weight: 700;
+  --pretext-title-font-size: 15px;
+  --pretext-title-color: rgba(255, 255, 255, 0.85);
+  --pretext-separator-color: rgba(255, 255, 255, 0.2);
+  --pretext-desc-min-width: 200px;
+  --pretext-mode-switch-gap: 2px;
+  --pretext-mode-switch-padding: 2px;
+  --pretext-mode-switch-bg: rgba(255, 255, 255, 0.06);
+  --pretext-mode-button-color: rgba(255, 255, 255, 0.45);
+  --pretext-mode-button-active-bg: rgba(255, 255, 255, 0.12);
+  --pretext-mode-button-active-color: rgba(255, 255, 255, 0.9);
+  --pretext-mono-font-family: "SF Mono", ui-monospace, Menlo, Monaco, "Courier New", monospace;
+  --pretext-mono-letter-spacing: 0.5px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
-  background: #0a0a0a;
-  color: #e0e0e0;
-  font-family: system-ui, sans-serif;
+  background: var(--pretext-bg);
+  color: var(--pretext-color);
+  font-family: var(--pretext-font-family);
 }
 
 .controls {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
-  padding: 16px 20px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
+  gap: var(--space-2);
+  padding: var(--space-4) var(--pretext-controls-padding-inline);
+  font-size: var(--text-s);
+  color: var(--pretext-controls-color);
 }
 
 .title {
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 15px;
+  font-weight: var(--pretext-title-font-weight);
+  color: var(--pretext-title-color);
+  font-size: var(--pretext-title-font-size);
 }
 
 .sep {
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--pretext-separator-color);
 }
 
 .desc {
   flex: 1;
-  min-width: 200px;
+  min-width: var(--pretext-desc-min-width);
 }
 
 .mode-switch {
   display: flex;
-  gap: 2px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 6px;
-  padding: 2px;
+  gap: var(--pretext-mode-switch-gap);
+  background: var(--pretext-mode-switch-bg);
+  border-radius: var(--radius-m);
+  padding: var(--pretext-mode-switch-padding);
 }
 
 .mode-switch button {
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.45);
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 12px;
+  color: var(--pretext-mode-button-color);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-s);
+  font-size: var(--text-xs);
   cursor: pointer;
   transition:
-    background 0.15s,
-    color 0.15s;
+    background var(--duration-s),
+    color var(--duration-s);
 }
 
 .mode-switch button.active {
-  background: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.9);
+  background: var(--pretext-mode-button-active-bg);
+  color: var(--pretext-mode-button-active-color);
 }
 
 .display-area {
@@ -179,9 +206,9 @@ onUnmounted(() => {
 }
 
 .mono-box {
-  font-family: "SF Mono", ui-monospace, Menlo, Monaco, "Courier New", monospace;
+  font-family: var(--pretext-mono-font-family);
   font-size: v-bind("FONT_SIZE + 'px'");
-  letter-spacing: 0.5px;
+  letter-spacing: var(--pretext-mono-letter-spacing);
 }
 
 .art-row {
@@ -203,13 +230,13 @@ onUnmounted(() => {
 
 /* Font weight classes used in propHtml */
 :deep(.w3) {
-  font-weight: 300;
+  font-weight: var(--pretext-glyph-weight-light);
 }
 :deep(.w5) {
-  font-weight: 500;
+  font-weight: var(--pretext-glyph-weight-medium);
 }
 :deep(.w8) {
-  font-weight: 800;
+  font-weight: var(--pretext-glyph-weight-heavy);
 }
 :deep(.it) {
   font-style: italic;

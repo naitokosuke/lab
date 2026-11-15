@@ -26,18 +26,26 @@ defineEmits<{
 
 <style scoped>
 .filter {
-  flex: 1 1 220px;
-  min-inline-size: 200px;
-  max-inline-size: 360px;
+  --tree-filter-flex-basis: 220px;
+  --tree-filter-min-inline-size: 200px;
+  --tree-filter-max-inline-size: 360px;
+  --tree-filter-padding-block: 6px;
+  --tree-filter-transition-duration: 120ms;
+  --tree-filter-icon-size: 0.95em;
+  --tree-filter-placeholder-opacity: 0.6;
+
+  flex: 1 1 var(--tree-filter-flex-basis);
+  min-inline-size: var(--tree-filter-min-inline-size);
+  max-inline-size: var(--tree-filter-max-inline-size);
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 6px var(--space-3);
-  border: 1px solid var(--border);
+  padding: var(--tree-filter-padding-block) var(--space-3);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--radius-s);
   background: var(--bg);
   color: var(--text);
-  transition: border-color 120ms;
+  transition: border-color var(--tree-filter-transition-duration);
 
   &:focus-within {
     border-color: var(--accent-border);
@@ -45,8 +53,8 @@ defineEmits<{
   }
   svg {
     flex: none;
-    inline-size: 0.95em;
-    block-size: 0.95em;
+    inline-size: var(--tree-filter-icon-size);
+    block-size: var(--tree-filter-icon-size);
     color: inherit;
   }
   input {
@@ -63,7 +71,7 @@ defineEmits<{
   }
   input::placeholder {
     color: var(--text);
-    opacity: 0.6;
+    opacity: var(--tree-filter-placeholder-opacity);
   }
 }
 </style>

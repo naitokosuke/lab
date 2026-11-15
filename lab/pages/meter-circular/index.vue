@@ -1,8 +1,18 @@
 <script setup lang="ts">
 import { computed, ref, useTemplateRef } from "vue";
-import { NKLButton } from "@lab/design/components";
-import MeterCircular from "./component.vue";
-import { useCircularAnimate } from "./composable";
+import { NKLButton, NKLSelect } from "@lab/design/components";
+import {
+  DemoActions,
+  DemoControls,
+  DemoFieldset,
+  DemoNumberField,
+  DemoRange,
+  DemoReadout,
+  DemoTextField,
+} from "../../components";
+import MeterCircular from "../../feature/meter-circular/component.vue";
+import { useCircularAnimate } from "../../feature/meter-circular/composable";
+import { circumference } from "../../feature/meter-circular/core/geometry";
 
 const num = ref(72);
 const max = ref(100);
@@ -13,9 +23,6 @@ const playbackRateInput = ref(1);
 
 const progressRef = useTemplateRef<InstanceType<typeof MeterCircular>>("progress");
 const barRef = computed(() => progressRef.value?.el ?? null);
-
-const strokeRadius = 50 - (20 + 1) / 2;
-const circumference = 2 * Math.PI * strokeRadius;
 
 const percentage = computed(() => {
   if (max.value <= 0) throw new Error(`[MeterCircular] max must be positive, got ${max.value}`);
@@ -35,7 +42,10 @@ const {
   playbackRateCtx,
 } = useCircularAnimate(barRef, circumference, percentage, duration, easing);
 
-const easingOptions = ["ease", "ease-in", "ease-out", "ease-in-out", "linear"];
+const easingOptions = ["ease", "ease-in", "ease-out", "ease-in-out", "linear"].map((e) => ({
+  value: e,
+  label: e,
+}));
 
 function setPlaybackRate(value: number) {
   playbackRateInput.value = value;
@@ -45,13 +55,11 @@ function setPlaybackRate(value: number) {
 
 <template>
   <div id="meter-circular-lab">
-    <h2>Meter Circular</h2>
-
     <section>
       <MeterCircular ref="progress" :num="num" :percentage="percentage" :unit="unit" />
     </section>
 
-    <output>
+    <DemoReadout :columns="2">
       <code>playState: {{ playState }}</code>
       <code>pending: {{ pending }}</code>
       <code>currentTime:
@@ -59,146 +67,48 @@ function setPlaybackRate(value: number) {
           currentTimeCtx.currentTime.value != null ? Math.round(Number(currentTimeCtx.currentTime.value)) : null
         }}</code>
       <code>playbackRate: {{ playbackRateCtx.playbackRate.value }}</code>
-    </output>
+    </DemoReadout>
 
-    <form @submit.prevent>
-      <fieldset>
-        <legend>Props</legend>
+    <DemoControls>
+      <DemoFieldset legend="Props">
+        <DemoRange v-model="num" label="num" :min="0" :max="max" />
 
-        <label>
-          num
-          <input v-model.number="num" min="0" type="range" :max="max" />
-          <span>{{ num }}</span>
-        </label>
+        <DemoNumberField v-model="max" label="max" :min="1" />
+        <DemoTextField v-model="unit" label="unit" />
+        <DemoRange v-model="duration" label="duration (ms)" :min="100" :max="3000" :step="100" />
+        <NKLSelect v-model="easing" label="easing" :options="easingOptions" />
 
-        <label>
-          max
-          <input v-model.number="max" min="1" type="number" />
-        </label>
+        <DemoRange
+          v-model="playbackRateInput"
+          label="playbackRate"
+          :min="0.1"
+          :max="5"
+          :step="0.1"
+          :value="`${playbackRateInput}x`"
+          @update:model-value="setPlaybackRate"
+        />
+      </DemoFieldset>
 
-        <label>
-          unit
-          <input v-model="unit" type="text" />
-        </label>
-
-        <label>
-          duration (ms)
-          <input v-model.number="duration" max="3000" min="100" step="100" type="range" />
-          <span>{{ duration }}</span>
-        </label>
-
-        <label>
-          easing
-          <select v-model="easing">
-            <option v-for="opt in easingOptions" :key="opt" :value="opt">{{ opt }}</option>
-          </select>
-        </label>
-
-        <label>
-          playbackRate
-          <input
-            v-model.number="playbackRateInput"
-            max="5"
-            min="0.1"
-            step="0.1"
-            type="range"
-            @input="setPlaybackRate(playbackRateInput)"
-          />
-          <span>{{ playbackRateInput }}x</span>
-        </label>
-      </fieldset>
-
-      <fieldset>
-        <legend>Actions</legend>
-        <menu>
+      <DemoFieldset legend="Actions">
+        <DemoActions>
           <NKLButton @click="play()">play()</NKLButton>
           <NKLButton @click="pause()">pause()</NKLButton>
           <NKLButton @click="resume()">resume()</NKLButton>
 
           <NKLButton @click="finish()">finish()</NKLButton>
           <NKLButton @click="cancel()">cancel()</NKLButton>
-        </menu>
-      </fieldset>
-    </form>
+        </DemoActions>
+      </DemoFieldset>
+    </DemoControls>
   </div>
 </template>
 
 <style scoped>
 #meter-circular-lab {
-  padding: var(--space-6) var(--space-5);
-  max-width: 480px;
-  margin: 0 auto;
-
   section {
     display: grid;
     justify-items: center;
     padding: var(--space-6) 0;
-  }
-
-  output {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-2);
-    margin-bottom: var(--space-5);
-
-    code {
-      font-size: var(--text-xs);
-      padding: var(--space-1) var(--space-2);
-      border-radius: var(--radius-s);
-      background: var(--accent-bg);
-      color: var(--accent);
-      font-variant-numeric: tabular-nums;
-    }
-  }
-
-  form {
-    display: grid;
-    gap: var(--space-4);
-
-    fieldset {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-l);
-      padding: var(--space-4);
-    }
-
-    legend {
-      font-size: var(--text-m);
-      font-weight: 600;
-      color: var(--text-h);
-      padding: 0 var(--space-2);
-    }
-
-    label {
-      display: grid;
-      grid-template-columns: 100px 1fr 40px;
-      align-items: center;
-      gap: var(--space-2);
-      font-size: var(--text-m);
-      color: var(--text);
-      margin-bottom: var(--space-2);
-      font-variant-numeric: tabular-nums;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    input[type="number"],
-    input[type="text"],
-    select {
-      font-size: var(--text-m);
-      padding: var(--space-1) var(--space-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-s);
-      background: var(--bg);
-      color: var(--text-h);
-    }
-
-    menu {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-      gap: var(--space-2);
-    }
   }
 }
 </style>

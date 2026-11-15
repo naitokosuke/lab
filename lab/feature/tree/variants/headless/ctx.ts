@@ -26,6 +26,8 @@ export type RootCtx = {
   readonly visibleOrderedIds: ComputedRef<readonly NodeId[]>;
   readonly itemInfo: (id: NodeId) => ItemInfo | undefined;
   readonly setParent: (id: NodeId, parentId: NodeId | null) => void;
+  /** Keyboard nav on the focused item: up/down/home/end move focus, right opens, left closes or goes up, space/enter selects */
+  readonly keydown: (e: KeyboardEvent) => void;
 };
 
 export type ItemInfo = {
@@ -151,6 +153,38 @@ export function provideRoot(args: { openMode: Ref<OpenMode>; selectionMode: Ref<
     return out;
   });
 
+  function keydown(e: KeyboardEvent) {
+    const order = visibleOrderedIds.value;
+    if (order.length === 0) return;
+    const cur = focusedId.value;
+    const idx = cur !== null ? order.indexOf(cur) : -1;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      focus(order[Math.min(order.length - 1, idx + 1)] ?? order[0]!);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      focus(order[Math.max(0, idx - 1)] ?? order[0]!);
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      focus(order[0] ?? null);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      focus(order[order.length - 1] ?? null);
+    } else if (e.key === "ArrowRight" && cur !== null) {
+      e.preventDefault();
+      const info = items.get(cur);
+      if (info?.hasChildren === true && !isOpen(cur)) toggle(cur);
+    } else if (e.key === "ArrowLeft" && cur !== null) {
+      e.preventDefault();
+      const info = items.get(cur);
+      if (info?.hasChildren === true && isOpen(cur)) toggle(cur);
+      else if (info !== undefined && info.parentId !== null) focus(info.parentId);
+    } else if ((e.key === " " || e.key === "Enter") && cur !== null) {
+      e.preventDefault();
+      select(cur);
+    }
+  }
+
   const ctx: RootCtx = {
     openedIds,
     selectedIds,
@@ -166,6 +200,7 @@ export function provideRoot(args: { openMode: Ref<OpenMode>; selectionMode: Ref<
     visibleOrderedIds,
     itemInfo: (id) => items.get(id),
     setParent,
+    keydown,
   };
   provide(rootCtxKey, ctx);
   return ctx;

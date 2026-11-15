@@ -1,70 +1,10 @@
-<script lang="ts">
-import { computed, ref, type ComputedRef } from "vue";
-import { NKLSelect } from "@lab/design/components";
-import { treeVariants, type TreeVariant, type TreeVariantId } from "../../feature/tree/variants";
-
-type VariantSlotCtx = {
-  variant: ComputedRef<TreeVariant>;
-  /** id of the variant the *other* slot has — must be disabled in this slot's selector. */
-  excluded: ComputedRef<TreeVariantId>;
-  set: (id: TreeVariantId) => void;
-};
-
-const byId = new Map(treeVariants.map((v) => [v.id, v]));
-
-/**
- * Pair of variant slots that stay mutually exclusive by *exclusion*: each side
- * exposes the other side's current id as `excluded`, so the UI can disable that
- * option in its selector. `set` rejects the excluded id defensively. No swap,
- * no surprise reshuffling.
- */
-function useExclusiveVariantPair(
-  initialLeft: TreeVariantId,
-  initialRight: TreeVariantId,
-): {
-  leftCtx: VariantSlotCtx;
-  rightCtx: VariantSlotCtx;
-} {
-  if (initialLeft === initialRight) {
-    throw new Error("useExclusiveVariantPair: initial values must differ");
-  }
-
-  const leftId = ref<TreeVariantId>(initialLeft);
-  const rightId = ref<TreeVariantId>(initialRight);
-
-  const makeCtx = (self: typeof leftId, other: typeof rightId): VariantSlotCtx => ({
-    variant: computed(() => byId.get(self.value)!),
-    excluded: computed(() => other.value),
-    set: (id) => {
-      if (id === other.value) return;
-      self.value = id;
-    },
-  });
-
-  return {
-    leftCtx: makeCtx(leftId, rightId),
-    rightCtx: makeCtx(rightId, leftId),
-  };
-}
-</script>
-
 <script setup lang="ts">
-const { leftCtx, rightCtx } = useExclusiveVariantPair("nested", "flat-virtual");
+import { NKLSelect } from "@lab/design/components";
+import { useExclusiveVariantPair, variantOptions } from "../../feature/tree/composable";
 
-const leftOptions = computed(() =>
-  treeVariants.map((v) => ({
-    value: v.id,
-    label: v.label,
-    disabled: v.id === leftCtx.excluded.value,
-  })),
-);
-const rightOptions = computed(() =>
-  treeVariants.map((v) => ({
-    value: v.id,
-    label: v.label,
-    disabled: v.id === rightCtx.excluded.value,
-  })),
-);
+const { leftCtx, rightCtx } = useExclusiveVariantPair("nested", "flat-virtual");
+const leftOptions = variantOptions(leftCtx);
+const rightOptions = variantOptions(rightCtx);
 </script>
 
 <template>
@@ -116,7 +56,7 @@ const rightOptions = computed(() =>
     padding: var(--space-4) var(--space-5) var(--space-3);
     display: grid;
     gap: var(--space-2);
-    border-block-end: 1px solid var(--border);
+    border-block-end: var(--border-width) solid var(--border);
 
     h1 {
       margin: 0;
@@ -125,7 +65,7 @@ const rightOptions = computed(() =>
 
     p {
       margin: 0;
-      color: var(--text-muted, var(--text));
+      color: var(--text-muted);
       font-size: var(--text-s);
     }
   }
@@ -147,7 +87,7 @@ const rightOptions = computed(() =>
     grid-template-rows: auto 1fr;
     min-block-size: 0;
     min-inline-size: 0;
-    border-inline-end: 1px solid var(--border);
+    border-inline-end: var(--border-width) solid var(--border);
 
     &:last-child {
       border-inline-end: none;
@@ -156,8 +96,8 @@ const rightOptions = computed(() =>
 
   .pane-header {
     padding: var(--space-3) var(--space-4);
-    border-block-end: 1px solid var(--border);
-    background: var(--surface, transparent);
+    border-block-end: var(--border-width) solid var(--border);
+    background: var(--surface);
   }
 
   .pane-body {

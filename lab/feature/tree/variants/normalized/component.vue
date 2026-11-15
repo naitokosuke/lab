@@ -62,8 +62,8 @@ function doLink() {
         <ul>
           <TreeNode
             v-for="rid in tree.store.state.rootIds"
-            :key="rid"
             :id="rid"
+            :key="rid"
             :depth="0"
             :path="[]"
           />
@@ -116,8 +116,16 @@ ul {
   list-style: none;
 }
 .ops {
+  --tree-ops-text-line-height: 1.5;
+  --tree-code-font-size: 0.9em;
+  --tree-ops-label-gap: 2px;
+  --tree-ops-select-min-inline-size: 14em;
+  --tree-toast-bg-mix: 12%;
+  --tree-toast-error-border-mix: 30%;
+  --tree-error-color: #c0392b;
+
   padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--border);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--radius-m);
   background: var(--bg);
   display: grid;
@@ -132,11 +140,11 @@ ul {
     margin: 0;
     color: var(--text);
     font-size: var(--text-s);
-    line-height: 1.5;
+    line-height: var(--tree-ops-text-line-height);
   }
   code {
     font-family: var(--mono);
-    font-size: 0.9em;
+    font-size: var(--tree-code-font-size);
     padding: 0 var(--space-1);
     background: var(--accent-bg);
     color: var(--accent);
@@ -152,7 +160,7 @@ ul {
   label {
     display: inline-flex;
     flex-direction: column;
-    gap: 2px;
+    gap: var(--tree-ops-label-gap);
     font-size: var(--text-xs);
     color: var(--text);
   }
@@ -160,12 +168,12 @@ ul {
     font: inherit;
     font-family: var(--mono);
     font-size: var(--text-s);
-    padding: 4px var(--space-2);
-    border: 1px solid var(--border);
+    padding: var(--space-1) var(--space-2);
+    border: var(--border-width) solid var(--border);
     border-radius: var(--radius-s);
     background: var(--bg);
     color: var(--text-h);
-    min-inline-size: 14em;
+    min-inline-size: var(--tree-ops-select-min-inline-size);
   }
 }
 .toast {
@@ -175,14 +183,15 @@ ul {
   font-size: var(--text-xs);
 
   &[data-kind="ok"] {
-    background: color-mix(in oklab, var(--accent) 12%, transparent);
+    background: color-mix(in oklab, var(--accent) var(--tree-toast-bg-mix), transparent);
     color: var(--accent);
-    border: 1px solid var(--accent-border);
+    border: var(--border-width) solid var(--accent-border);
   }
   &[data-kind="err"] {
-    background: color-mix(in oklab, #c0392b 12%, transparent);
-    color: #c0392b;
-    border: 1px solid color-mix(in oklab, #c0392b 30%, transparent);
+    background: color-mix(in oklab, var(--tree-error-color) var(--tree-toast-bg-mix), transparent);
+    color: var(--tree-error-color);
+    border: var(--border-width) solid
+      color-mix(in oklab, var(--tree-error-color) var(--tree-toast-error-border-mix), transparent);
   }
 }
 </style>
