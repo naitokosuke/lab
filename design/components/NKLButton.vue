@@ -1,7 +1,3 @@
-<script setup lang="ts">
-defineOptions({ name: "NKLButton" });
-</script>
-
 <template>
   <button class="nkl-button">
     <slot />

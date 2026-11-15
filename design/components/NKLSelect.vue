@@ -1,6 +1,4 @@
 <script setup lang="ts" generic="T extends string">
-defineOptions({ name: "NKLSelect" });
-
 const model = defineModel<T>({ required: true });
 
 defineProps<{
