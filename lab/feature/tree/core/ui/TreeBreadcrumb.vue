@@ -21,7 +21,7 @@ defineProps<{
 <style scoped>
 .empty {
   color: var(--text);
-  opacity: 0.7;
+  opacity: var(--tree-empty-opacity);
   font-style: italic;
   font-family: var(--sans);
 }
@@ -30,7 +30,7 @@ defineProps<{
 }
 .crumb:last-child {
   color: var(--accent);
-  font-weight: 600;
+  font-weight: var(--tree-emphasis-font-weight);
 }
 .sep {
   color: var(--border);

@@ -41,6 +41,7 @@ const isFocused = computed(() => root.focusedId.value === props.item.id);
     :aria-selected="isSelected || undefined"
     :tabindex="isFocused ? 0 : -1"
     @focus="root.focus(item.id)"
+    @keydown.stop="root.keydown"
   >
     <TreeRow
       :title="item.title"
@@ -62,6 +63,6 @@ const isFocused = computed(() => root.focusedId.value === props.item.id);
   outline: none;
 }
 [role="treeitem"]:focus-visible :deep(.row) {
-  box-shadow: 0 0 0 2px var(--accent);
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--accent);
 }
 </style>

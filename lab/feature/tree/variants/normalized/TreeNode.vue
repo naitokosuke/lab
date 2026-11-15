@@ -48,8 +48,8 @@ const childPath = computed(() => [...props.path, props.id]);
     <ul v-if="hasChildren && isOpened">
       <TreeNode
         v-for="cid in childIds"
-        :key="`${path.join('>')}>${id}>${cid}`"
         :id="cid"
+        :key="`${path.join('>')}>${id}>${cid}`"
         :depth="depth + 1"
         :path="childPath"
       />

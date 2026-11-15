@@ -47,8 +47,19 @@ defineProps<{
 
 <style scoped>
 .tree-shell {
+  --tree-shell-max-inline-size: 920px;
+  --tree-title-letter-spacing: -0.01em;
+  --tree-lede-line-height: 1.55;
+  --tree-lede-max-inline-size: 70ch;
+  --tree-stats-bg-mix: 35%;
+  --tree-breadcrumb-min-block-size: 2.25em;
+  --tree-empty-opacity: 0.7;
+  --tree-panel-min-block-size: 200px;
+  --tree-panel-max-block-size: 60vh;
+  --tree-emphasis-font-weight: 600;
+
   padding: var(--space-6) var(--space-5) var(--space-7);
-  max-inline-size: 920px;
+  max-inline-size: var(--tree-shell-max-inline-size);
   margin: 0 auto;
   display: grid;
   gap: var(--space-4);
@@ -57,15 +68,15 @@ defineProps<{
     h2 {
       margin: 0 0 var(--space-2);
       font-size: var(--text-2xl);
-      letter-spacing: -0.01em;
+      letter-spacing: var(--tree-title-letter-spacing);
       text-wrap: balance;
     }
     .lede {
       margin: 0;
       color: var(--text);
       font-size: var(--text-m);
-      line-height: 1.55;
-      max-inline-size: 70ch;
+      line-height: var(--tree-lede-line-height);
+      max-inline-size: var(--tree-lede-max-inline-size);
       text-wrap: pretty;
     }
   }
@@ -84,17 +95,17 @@ defineProps<{
   align-items: baseline;
   gap: var(--space-4);
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--border);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--radius-m);
-  background: color-mix(in oklab, var(--accent-bg) 35%, transparent);
+  background: color-mix(in oklab, var(--accent-bg) var(--tree-stats-bg-mix), transparent);
   font-size: var(--text-s);
   font-family: var(--mono);
 }
 
 .breadcrumb {
-  min-block-size: 2.25em;
+  min-block-size: var(--tree-breadcrumb-min-block-size);
   padding: var(--space-2) var(--space-3);
-  border: 1px dashed var(--border);
+  border: var(--border-width) dashed var(--border);
   border-radius: var(--radius-m);
   font-size: var(--text-s);
   display: flex;
@@ -105,20 +116,20 @@ defineProps<{
 
   .empty {
     color: var(--text);
-    opacity: 0.7;
+    opacity: var(--tree-empty-opacity);
     font-style: italic;
     font-family: var(--sans);
   }
 }
 
 .tree {
-  border: 1px solid var(--border);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--radius-m);
   background: var(--bg);
   display: flex;
   flex-direction: column;
-  min-block-size: 200px;
-  max-block-size: 60vh;
+  min-block-size: var(--tree-panel-min-block-size);
+  max-block-size: var(--tree-panel-max-block-size);
   overflow: hidden;
 }
 

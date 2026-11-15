@@ -15,43 +15,6 @@ const ctx = provideRoot({
 
 defineExpose({ ctx });
 
-// keyboard nav: arrow up/down move focus, right opens, left closes, space/enter selects
-function onKeydown(e: KeyboardEvent) {
-  const order = ctx.visibleOrderedIds.value;
-  if (order.length === 0) return;
-  const cur = ctx.focusedId.value;
-  const idx = cur !== null ? order.indexOf(cur) : -1;
-  if (e.key === "ArrowDown") {
-    e.preventDefault();
-    const next = order[Math.min(order.length - 1, idx + 1)] ?? order[0]!;
-    ctx.focus(next);
-  } else if (e.key === "ArrowUp") {
-    e.preventDefault();
-    const next = order[Math.max(0, idx - 1)] ?? order[0]!;
-    ctx.focus(next);
-  } else if (e.key === "Home") {
-    e.preventDefault();
-    ctx.focus(order[0] ?? null);
-  } else if (e.key === "End") {
-    e.preventDefault();
-    ctx.focus(order[order.length - 1] ?? null);
-  } else if (e.key === "ArrowRight" && cur !== null) {
-    e.preventDefault();
-    const info = ctx.itemInfo(cur);
-    if (info?.hasChildren === true && !ctx.isOpen(cur)) ctx.toggle(cur);
-  } else if (e.key === "ArrowLeft" && cur !== null) {
-    e.preventDefault();
-    const info = ctx.itemInfo(cur);
-    if (info?.hasChildren === true && ctx.isOpen(cur)) ctx.toggle(cur);
-    else if (info !== undefined && info.parentId !== null) ctx.focus(info.parentId);
-  } else if (e.key === " " || e.key === "Enter") {
-    if (cur !== null) {
-      e.preventDefault();
-      ctx.select(cur);
-    }
-  }
-}
-
 // 描画後 DOM focus を同期
 watch(
   () => ctx.focusedId.value,
@@ -74,7 +37,6 @@ onMounted(() => {
     ref="rootEl"
     role="tree"
     :aria-multiselectable="selectionMode !== 'leaf' || undefined"
-    @keydown="onKeydown"
   >
     <slot />
   </div>

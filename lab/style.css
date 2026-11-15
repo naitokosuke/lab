@@ -1,1 +1,10 @@
 @import "@lab/design/styles/index.css";
+
+/* Lab app tokens: how lab pages and their demo controls are laid out, not part of the design system */
+:root {
+  --layout-width-narrow: 480px;
+  --layout-width-medium: 560px;
+  --layout-width-wide: 640px;
+  --field-label-width: 100px;
+  --field-value-width: 40px;
+}

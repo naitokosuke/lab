@@ -68,16 +68,30 @@ nav {
   --dock-shadow:
     0 2px 6px light-dark(rgb(17 19 24 / 0.06), rgb(0 0 0 / 0.3)),
     0 12px 28px light-dark(rgb(17 19 24 / 0.14), rgb(0 0 0 / 0.45));
+  /* the glass's hairline and its lit top edge, and how it blurs what is behind it */
+  --dock-hairline: color-mix(in oklch, var(--dock-line) 80%, transparent);
+  --dock-highlight: light-dark(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.08));
+  --dock-blur: 20px;
+  --dock-saturation: 1.6;
   --dock-height: 60px;
-  --dock-gap: 12px;
+  --dock-radius: 22px;
+  --dock-gap: var(--space-3);
+  /* the dot under what is open */
+  --dock-dot-size: 4px;
+  --dock-dot-offset: 5px;
+  /* the line between items or groups, drawn by dividers and by groups alike */
+  --dock-divider-length: 28px;
+  --dock-divider-margin: 6px;
   --dock-ease-morph: cubic-bezier(0.22, 1, 0.36, 1);
   /* a spring with one small overshoot: the icons, let go */
   --dock-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dock-ease-swap: ease;
+  --dock-ease-follow: ease-out;
   --dock-duration-morph: 0.35s;
   --dock-duration-swap: 0.28s;
   /* following the pointer closely, and a name showing */
-  --dock-duration-follow: 0.1s;
-  --dock-duration-tip: 0.15s;
+  --dock-duration-follow: var(--duration-xs);
+  --dock-duration-tip: var(--duration-s);
   /* an icon's cell at rest; `--m` (per item) is how much it has grown under the pointer */
   --cell: 40px;
 
@@ -103,20 +117,20 @@ nav {
   display: flex;
   align-items: center;
   height: var(--dock-height);
-  max-width: calc(100% - 16px);
-  padding: 0 8px;
-  border-radius: 22px;
+  max-width: calc(100% - var(--space-4));
+  padding: 0 var(--space-2);
+  border-radius: var(--dock-radius);
   background: var(--dock-glass);
-  backdrop-filter: blur(20px) saturate(1.6);
-  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  backdrop-filter: blur(var(--dock-blur)) saturate(var(--dock-saturation));
+  -webkit-backdrop-filter: blur(var(--dock-blur)) saturate(var(--dock-saturation));
   /* a hairline, and a lit top edge as glass has */
   box-shadow:
-    inset 0 0 0 1px color-mix(in oklch, var(--dock-line) 80%, transparent),
-    inset 0 1px 0 light-dark(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.08)),
+    inset 0 0 0 var(--border-width) var(--dock-hairline),
+    inset 0 var(--border-width) 0 var(--dock-highlight),
     var(--dock-shadow);
   transition:
     translate var(--dock-duration-morph) var(--dock-ease-morph),
-    opacity var(--dock-duration-swap) ease;
+    opacity var(--dock-duration-swap) var(--dock-ease-swap);
 
   /*
    * How an icon's growth moves: springing back once the pointer has left, following it closely
@@ -128,23 +142,23 @@ nav {
 
   &[data-magnify] {
     --dock-grow-duration: var(--dock-duration-follow);
-    --dock-grow-ease: ease-out;
+    --dock-grow-ease: var(--dock-ease-follow);
   }
 
   &[data-fixed] {
     position: fixed;
     inset-block-end: calc(env(safe-area-inset-bottom, 0px) + var(--dock-gap));
-    max-width: calc(100vw - 16px);
+    max-width: calc(100vw - var(--space-4));
   }
 
   /* what is open: one dot under it, sliding to the next */
   > .dot {
     position: absolute;
     inset-inline-start: 0;
-    inset-block-end: 5px;
-    width: 4px;
-    height: 4px;
-    margin-inline-start: -2px;
+    inset-block-end: var(--dock-dot-offset);
+    width: var(--dock-dot-size);
+    height: var(--dock-dot-size);
+    margin-inline-start: calc(var(--dock-dot-size) / 2 * -1);
     border-radius: 50%;
     background: var(--dock-ink);
     translate: var(--x, 0) 0;
@@ -158,7 +172,7 @@ nav {
     &[data-ready] {
       transition:
         translate var(--dock-duration-morph) var(--dock-ease-morph),
-        opacity var(--dock-duration-swap) ease;
+        opacity var(--dock-duration-swap) var(--dock-ease-swap);
     }
   }
 

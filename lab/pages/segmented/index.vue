@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import { NKLButton, NKLRadioGroup, NKLSelect } from "@lab/design/components";
-import Segmented from "./component.vue";
-import TabList from "./TabList.vue";
-import TabPanel from "./TabPanel.vue";
-import type { Option } from "./composable";
+import {
+  NKLButton,
+  NKLRadioGroup,
+  NKLSelect,
+} from "@lab/design/components";
+import { DemoActions, DemoControls, DemoFieldset, DemoRange, DemoReadout } from "../../components";
+import Segmented from "../../feature/segmented/component.vue";
+import TabList from "../../feature/segmented/TabList.vue";
+import TabPanel from "../../feature/segmented/TabPanel.vue";
+import type { Option } from "../../feature/segmented/composable";
 
 const duration = ref(350);
 const easing = ref("cubic-bezier(0.22, 1, 0.36, 1)");
@@ -65,8 +70,6 @@ const current = computed(() => tabs.find((t) => t.value === tab.value));
 
 <template>
   <div id="segmented-lab">
-    <h2>Segmented</h2>
-
     <section>
       <div class="stage" :style="{ fontSize: `${fontSize}px` }">
         <Segmented
@@ -77,9 +80,9 @@ const current = computed(() => tabs.find((t) => t.value === tab.value));
           :easing="easing"
         />
       </div>
-      <output>
+      <DemoReadout :columns="1">
         <code>selected: {{ range }}</code>
-      </output>
+      </DemoReadout>
     </section>
 
     <section>
@@ -92,45 +95,27 @@ const current = computed(() => tabs.find((t) => t.value === tab.value));
       </TabPanel>
     </section>
 
-    <form @submit.prevent>
-      <fieldset>
-        <legend>Options</legend>
+    <DemoControls>
+      <DemoFieldset legend="Options">
         <NKLRadioGroup v-model="labels" legend="Labels" name="labels" :options="labelOptions" />
-        <label>
-          count
-          <input v-model.number="count" min="2" type="range" :max="POOL.length" step="1" />
-          <span>{{ count }}</span>
-        </label>
-        <label>
-          font (px)
-          <input v-model.number="fontSize" max="22" min="10" step="1" type="range" />
-          <span>{{ fontSize }}</span>
-        </label>
-        <menu>
+        <DemoRange v-model="count" label="count" :min="2" :max="POOL.length" :step="1" />
+        <DemoRange v-model="fontSize" label="font (px)" :min="10" :max="22" :step="1" />
+        <DemoActions>
           <NKLButton :disabled="count <= 2" @click="count--">− remove</NKLButton>
           <NKLButton :disabled="count >= POOL.length" @click="count++">+ add</NKLButton>
-        </menu>
-      </fieldset>
+        </DemoActions>
+      </DemoFieldset>
 
-      <fieldset>
-        <legend>Motion</legend>
-        <label>
-          duration (ms)
-          <input v-model.number="duration" max="2000" min="0" step="10" type="range" />
-          <span>{{ duration }}</span>
-        </label>
+      <DemoFieldset legend="Motion">
+        <DemoRange v-model="duration" label="duration (ms)" :min="0" :max="2000" :step="10" />
         <NKLSelect v-model="easing" label="easing" :options="easingOptions" />
-      </fieldset>
-    </form>
+      </DemoFieldset>
+    </DemoControls>
   </div>
 </template>
 
 <style scoped>
 #segmented-lab {
-  padding: var(--space-6) var(--space-5);
-  max-width: 560px;
-  margin: 0 auto;
-
   section {
     display: grid;
     gap: var(--space-3);
@@ -155,57 +140,6 @@ const current = computed(() => tabs.find((t) => t.value === tab.value));
 
     strong {
       color: var(--text-h);
-    }
-  }
-
-  output {
-    display: flex;
-    justify-content: center;
-
-    code {
-      font-size: var(--text-xs);
-      padding: var(--space-1) var(--space-2);
-      border-radius: var(--radius-s);
-      background: var(--accent-bg);
-      color: var(--accent);
-    }
-  }
-
-  form {
-    display: grid;
-    gap: var(--space-4);
-
-    fieldset {
-      display: grid;
-      gap: var(--space-3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-l);
-      padding: var(--space-4);
-    }
-
-    legend {
-      font-size: var(--text-m);
-      font-weight: 600;
-      color: var(--text-h);
-      padding: 0 var(--space-2);
-    }
-
-    label {
-      display: grid;
-      grid-template-columns: 100px 1fr 40px;
-      align-items: center;
-      gap: var(--space-2);
-      font-size: var(--text-m);
-      color: var(--text);
-      font-variant-numeric: tabular-nums;
-    }
-
-    menu {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-      padding: 0;
-      margin: 0;
     }
   }
 }

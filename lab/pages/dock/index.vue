@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { NKLButton, NKLRadioGroup, NKLSelect } from "@lab/design/components";
-import Dock from "./component.vue";
-import DockDivider from "./DockDivider.vue";
-import DockGroup from "./DockGroup.vue";
-import DockItem from "./DockItem.vue";
+import {
+  NKLButton,
+  NKLRadioGroup,
+  NKLSelect,
+} from "@lab/design/components";
+import { DemoActions, DemoControls, DemoFieldset, DemoRange, DemoReadout } from "../../components";
+import Dock from "../../feature/dock/component.vue";
+import DockDivider from "../../feature/dock/DockDivider.vue";
+import DockGroup from "../../feature/dock/DockGroup.vue";
+import DockItem from "../../feature/dock/DockItem.vue";
 
 type Item = { id: string; label: string; d: string };
 
@@ -71,7 +76,6 @@ const foldOptions = [
 
 <template>
   <div id="dock-lab">
-    <h2>Dock</h2>
 
     <section class="stage">
       <p aria-live="polite">
@@ -111,53 +115,46 @@ const foldOptions = [
       </Dock>
     </section>
 
-    <output>
+    <DemoReadout>
       <code>reach: {{ reach }}px</code>
       <code>grow: ×{{ (1 + grow).toFixed(2) }}</code>
       <code>{{ away ? "away" : "up" }}</code>
-    </output>
+    </DemoReadout>
 
-    <form @submit.prevent>
-      <fieldset>
-        <legend>Magnify</legend>
+    <DemoControls>
+      <DemoFieldset legend="Magnify">
         <NKLSelect
           :model-value="presetCtx.preset.value"
           label="preset"
           :options="presetOptions"
           @update:model-value="presetCtx.set"
         />
-        <label>
-          reach (px)
-          <input v-model.number="reach" max="300" min="40" step="10" type="range" />
-          <span>{{ reach }}</span>
-        </label>
-        <label>
-          grow
-          <input v-model.number="grow" max="1.5" min="0" step="0.05" type="range" />
-          <span>{{ grow.toFixed(2) }}</span>
-        </label>
-      </fieldset>
+        <DemoRange v-model="reach" label="reach (px)" :min="40" :max="300" :step="10" />
+        <DemoRange
+          v-model="grow"
+          label="grow"
+          :min="0"
+          :max="1.5"
+          :step="0.05"
+          :value="grow.toFixed(2)"
+        />
+      </DemoFieldset>
 
       <NKLRadioGroup v-model="fold" legend="Group" name="fold" :options="foldOptions" />
 
-      <fieldset>
-        <legend>Away</legend>
-        <menu>
+      <DemoFieldset legend="Away">
+        <DemoActions>
           <NKLButton type="button" :aria-pressed="away" @click="away = !away">
             {{ away ? "Bring the dock back" : "Send the dock away" }}
           </NKLButton>
-        </menu>
-      </fieldset>
-    </form>
+        </DemoActions>
+      </DemoFieldset>
+    </DemoControls>
   </div>
 </template>
 
 <style scoped>
 #dock-lab {
-  padding: var(--space-6) var(--space-5);
-  max-width: 640px;
-  margin: 0 auto;
-
   /* a framed screen; the dock floats at its bottom middle, and sinks below its edge */
   .stage {
     position: relative;
@@ -203,60 +200,6 @@ const foldOptions = [
       stroke-width: 1.8;
       stroke-linecap: round;
       stroke-linejoin: round;
-    }
-  }
-
-  output {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-2);
-    margin-bottom: var(--space-5);
-
-    code {
-      font-size: var(--text-xs);
-      padding: var(--space-1) var(--space-2);
-      border-radius: var(--radius-s);
-      background: var(--accent-bg);
-      color: var(--accent);
-      font-variant-numeric: tabular-nums;
-    }
-  }
-
-  form {
-    display: grid;
-    gap: var(--space-4);
-
-    fieldset {
-      display: grid;
-      gap: var(--space-3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-l);
-      padding: var(--space-4);
-    }
-
-    legend {
-      font-size: var(--text-m);
-      font-weight: 600;
-      color: var(--text-h);
-      padding: 0 var(--space-2);
-    }
-
-    label:has(input[type="range"]) {
-      display: grid;
-      grid-template-columns: 100px 1fr 40px;
-      align-items: center;
-      gap: var(--space-2);
-      font-size: var(--text-m);
-      color: var(--text);
-      font-variant-numeric: tabular-nums;
-    }
-
-    menu {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-      padding: 0;
-      margin: 0;
     }
   }
 }

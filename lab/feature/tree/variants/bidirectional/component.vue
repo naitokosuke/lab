@@ -104,8 +104,16 @@ ul {
   list-style: none;
 }
 .probe {
+  --tree-probe-text-line-height: 1.5;
+  --tree-probe-pre-line-height: 1.4;
+  --tree-probe-pre-max-block-size: 240px;
+  --tree-error-color: #c0392b;
+  --tree-error-bg-mix: 12%;
+  --tree-error-border-mix: 30%;
+  --tree-serialized-bg-mix: 50%;
+
   padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--border);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--radius-m);
   background: var(--bg);
   display: grid;
@@ -120,7 +128,7 @@ ul {
     margin: 0;
     color: var(--text);
     font-size: var(--text-s);
-    line-height: 1.5;
+    line-height: var(--tree-probe-text-line-height);
   }
 }
 .probe-controls {
@@ -137,19 +145,20 @@ ul {
   border-radius: var(--radius-s);
   font-family: var(--mono);
   font-size: var(--text-xs);
-  line-height: 1.4;
+  line-height: var(--tree-probe-pre-line-height);
   white-space: pre-wrap;
   overflow: auto;
-  max-block-size: 240px;
+  max-block-size: var(--tree-probe-pre-max-block-size);
 }
 .err {
-  background: color-mix(in oklab, #c0392b 12%, transparent);
-  color: #c0392b;
-  border: 1px solid color-mix(in oklab, #c0392b 30%, transparent);
+  background: color-mix(in oklab, var(--tree-error-color) var(--tree-error-bg-mix), transparent);
+  color: var(--tree-error-color);
+  border: var(--border-width) solid
+    color-mix(in oklab, var(--tree-error-color) var(--tree-error-border-mix), transparent);
 }
 .ok-pre {
-  background: color-mix(in oklab, var(--accent-bg) 50%, transparent);
+  background: color-mix(in oklab, var(--accent-bg) var(--tree-serialized-bg-mix), transparent);
   color: var(--text-h);
-  border: 1px solid var(--accent-border);
+  border: var(--border-width) solid var(--accent-border);
 }
 </style>

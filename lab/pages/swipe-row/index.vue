@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { NKLButton, NKLSelect } from "@lab/design/components";
-import SwipeRow from "./component.vue";
+import {
+  NKLButton,
+  NKLSelect,
+} from "@lab/design/components";
+import { DemoActions, DemoControls, DemoFieldset, DemoRange, DemoReadout } from "../../components";
+import SwipeRow from "../../feature/swipe-row/component.vue";
 
 type Note = { id: number; title: string; detail: string };
 
@@ -53,8 +57,6 @@ function reset() {
 
 <template>
   <div id="swipe-row-lab">
-    <h2>Swipe Row</h2>
-
     <p class="hint">
       Sliding is touch-only: use a phone, or DevTools' touch emulation, and slide a row left. With a
       mouse or keyboard, each row's ⋯ button opens its actions.
@@ -94,38 +96,28 @@ function reset() {
       </ul>
     </section>
 
-    <output>
+    <DemoReadout :columns="2">
       <code>open: {{ openId === null ? "none" : `#${openId}` }}</code>
       <code>last: {{ lastAction }}</code>
-    </output>
+    </DemoReadout>
 
-    <form @submit.prevent>
-      <fieldset>
-        <legend>Rows</legend>
-        <menu>
+    <DemoControls>
+      <DemoFieldset legend="Rows">
+        <DemoActions>
           <NKLButton @click="reset">reset rows</NKLButton>
-        </menu>
-      </fieldset>
+        </DemoActions>
+      </DemoFieldset>
 
-      <fieldset>
-        <legend>Motion</legend>
-        <label>
-          duration (ms)
-          <input v-model.number="duration" max="2000" min="0" step="20" type="range" />
-          <span>{{ duration }}</span>
-        </label>
+      <DemoFieldset legend="Motion">
+        <DemoRange v-model="duration" label="duration (ms)" :min="0" :max="2000" :step="20" />
         <NKLSelect v-model="easing" label="easing" :options="easingOptions" />
-      </fieldset>
-    </form>
+      </DemoFieldset>
+    </DemoControls>
   </div>
 </template>
 
 <style scoped>
 #swipe-row-lab {
-  padding: var(--space-6) var(--space-5);
-  max-width: 560px;
-  margin: 0 auto;
-
   .hint {
     font-size: var(--text-s);
     color: var(--text);
@@ -139,13 +131,13 @@ function reset() {
       list-style: none;
       padding: 0;
       margin: 0;
-      border: 1px solid var(--border);
+      border: var(--border-width) solid var(--border);
       border-radius: var(--radius-l);
       overflow: hidden;
     }
 
     li + li {
-      border-top: 1px solid var(--border);
+      border-top: var(--border-width) solid var(--border);
     }
 
     .empty {
@@ -185,7 +177,7 @@ function reset() {
     font-size: var(--text-l);
     line-height: 1;
     padding: var(--space-1) var(--space-2);
-    border: 1px solid var(--border);
+    border: var(--border-width) solid var(--border);
     border-radius: var(--radius-m);
     background: var(--accent-bg);
     color: var(--text-h);
@@ -208,59 +200,6 @@ function reset() {
   .delete {
     background: var(--accent);
     color: var(--bg);
-  }
-
-  output {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-2);
-    margin-bottom: var(--space-5);
-
-    code {
-      font-size: var(--text-xs);
-      padding: var(--space-1) var(--space-2);
-      border-radius: var(--radius-s);
-      background: var(--accent-bg);
-      color: var(--accent);
-      font-variant-numeric: tabular-nums;
-    }
-  }
-
-  form {
-    display: grid;
-    gap: var(--space-4);
-
-    fieldset {
-      display: grid;
-      gap: var(--space-3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-l);
-      padding: var(--space-4);
-    }
-
-    legend {
-      font-size: var(--text-m);
-      font-weight: 600;
-      color: var(--text-h);
-      padding: 0 var(--space-2);
-    }
-
-    label {
-      display: grid;
-      grid-template-columns: 100px 1fr 40px;
-      align-items: center;
-      gap: var(--space-2);
-      font-size: var(--text-m);
-      color: var(--text);
-      font-variant-numeric: tabular-nums;
-    }
-
-    menu {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-      padding: 0;
-    }
   }
 }
 </style>

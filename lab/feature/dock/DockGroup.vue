@@ -23,7 +23,7 @@ div:has(> div) {
   opacity: 1;
   transition:
     grid-template-columns var(--dock-duration-morph) var(--dock-ease-morph),
-    opacity var(--dock-duration-swap) ease;
+    opacity var(--dock-duration-swap) var(--dock-ease-swap);
 
   &[data-closed] {
     grid-template-columns: 0fr;
@@ -42,9 +42,9 @@ div:has(> div) {
     &::before {
       content: "";
       flex-shrink: 0;
-      width: 1px;
-      height: 28px;
-      margin-inline: 6px;
+      width: var(--border-width);
+      height: var(--dock-divider-length);
+      margin-inline: var(--dock-divider-margin);
       background: var(--dock-line);
     }
   }

@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, useTemplateRef, watch } from "vue";
 import { NKLButton, NKLRadioGroup, NKLSelect } from "@lab/design/components";
-import TextMorph from "./component.vue";
-import type { MorphPart } from "./core/glyphs";
+import {
+  DemoActions,
+  DemoControls,
+  DemoFieldset,
+  DemoRange,
+  DemoReadout,
+  DemoTextField,
+} from "../../components";
+import TextMorph from "../../feature/text-morph/component.vue";
+import type { MorphPart } from "../../feature/text-morph/core/glyphs";
 
 type Scenario = "day" | "clock" | "free";
 
@@ -78,8 +86,6 @@ const morph = useTemplateRef<InstanceType<typeof TextMorph>>("morph");
 
 <template>
   <div id="text-morph-lab">
-    <h2>Text Morph</h2>
-
     <section>
       <TextMorph
         ref="morph"
@@ -91,13 +97,13 @@ const morph = useTemplateRef<InstanceType<typeof TextMorph>>("morph");
       />
     </section>
 
-    <output>
+    <DemoReadout>
       <code>kept: {{ morph?.stats.kept ?? 0 }}</code>
       <code>entered: {{ morph?.stats.entered ?? 0 }}</code>
       <code>left: {{ morph?.stats.left ?? 0 }}</code>
-    </output>
+    </DemoReadout>
 
-    <form @submit.prevent>
+    <DemoControls>
       <NKLRadioGroup
         v-model="scenario"
         legend="Scenario"
@@ -105,44 +111,30 @@ const morph = useTemplateRef<InstanceType<typeof TextMorph>>("morph");
         :options="scenarioOptions"
       />
 
-      <fieldset v-if="scenario === 'day'">
-        <legend>Day</legend>
-        <menu>
+      <DemoFieldset v-if="scenario === 'day'" legend="Day">
+        <DemoActions>
           <NKLButton :disabled="day <= 1" @click="day--">← prev</NKLButton>
           <NKLButton :disabled="day >= 14" @click="day++">next →</NKLButton>
-        </menu>
-      </fieldset>
+        </DemoActions>
+      </DemoFieldset>
 
-      <fieldset v-else-if="scenario === 'free'">
-        <legend>Text</legend>
-        <label>
-          text
-          <input v-model="free" type="text" />
-        </label>
-        <menu>
+      <DemoFieldset v-else-if="scenario === 'free'" legend="Text">
+        <DemoTextField v-model="free" label="text" />
+        <DemoActions>
           <NKLButton v-for="p in presets" :key="p" @click="free = p">{{ p }}</NKLButton>
-        </menu>
-      </fieldset>
+        </DemoActions>
+      </DemoFieldset>
 
-      <fieldset>
-        <legend>Motion</legend>
-        <label>
-          duration (ms)
-          <input v-model.number="duration" max="2000" min="0" step="20" type="range" />
-          <span>{{ duration }}</span>
-        </label>
+      <DemoFieldset legend="Motion">
+        <DemoRange v-model="duration" label="duration (ms)" :min="0" :max="2000" :step="20" />
         <NKLSelect v-model="easing" label="easing" :options="easingOptions" />
-      </fieldset>
-    </form>
+      </DemoFieldset>
+    </DemoControls>
   </div>
 </template>
 
 <style scoped>
 #text-morph-lab {
-  padding: var(--space-6) var(--space-5);
-  max-width: 560px;
-  margin: 0 auto;
-
   section {
     display: grid;
     place-items: center;
@@ -165,69 +157,6 @@ const morph = useTemplateRef<InstanceType<typeof TextMorph>>("morph");
     :deep(.weekday) {
       color: var(--text);
       font-size: 0.7em;
-    }
-  }
-
-  output {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-2);
-    margin-bottom: var(--space-5);
-
-    code {
-      font-size: var(--text-xs);
-      padding: var(--space-1) var(--space-2);
-      border-radius: var(--radius-s);
-      background: var(--accent-bg);
-      color: var(--accent);
-      font-variant-numeric: tabular-nums;
-    }
-  }
-
-  form {
-    display: grid;
-    gap: var(--space-4);
-
-    fieldset {
-      display: grid;
-      gap: var(--space-3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-l);
-      padding: var(--space-4);
-    }
-
-    legend {
-      font-size: var(--text-m);
-      font-weight: 600;
-      color: var(--text-h);
-      padding: 0 var(--space-2);
-    }
-
-    label {
-      display: grid;
-      grid-template-columns: 100px 1fr 40px;
-      align-items: center;
-      gap: var(--space-2);
-      font-size: var(--text-m);
-      color: var(--text);
-      font-variant-numeric: tabular-nums;
-    }
-
-    input[type="text"] {
-      grid-column: span 2;
-      font-size: var(--text-m);
-      padding: var(--space-1) var(--space-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-s);
-      background: var(--bg);
-      color: var(--text-h);
-    }
-
-    menu {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-      padding: 0;
     }
   }
 }

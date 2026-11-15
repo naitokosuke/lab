@@ -57,10 +57,27 @@ const emit = defineEmits<{
 }
 
 .row {
+  --tree-row-padding-block: 2px;
+  --tree-row-hover-bg-mix: 60%;
+  --tree-depth-guide-width: 2px;
+  --tree-depth-guide-opacity: 0.5;
+  --tree-depth-guide-transition-duration: 120ms;
+  --tree-caret-size: 1.25em;
+  --tree-caret-glyph-size: 0.7em;
+  --tree-caret-opened-rotation: 90deg;
+  --tree-caret-rotate-duration: 140ms;
+  --tree-caret-rotate-easing: ease;
+  --tree-row-focus-ring-offset: 1px;
+  --tree-leaf-dot-opacity: 0.35;
+  --tree-leaf-dot-font-size: 1.2em;
+  --tree-title-padding-block: 2px;
+  --tree-badge-bg-mix: 12%;
+  --tree-badge-border-mix: 30%;
+
   display: flex;
   align-items: center;
   gap: var(--space-1);
-  padding-block: 2px;
+  padding-block: var(--tree-row-padding-block);
   padding-inline: calc(var(--space-2) + var(--depth) * var(--space-4)) var(--space-2);
   border-radius: var(--radius-s);
   cursor: default;
@@ -70,15 +87,17 @@ const emit = defineEmits<{
     content: "";
     position: absolute;
     inset-block: 0;
-    inset-inline-start: calc(var(--space-2) + var(--depth) * var(--space-4) - 2px);
-    inline-size: 2px;
+    inset-inline-start: calc(
+      var(--space-2) + var(--depth) * var(--space-4) - var(--tree-depth-guide-width)
+    );
+    inline-size: var(--tree-depth-guide-width);
     background: var(--border);
-    opacity: calc(min(var(--depth), 1) * 0.5);
-    transition: opacity 120ms;
+    opacity: calc(min(var(--depth), 1) * var(--tree-depth-guide-opacity));
+    transition: opacity var(--tree-depth-guide-transition-duration);
   }
 
   &:hover {
-    background: color-mix(in oklab, var(--accent-bg) 60%, transparent);
+    background: color-mix(in oklab, var(--accent-bg) var(--tree-row-hover-bg-mix), transparent);
   }
   &[data-selected] {
     background: var(--accent-bg);
@@ -87,8 +106,8 @@ const emit = defineEmits<{
 
 .caret {
   flex: none;
-  inline-size: 1.25em;
-  block-size: 1.25em;
+  inline-size: var(--tree-caret-size);
+  block-size: var(--tree-caret-size);
   display: inline-grid;
   place-items: center;
   border: 0;
@@ -96,29 +115,29 @@ const emit = defineEmits<{
   color: var(--text);
   font: inherit;
   border-radius: var(--radius-s);
-  transition: transform 140ms ease;
+  transition: transform var(--tree-caret-rotate-duration) var(--tree-caret-rotate-easing);
 
   &:disabled {
     cursor: default;
     color: var(--border);
   }
   &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 1px;
+    outline: var(--focus-ring-width) solid var(--accent);
+    outline-offset: var(--tree-row-focus-ring-offset);
   }
 }
 .row[data-opened] .caret-glyph {
-  transform: rotate(90deg);
-  transition: transform 140ms ease;
+  transform: rotate(var(--tree-caret-opened-rotation));
+  transition: transform var(--tree-caret-rotate-duration) var(--tree-caret-rotate-easing);
 }
 .caret-glyph {
-  inline-size: 0.7em;
-  block-size: 0.7em;
-  transition: transform 140ms ease;
+  inline-size: var(--tree-caret-glyph-size);
+  block-size: var(--tree-caret-glyph-size);
+  transition: transform var(--tree-caret-rotate-duration) var(--tree-caret-rotate-easing);
 }
 .leaf-dot {
-  opacity: 0.35;
-  font-size: 1.2em;
+  opacity: var(--tree-leaf-dot-opacity);
+  font-size: var(--tree-leaf-dot-font-size);
   line-height: 1;
 }
 
@@ -134,18 +153,18 @@ const emit = defineEmits<{
   font: inherit;
   font-family: var(--mono);
   font-size: var(--text-s);
-  padding: 2px var(--space-2);
+  padding: var(--tree-title-padding-block) var(--space-2);
   border-radius: var(--radius-s);
   text-align: start;
 
   &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 1px;
+    outline: var(--focus-ring-width) solid var(--accent);
+    outline-offset: var(--tree-row-focus-ring-offset);
   }
 
   .row[data-selected] & {
     color: var(--accent);
-    font-weight: 600;
+    font-weight: var(--tree-emphasis-font-weight);
   }
 }
 .title-text {
@@ -159,8 +178,9 @@ const emit = defineEmits<{
   font-family: var(--mono);
   padding: 0 var(--space-1);
   border-radius: var(--radius-s);
-  background: color-mix(in oklab, var(--accent) 12%, transparent);
+  background: color-mix(in oklab, var(--accent) var(--tree-badge-bg-mix), transparent);
   color: var(--accent);
-  border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+  border: var(--border-width) solid
+    color-mix(in oklab, var(--accent) var(--tree-badge-border-mix), transparent);
 }
 </style>

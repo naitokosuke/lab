@@ -95,13 +95,14 @@ onBeforeUnmount(() => resized?.disconnect());
 .audio-analyzer {
   --color-bar: var(--accent);
   --color-bg: var(--accent-bg);
+  --audio-analyzer-height: 160px;
 
   display: block;
   inline-size: 100%;
-  block-size: 160px;
+  block-size: var(--audio-analyzer-height);
   color: var(--color-bar);
   background: var(--color-bg);
-  border: 1px solid var(--border);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--radius-l);
 }
 </style>

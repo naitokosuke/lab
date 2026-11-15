@@ -49,23 +49,29 @@ const { style, ready } = useIndicator(list, () => [props.modelValue, props.optio
 <style scoped>
 .segmented {
   --duration-swap: 0.28s;
+  --segmented-ease-swap: ease;
+  --segmented-pad: 2px;
+  --segmented-pill-radius: 999px;
+  --segmented-pill-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+  --segmented-option-height: 32px; /* with the track's pad it is the 36px a thumb is asked to hit */
+  --segmented-label-weight: 700;
 
   position: relative;
   display: inline-flex;
-  padding: 2px;
-  border-radius: 999px;
+  padding: var(--segmented-pad);
+  border-radius: var(--segmented-pill-radius);
   background: var(--accent-bg);
-  box-shadow: inset 0 0 0 1px var(--border);
+  box-shadow: inset 0 0 0 var(--border-width) var(--border);
 
   > span {
     position: absolute;
     inset-block-start: 0;
     inset-inline-start: 0;
-    border-radius: 999px;
+    border-radius: var(--segmented-pill-radius);
     background: var(--bg);
     box-shadow:
-      0 1px 2px rgb(0 0 0 / 0.08),
-      0 0 0 1px var(--border);
+      var(--segmented-pill-shadow),
+      0 0 0 var(--border-width) var(--border);
     pointer-events: none;
 
     /* placed before it moves: it appears where it belongs instead of sliding in from the corner */
@@ -78,25 +84,25 @@ const { style, ready } = useIndicator(list, () => [props.modelValue, props.optio
 
   > button {
     position: relative;
-    min-height: 32px; /* with the track's 2px it is the 36px a thumb is asked to hit */
-    padding: 0 12px;
+    min-height: var(--segmented-option-height);
+    padding: 0 var(--space-3);
     border: 0;
-    border-radius: 999px;
+    border-radius: var(--segmented-pill-radius);
     background: none;
     font: inherit;
     font-size: var(--text-s);
-    font-weight: 700;
+    font-weight: var(--segmented-label-weight);
     white-space: nowrap;
     color: var(--text);
-    transition: color var(--duration-swap) ease;
+    transition: color var(--duration-swap) var(--segmented-ease-swap);
 
     &[aria-checked="true"] {
       color: var(--text-h);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
+      outline: var(--focus-ring-width) solid var(--accent);
+      outline-offset: var(--focus-ring-offset);
     }
 
     @media (hover: hover) {
