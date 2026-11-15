@@ -2,16 +2,16 @@
 defineProps<{ label: string; accept?: string }>();
 const emit = defineEmits<{ select: [file: File] }>();
 
-function onChange(e: Event) {
+function onChange(e: Event): void {
   const file = (e.target as HTMLInputElement).files?.[0];
   if (file !== undefined) emit("select", file);
 }
 </script>
 
 <template>
-  <label class="demo-field">
+  <label class="field">
     <span>{{ label }}</span>
-    <input type="file" :accept="accept" @change="onChange" />
+    <input type="file" :accept @change="onChange" />
   </label>
 </template>
 

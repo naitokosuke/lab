@@ -1,16 +1,20 @@
 <script setup lang="ts">
+/** A bordered group of controls under a legend */
 defineProps<{ legend: string }>();
+defineSlots<{ default(): unknown }>();
 </script>
 
 <template>
-  <fieldset class="demo-fieldset">
+  <fieldset class="fieldset">
     <legend>{{ legend }}</legend>
     <slot />
   </fieldset>
 </template>
 
 <style scoped>
-.demo-fieldset {
+.fieldset {
+  --fieldset-legend-weight: 600;
+
   display: grid;
   gap: var(--space-3);
   margin: 0;
@@ -20,7 +24,7 @@ defineProps<{ legend: string }>();
 
   legend {
     font-size: var(--text-m);
-    font-weight: 600;
+    font-weight: var(--fieldset-legend-weight);
     color: var(--text-h);
     padding: 0 var(--space-2);
   }

@@ -4,7 +4,7 @@ import {
   NKLButton,
   NKLSelect,
 } from "@lab/design/components";
-import { DemoActions, DemoControls, DemoFieldset, DemoRange, DemoReadout } from "../../components";
+import { ButtonGroup, ControlPanel, Fieldset, RangeField, Readout } from "../../components";
 import SwipeRow from "../../feature/swipe-row/component.vue";
 
 type Note = { id: number; title: string; detail: string };
@@ -80,7 +80,7 @@ function reset() {
                 class="more"
                 type="button"
                 :aria-expanded="openId === note.id"
-                :aria-label="`Actions for ${note.title}`"
+                :aria-label="`ButtonGroup for ${note.title}`"
                 @click="toggle(note.id, openId !== note.id)"
               >
                 ⋯
@@ -96,28 +96,32 @@ function reset() {
       </ul>
     </section>
 
-    <DemoReadout :columns="2">
+    <Readout class="status" :columns="2">
       <code>open: {{ openId === null ? "none" : `#${openId}` }}</code>
       <code>last: {{ lastAction }}</code>
-    </DemoReadout>
+    </Readout>
 
-    <DemoControls>
-      <DemoFieldset legend="Rows">
-        <DemoActions>
+    <ControlPanel>
+      <Fieldset legend="Rows">
+        <ButtonGroup>
           <NKLButton @click="reset">reset rows</NKLButton>
-        </DemoActions>
-      </DemoFieldset>
+        </ButtonGroup>
+      </Fieldset>
 
-      <DemoFieldset legend="Motion">
-        <DemoRange v-model="duration" label="duration (ms)" :min="0" :max="2000" :step="20" />
+      <Fieldset legend="Motion">
+        <RangeField v-model="duration" label="duration (ms)" :min="0" :max="2000" :step="20" />
         <NKLSelect v-model="easing" label="easing" :options="easingOptions" />
-      </DemoFieldset>
-    </DemoControls>
+      </Fieldset>
+    </ControlPanel>
   </div>
 </template>
 
 <style scoped>
 #swipe-row-lab {
+  .status {
+    margin-block-end: var(--space-5);
+  }
+
   .hint {
     font-size: var(--text-s);
     color: var(--text);

@@ -2,12 +2,12 @@
 import { ref } from "vue";
 import { NKLButton, NKLSelect } from "@lab/design/components";
 import {
-  DemoActions,
-  DemoControls,
-  DemoFieldset,
-  DemoFileField,
-  DemoRange,
-  DemoReadout,
+  ButtonGroup,
+  ControlPanel,
+  Fieldset,
+  FileField,
+  RangeField,
+  Readout,
 } from "../../components";
 import AudioAnalyzer from "../../feature/audio-analyzer/component.vue";
 import { useAudioAnalyser } from "../../feature/audio-analyzer/composable";
@@ -50,25 +50,25 @@ const fftSizeOptions = [256, 512, 1_024, 2_048, 4_096, 8_192, 16_384, 32_768].ma
       <AudioAnalyzer mode="waveform" :frame="analysis.frame.value" />
     </section>
 
-    <DemoReadout :columns="2">
+    <Readout class="status" :columns="2">
       <code>source: {{ session.source.value ?? "none" }}</code>
       <code>sampleRate: {{ graph.sampleRate.value ?? "-" }}</code>
       <code>level: {{ analysis.levelDb.value.toFixed(1) }} dBFS</code>
       <code>peak: {{ session.source.value !== null ? Math.round(analysis.peakHz.value) : "-" }} Hz</code>
       <code v-if="session.error.value !== null" class="error">error: {{ session.error.value }}</code>
-    </DemoReadout>
+    </Readout>
 
-    <DemoControls>
-      <DemoFieldset legend="Source">
-        <DemoActions>
+    <ControlPanel>
+      <Fieldset legend="Source">
+        <ButtonGroup>
           <NKLButton @click="startTone()">tone</NKLButton>
           <NKLButton @click="startMicrophone()">microphone</NKLButton>
           <NKLButton @click="session.stop()">stop</NKLButton>
-        </DemoActions>
+        </ButtonGroup>
 
-        <DemoFileField label="file" accept="audio/*" @select="startFile" />
+        <FileField label="file" accept="audio/*" @select="startFile" />
 
-        <DemoRange
+        <RangeField
           :model-value="toneHzCtx.toneHz.value"
           label="tone (Hz)"
           :min="40"
@@ -76,9 +76,9 @@ const fftSizeOptions = [256, 512, 1_024, 2_048, 4_096, 8_192, 16_384, 32_768].ma
           :step="1"
           @update:model-value="toneHzCtx.set"
         />
-      </DemoFieldset>
+      </Fieldset>
 
-      <DemoFieldset legend="Analyser">
+      <Fieldset legend="Analyser">
         <NKLSelect
           :model-value="String(fftSizeCtx.fftSize.value)"
           label="fftSize"
@@ -86,7 +86,7 @@ const fftSizeOptions = [256, 512, 1_024, 2_048, 4_096, 8_192, 16_384, 32_768].ma
           @update:model-value="(v) => fftSizeCtx.set(Number(v))"
         />
 
-        <DemoRange
+        <RangeField
           :model-value="smoothingCtx.smoothing.value"
           label="smoothing"
           :min="0"
@@ -94,19 +94,23 @@ const fftSizeOptions = [256, 512, 1_024, 2_048, 4_096, 8_192, 16_384, 32_768].ma
           :step="0.01"
           @update:model-value="smoothingCtx.set"
         />
-      </DemoFieldset>
+      </Fieldset>
 
-      <DemoFieldset legend="Display">
-        <DemoRange v-model="bands" label="bands" :min="8" :max="256" :step="8" />
-        <DemoRange v-model="minDb" label="minDb" :min="-140" :max="-40" :step="5" />
-        <DemoRange v-model="maxDb" label="maxDb" :min="-60" :max="0" :step="5" />
-      </DemoFieldset>
-    </DemoControls>
+      <Fieldset legend="Display">
+        <RangeField v-model="bands" label="bands" :min="8" :max="256" :step="8" />
+        <RangeField v-model="minDb" label="minDb" :min="-140" :max="-40" :step="5" />
+        <RangeField v-model="maxDb" label="maxDb" :min="-60" :max="0" :step="5" />
+      </Fieldset>
+    </ControlPanel>
   </div>
 </template>
 
 <style scoped>
 #audio-analyzer-lab {
+  .status {
+    margin-block-end: var(--space-5);
+  }
+
   --field-value-width: 48px;
 
   section {

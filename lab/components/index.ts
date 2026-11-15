@@ -1,8 +1,8 @@
-export { default as DemoActions } from "./DemoActions.vue";
-export { default as DemoControls } from "./DemoControls.vue";
-export { default as DemoFieldset } from "./DemoFieldset.vue";
-export { default as DemoFileField } from "./DemoFileField.vue";
-export { default as DemoNumberField } from "./DemoNumberField.vue";
-export { default as DemoRange } from "./DemoRange.vue";
-export { default as DemoReadout } from "./DemoReadout.vue";
-export { default as DemoTextField } from "./DemoTextField.vue";
+export { default as ButtonGroup } from "./ButtonGroup.vue";
+export { default as ControlPanel } from "./ControlPanel.vue";
+export { default as Fieldset } from "./Fieldset.vue";
+export { default as FileField } from "./FileField.vue";
+export { default as NumberField } from "./NumberField.vue";
+export { default as RangeField } from "./RangeField.vue";
+export { default as Readout } from "./Readout.vue";
+export { default as TextField } from "./TextField.vue";
