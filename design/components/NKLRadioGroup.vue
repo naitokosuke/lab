@@ -31,7 +31,7 @@ defineProps<{
   legend {
     font-family: var(--mono);
     font-size: var(--text-xs);
-    color: var(--text-muted, var(--text));
+    color: var(--text-muted);
     margin-bottom: var(--space-2);
     padding: 0;
   }
@@ -48,22 +48,22 @@ defineProps<{
     gap: var(--space-1);
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-m);
-    border: 1px solid var(--border);
-    background: var(--surface, transparent);
+    border: var(--border-width) solid var(--border);
+    background: var(--surface);
     cursor: pointer;
     font-family: var(--mono);
     font-size: var(--text-s);
     transition:
-      border-color 0.15s,
-      background 0.15s;
+      border-color var(--duration-s),
+      background var(--duration-s);
 
     &:hover {
       border-color: var(--accent-border);
     }
 
     &:has(input:focus-visible) {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
+      outline: var(--focus-ring-width) solid var(--accent);
+      outline-offset: var(--focus-ring-offset);
     }
 
     &.active {
@@ -86,8 +86,8 @@ defineProps<{
 
     .description {
       font-size: var(--text-xs);
-      color: var(--text-muted, var(--text));
-      opacity: 0.8;
+      color: var(--text-muted);
+      opacity: var(--opacity-muted);
     }
   }
 }

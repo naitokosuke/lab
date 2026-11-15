@@ -29,7 +29,7 @@ defineProps<{
 
   .label {
     font-size: var(--text-xs);
-    color: var(--text-muted, var(--text));
+    color: var(--text-muted);
   }
 
   select {
@@ -37,7 +37,7 @@ defineProps<{
     font: inherit;
     color: var(--accent);
     background: var(--accent-bg);
-    border: 1px solid var(--border);
+    border: var(--border-width) solid var(--border);
     border-radius: var(--radius-m);
     padding: var(--space-2) var(--space-7) var(--space-2) var(--space-3);
     cursor: pointer;
@@ -48,18 +48,18 @@ defineProps<{
       calc(100% - var(--space-4)) center,
       calc(100% - var(--space-3)) center;
     background-size:
-      5px 5px,
-      5px 5px;
+      var(--chevron-size) var(--chevron-size),
+      var(--chevron-size) var(--chevron-size);
     background-repeat: no-repeat;
-    transition: border-color 0.15s;
+    transition: border-color var(--duration-s);
 
     &:hover {
       border-color: var(--accent-border);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
+      outline: var(--focus-ring-width) solid var(--accent);
+      outline-offset: var(--focus-ring-offset);
     }
   }
 }

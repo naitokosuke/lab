@@ -2,7 +2,9 @@
   /* Colors */
   --text: #666;
   --text-h: #000;
+  --text-muted: var(--text);
   --bg: #fff;
+  --surface: transparent;
   --border: #ddd;
   --accent: #000;
   --accent-bg: #f5f5f5;
@@ -34,6 +36,27 @@
   --text-l: 16px;
   --text-xl: 18px;
   --text-2xl: 24px;
+
+  /* Borders */
+  --border-width: 1px;
+
+  /* Focus ring */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* Opacity */
+  --opacity-muted: 0.8;
+
+  /* Motion */
+  --duration-xs: 100ms;
+  --duration-s: 150ms;
+  --duration-m: 200ms;
+  --duration-l: 250ms;
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --lift: -2px;
+
+  /* Icons */
+  --chevron-size: 5px;
 }
 
 @media (prefers-color-scheme: dark) {
