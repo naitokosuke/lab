@@ -45,7 +45,7 @@ const presetOptions = [
 ] as const satisfies ReadonlyArray<{ value: Preset; label: string; disabled?: boolean }>;
 /** The preset the sliders are on ("custom" when none), and picking one moves both sliders */
 const presetCtx = (() => {
-  const value = computed<Preset>(() => {
+  const preset = computed<Preset>(() => {
     const hit = Object.entries(presets).find(
       ([, p]) => p.reach === reach.value && p.grow === grow.value,
     );
@@ -56,7 +56,7 @@ const presetCtx = (() => {
     reach.value = presets[p].reach;
     grow.value = presets[p].grow;
   };
-  return { value, set };
+  return { preset, set };
 })();
 
 const away = ref(false);
@@ -121,7 +121,7 @@ const foldOptions = [
       <fieldset>
         <legend>Magnify</legend>
         <NKLSelect
-          :model-value="presetCtx.value.value"
+          :model-value="presetCtx.preset.value"
           label="preset"
           :options="presetOptions"
           @update:model-value="presetCtx.set"

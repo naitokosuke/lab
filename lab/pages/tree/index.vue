@@ -4,7 +4,7 @@ import { NKLSelect } from "@lab/design/components";
 import { treeVariants, type TreeVariant, type TreeVariantId } from "../../feature/tree/variants";
 
 type VariantSlotCtx = {
-  value: ComputedRef<TreeVariant>;
+  variant: ComputedRef<TreeVariant>;
   /** id of the variant the *other* slot has — must be disabled in this slot's selector. */
   excluded: ComputedRef<TreeVariantId>;
   set: (id: TreeVariantId) => void;
@@ -33,7 +33,7 @@ function useExclusiveVariantPair(
   const rightId = ref<TreeVariantId>(initialRight);
 
   const makeCtx = (self: typeof leftId, other: typeof rightId): VariantSlotCtx => ({
-    value: computed(() => byId.get(self.value)!),
+    variant: computed(() => byId.get(self.value)!),
     excluded: computed(() => other.value),
     set: (id) => {
       if (id === other.value) return;
@@ -77,27 +77,27 @@ const rightOptions = computed(() =>
       <section class="pane">
         <div class="pane-header">
           <NKLSelect
-            :model-value="leftCtx.value.value.id"
+            :model-value="leftCtx.variant.value.id"
             label="Left variant"
             :options="leftOptions"
             @update:model-value="leftCtx.set"
           />
         </div>
-        <div :key="leftCtx.value.value.id" class="pane-body">
-          <component :is="leftCtx.value.value.component" />
+        <div :key="leftCtx.variant.value.id" class="pane-body">
+          <component :is="leftCtx.variant.value.component" />
         </div>
       </section>
       <section class="pane">
         <div class="pane-header">
           <NKLSelect
-            :model-value="rightCtx.value.value.id"
+            :model-value="rightCtx.variant.value.id"
             label="Right variant"
             :options="rightOptions"
             @update:model-value="rightCtx.set"
           />
         </div>
-        <div :key="rightCtx.value.value.id" class="pane-body">
-          <component :is="rightCtx.value.value.component" />
+        <div :key="rightCtx.variant.value.id" class="pane-body">
+          <component :is="rightCtx.variant.value.component" />
         </div>
       </section>
     </div>

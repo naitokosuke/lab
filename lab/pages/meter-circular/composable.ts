@@ -7,10 +7,10 @@ export interface UseCircularAnimateReturn {
   pending: ComputedRef<boolean>;
   playState: ComputedRef<AnimationPlayState>;
   currentTimeCtx: {
-    value: ComputedRef<CSSNumberish | null>;
+    currentTime: ComputedRef<CSSNumberish | null>;
     set: (value: CSSNumberish | null) => void;
   };
-  playbackRateCtx: { value: ComputedRef<number>; set: (value: number) => void };
+  playbackRateCtx: { playbackRate: ComputedRef<number>; set: (value: number) => void };
 
   play: () => void;
   pause: () => void;
@@ -129,7 +129,7 @@ export function useCircularAnimate(
   const playState = computed(() => store.playState);
 
   const currentTimeCtx = (() => {
-    const value = computed(() => store.currentTime);
+    const currentTime = computed(() => store.currentTime);
     const set = (v: CSSNumberish | null) => {
       store.currentTime = v;
       if (animation.value) {
@@ -137,16 +137,16 @@ export function useCircularAnimate(
         syncResume();
       }
     };
-    return { value, set };
+    return { currentTime, set };
   })();
 
   const playbackRateCtx = (() => {
-    const value = computed(() => store.playbackRate);
+    const playbackRate = computed(() => store.playbackRate);
     const set = (v: number) => {
       store.playbackRate = v;
       if (animation.value) animation.value.playbackRate = v;
     };
-    return { value, set };
+    return { playbackRate, set };
   })();
 
   /* ============================================================
