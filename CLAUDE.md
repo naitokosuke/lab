@@ -21,21 +21,24 @@ lab/pages/<name>/
 
 Do not use `WritableComputedRef` when returning readable/writable reactive values from composables. Assignment hides side effects.
 
-Instead, use a closure object with `Ctx` suffix that cohesively groups `value` (read) and `set` (write).
+Instead, use a closure object with `Ctx` suffix that cohesively groups the read-only reactive value and `set` (write).
+
+- Name the read key after what it holds (`playbackRateCtx.playbackRate`), not `value`: `xCtx.value.value` reads like a Ref unwrap and hides what the value is
+- Expose the value read-only (`computed` over a reactive source, or `shallowReadonly` over a ref) so every write goes through `set`
 
 ```ts
 // Inside composable
 const playbackRateCtx = (() => {
-  const value = computed(() => store.playbackRate);
+  const playbackRate = computed(() => store.playbackRate);
   const set = (v: number) => {
     store.playbackRate = v;
     if (animation.value) animation.value.playbackRate = v;
   };
-  return { value, set };
+  return { playbackRate, set };
 })();
 
 // Usage
-playbackRateCtx.value.value; // Read (unwrap ComputedRef)
+playbackRateCtx.playbackRate.value; // Read
 playbackRateCtx.set(2); // Write (side effect is explicit)
 ```
 

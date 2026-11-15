@@ -56,9 +56,9 @@ function setPlaybackRate(value: number) {
       <code>pending: {{ pending }}</code>
       <code>currentTime:
         {{
-          currentTimeCtx.value.value != null ? Math.round(Number(currentTimeCtx.value.value)) : null
+          currentTimeCtx.currentTime.value != null ? Math.round(Number(currentTimeCtx.currentTime.value)) : null
         }}</code>
-      <code>playbackRate: {{ playbackRateCtx.value.value }}</code>
+      <code>playbackRate: {{ playbackRateCtx.playbackRate.value }}</code>
     </output>
 
     <form @submit.prevent>
