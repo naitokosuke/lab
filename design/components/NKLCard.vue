@@ -7,22 +7,22 @@
 <style scoped>
 .nkl-card {
   padding: var(--space-5);
-  border: 1px solid var(--border);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--radius-l);
   transition:
-    translate 0.25s cubic-bezier(0.33, 1, 0.68, 1),
-    border-color 0.25s,
-    box-shadow 0.25s;
+    translate var(--duration-l) var(--ease-out),
+    border-color var(--duration-l),
+    box-shadow var(--duration-l);
 
   &:hover {
-    translate: 0 -2px;
+    translate: 0 var(--lift);
     border-color: var(--accent-border);
     box-shadow: var(--shadow);
   }
 
   &:active {
     translate: 0 0;
-    transition-duration: 0.1s;
+    transition-duration: var(--duration-xs);
   }
 }
 </style>
