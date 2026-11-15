@@ -1,21 +1,32 @@
-# Lab Page Structure
+# Lab Structure
 
-Each UI experiment lives in `lab/pages/<name>/` with the following layout:
+Every piece of UI belongs to exactly one of these layers:
 
 ```
-lab/pages/<name>/
-  index.vue          # Page component (demo UI, controls)
-  component.vue      # Actual component implementation
+design/components/   # @lab/design: context-free design system UI (NKL*), no lab or feature knowledge
+lab/layouts/         # How a route is framed (column, fullscreen), picked from lab/pages/meta.ts
+lab/components/      # Pure lab UI for demo controls (Demo*): no business logic, no feature knowledge
+lab/feature/<name>/  # A feature: everything that makes the experiment work
+lab/pages/<name>/    # Routes only: index.vue wires a feature to demo controls
+```
+
+A feature lives in `lab/feature/<name>/`:
+
+```
+lab/feature/<name>/
+  component.vue      # The component implementation
+  *.vue              # Its sub-components (as needed)
   composable.ts      # Composable (as needed)
   core/              # Framework-free logic and its *.test.ts (as needed)
+  variants/          # Several implementations of the same feature (as needed)
 ```
 
-- `index.vue` is the file-based routing page; only `**/index` files become routes
-- Register each page's title, description, and tags in `lab/pages/meta.ts`
-- `component.vue` holds the naive component implementation
-- `composable.ts` and `core/` are created as needed
-- An experiment with several variants lives in `lab/feature/<name>/`, and its page imports it
-- Shared UI comes from `@lab/design` (`design/`)
+- `lab/pages/<name>/index.vue` is the file-based routing page; only `**/index` files become routes
+- A page holds demo state and wiring only: no feature logic, and no page shell (title, width), which the layout draws
+- Register each page's title, description, tags, and layout in `lab/pages/meta.ts`
+- Business logic a page needs goes to its feature's `composable.ts` or `core/`, never the page
+- Lab-specific values (layout widths, field columns) are tokens in `lab/style.css`, not in `@lab/design`
+- Every form control keeps its `<label>` in the same template as the control, so a11y lint can see the association
 
 # Ctx Closure Pattern
 
