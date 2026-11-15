@@ -1,7 +1,3 @@
-<script setup lang="ts">
-defineOptions({ name: "NKLCard" });
-</script>
-
 <template>
   <article class="nkl-card">
     <slot />
