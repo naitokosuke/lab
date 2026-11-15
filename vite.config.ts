@@ -41,6 +41,8 @@ export default defineConfig({
   run: {
     tasks: {
       typecheck: "tsrs --runExternalCode --noEmit -p tsconfig.json",
+      // vp check misses Vize's template rules (a11y, unsafe URLs, attribute order); keep them at zero
+      "lint-vue": "vize lint lab design --max-warnings 0",
     },
   },
 }).withVue({});
