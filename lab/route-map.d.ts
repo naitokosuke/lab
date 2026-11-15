@@ -38,6 +38,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/audio-analyzer/': RouteRecordInfo<
+      '/audio-analyzer/',
+      '/audio-analyzer',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/counter/': RouteRecordInfo<
       '/counter/',
       '/counter',
@@ -110,6 +117,14 @@ declare module 'vue-router/auto-routes' {
     'lab/pages/index.vue': {
       routes:
         | '/'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'lab/pages/audio-analyzer/index.vue': {
+      routes:
+        | '/audio-analyzer/'
       views:
         | never
       pathParamNames:
