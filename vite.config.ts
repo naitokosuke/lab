@@ -34,7 +34,11 @@ export default defineConfig({
     options: { typeAware: true },
     vue: {
       typeAware: true,
-      rules: { "type/strict-boolean-expressions": "error" },
+      rules: {
+        "type/strict-boolean-expressions": "error",
+        // a component's directory says what it is for (lab/components/Fieldset.vue); no prefix needed
+        "vue/multi-word-component-names": "off",
+      },
       ruleOptions: { "type/strict-boolean-expressions": { allowNullableObject: false } },
     },
   },
