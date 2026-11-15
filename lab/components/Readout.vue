@@ -1,20 +1,20 @@
 <script setup lang="ts">
-/** A row of live values, each a `<code>` chip */
-withDefaults(defineProps<{ columns?: number }>(), { columns: 3 });
+/** Live values, each a `<code>` chip, laid out in `columns` equal columns */
+const { columns = 3 } = defineProps<{ columns?: number }>();
+defineSlots<{ default(): unknown }>();
 </script>
 
 <template>
-  <output class="demo-readout" :style="{ '--columns': columns }">
+  <output class="readout" :style="{ '--readout-columns': columns }">
     <slot />
   </output>
 </template>
 
 <style scoped>
-.demo-readout {
+.readout {
   display: grid;
-  grid-template-columns: repeat(var(--columns), 1fr);
+  grid-template-columns: repeat(var(--readout-columns), 1fr);
   gap: var(--space-2);
-  margin-bottom: var(--space-5);
 
   :slotted(code) {
     font-size: var(--text-xs);

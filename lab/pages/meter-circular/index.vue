@@ -2,13 +2,13 @@
 import { computed, ref, useTemplateRef } from "vue";
 import { NKLButton, NKLSelect } from "@lab/design/components";
 import {
-  DemoActions,
-  DemoControls,
-  DemoFieldset,
-  DemoNumberField,
-  DemoRange,
-  DemoReadout,
-  DemoTextField,
+  ButtonGroup,
+  ControlPanel,
+  Fieldset,
+  NumberField,
+  RangeField,
+  Readout,
+  TextField,
 } from "../../components";
 import MeterCircular from "../../feature/meter-circular/component.vue";
 import { useCircularAnimate } from "../../feature/meter-circular/composable";
@@ -59,7 +59,7 @@ function setPlaybackRate(value: number) {
       <MeterCircular ref="progress" :num="num" :percentage="percentage" :unit="unit" />
     </section>
 
-    <DemoReadout :columns="2">
+    <Readout class="status" :columns="2">
       <code>playState: {{ playState }}</code>
       <code>pending: {{ pending }}</code>
       <code>currentTime:
@@ -67,18 +67,18 @@ function setPlaybackRate(value: number) {
           currentTimeCtx.currentTime.value != null ? Math.round(Number(currentTimeCtx.currentTime.value)) : null
         }}</code>
       <code>playbackRate: {{ playbackRateCtx.playbackRate.value }}</code>
-    </DemoReadout>
+    </Readout>
 
-    <DemoControls>
-      <DemoFieldset legend="Props">
-        <DemoRange v-model="num" label="num" :min="0" :max="max" />
+    <ControlPanel>
+      <Fieldset legend="Props">
+        <RangeField v-model="num" label="num" :min="0" :max="max" />
 
-        <DemoNumberField v-model="max" label="max" :min="1" />
-        <DemoTextField v-model="unit" label="unit" />
-        <DemoRange v-model="duration" label="duration (ms)" :min="100" :max="3000" :step="100" />
+        <NumberField v-model="max" label="max" :min="1" />
+        <TextField v-model="unit" label="unit" />
+        <RangeField v-model="duration" label="duration (ms)" :min="100" :max="3000" :step="100" />
         <NKLSelect v-model="easing" label="easing" :options="easingOptions" />
 
-        <DemoRange
+        <RangeField
           v-model="playbackRateInput"
           label="playbackRate"
           :min="0.1"
@@ -87,24 +87,28 @@ function setPlaybackRate(value: number) {
           :value="`${playbackRateInput}x`"
           @update:model-value="setPlaybackRate"
         />
-      </DemoFieldset>
+      </Fieldset>
 
-      <DemoFieldset legend="Actions">
-        <DemoActions>
+      <Fieldset legend="ButtonGroup">
+        <ButtonGroup>
           <NKLButton @click="play()">play()</NKLButton>
           <NKLButton @click="pause()">pause()</NKLButton>
           <NKLButton @click="resume()">resume()</NKLButton>
 
           <NKLButton @click="finish()">finish()</NKLButton>
           <NKLButton @click="cancel()">cancel()</NKLButton>
-        </DemoActions>
-      </DemoFieldset>
-    </DemoControls>
+        </ButtonGroup>
+      </Fieldset>
+    </ControlPanel>
   </div>
 </template>
 
 <style scoped>
 #meter-circular-lab {
+  .status {
+    margin-block-end: var(--space-5);
+  }
+
   section {
     display: grid;
     justify-items: center;

@@ -5,7 +5,7 @@ import {
   NKLRadioGroup,
   NKLSelect,
 } from "@lab/design/components";
-import { DemoActions, DemoControls, DemoFieldset, DemoRange, DemoReadout } from "../../components";
+import { ButtonGroup, ControlPanel, Fieldset, RangeField, Readout } from "../../components";
 import Dock from "../../feature/dock/component.vue";
 import DockDivider from "../../feature/dock/DockDivider.vue";
 import DockGroup from "../../feature/dock/DockGroup.vue";
@@ -115,22 +115,22 @@ const foldOptions = [
       </Dock>
     </section>
 
-    <DemoReadout>
+    <Readout class="status">
       <code>reach: {{ reach }}px</code>
       <code>grow: ×{{ (1 + grow).toFixed(2) }}</code>
       <code>{{ away ? "away" : "up" }}</code>
-    </DemoReadout>
+    </Readout>
 
-    <DemoControls>
-      <DemoFieldset legend="Magnify">
+    <ControlPanel>
+      <Fieldset legend="Magnify">
         <NKLSelect
           :model-value="presetCtx.preset.value"
           label="preset"
           :options="presetOptions"
           @update:model-value="presetCtx.set"
         />
-        <DemoRange v-model="reach" label="reach (px)" :min="40" :max="300" :step="10" />
-        <DemoRange
+        <RangeField v-model="reach" label="reach (px)" :min="40" :max="300" :step="10" />
+        <RangeField
           v-model="grow"
           label="grow"
           :min="0"
@@ -138,23 +138,27 @@ const foldOptions = [
           :step="0.05"
           :value="grow.toFixed(2)"
         />
-      </DemoFieldset>
+      </Fieldset>
 
       <NKLRadioGroup v-model="fold" legend="Group" name="fold" :options="foldOptions" />
 
-      <DemoFieldset legend="Away">
-        <DemoActions>
+      <Fieldset legend="Away">
+        <ButtonGroup>
           <NKLButton type="button" :aria-pressed="away" @click="away = !away">
             {{ away ? "Bring the dock back" : "Send the dock away" }}
           </NKLButton>
-        </DemoActions>
-      </DemoFieldset>
-    </DemoControls>
+        </ButtonGroup>
+      </Fieldset>
+    </ControlPanel>
   </div>
 </template>
 
 <style scoped>
 #dock-lab {
+  .status {
+    margin-block-end: var(--space-5);
+  }
+
   /* a framed screen; the dock floats at its bottom middle, and sinks below its edge */
   .stage {
     position: relative;

@@ -5,7 +5,7 @@ Every piece of UI belongs to exactly one of these layers:
 ```
 design/components/   # @lab/design: context-free design system UI (NKL*), no lab or feature knowledge
 lab/layouts/         # How a route is framed (column, fullscreen), picked from lab/pages/meta.ts
-lab/components/      # Pure lab UI for demo controls (Demo*): no business logic, no feature knowledge
+lab/components/      # Reusable form/readout UI on @lab/design tokens: no business logic, no lab or feature knowledge
 lab/feature/<name>/  # A feature: everything that makes the experiment work
 lab/pages/<name>/    # Routes only: index.vue wires a feature to demo controls
 ```

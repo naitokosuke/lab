@@ -5,7 +5,7 @@ import {
   NKLRadioGroup,
   NKLSelect,
 } from "@lab/design/components";
-import { DemoActions, DemoControls, DemoFieldset, DemoRange, DemoReadout } from "../../components";
+import { ButtonGroup, ControlPanel, Fieldset, RangeField, Readout } from "../../components";
 import Segmented from "../../feature/segmented/component.vue";
 import TabList from "../../feature/segmented/TabList.vue";
 import TabPanel from "../../feature/segmented/TabPanel.vue";
@@ -75,14 +75,14 @@ const current = computed(() => tabs.find((t) => t.value === tab.value));
         <Segmented
           v-model="range"
           :options="options"
-          label="Range"
+          label="RangeField"
           :duration="duration"
           :easing="easing"
         />
       </div>
-      <DemoReadout :columns="1">
+      <Readout :columns="1">
         <code>selected: {{ range }}</code>
-      </DemoReadout>
+      </Readout>
     </section>
 
     <section>
@@ -95,22 +95,22 @@ const current = computed(() => tabs.find((t) => t.value === tab.value));
       </TabPanel>
     </section>
 
-    <DemoControls>
-      <DemoFieldset legend="Options">
+    <ControlPanel>
+      <Fieldset legend="Options">
         <NKLRadioGroup v-model="labels" legend="Labels" name="labels" :options="labelOptions" />
-        <DemoRange v-model="count" label="count" :min="2" :max="POOL.length" :step="1" />
-        <DemoRange v-model="fontSize" label="font (px)" :min="10" :max="22" :step="1" />
-        <DemoActions>
+        <RangeField v-model="count" label="count" :min="2" :max="POOL.length" :step="1" />
+        <RangeField v-model="fontSize" label="font (px)" :min="10" :max="22" :step="1" />
+        <ButtonGroup>
           <NKLButton :disabled="count <= 2" @click="count--">− remove</NKLButton>
           <NKLButton :disabled="count >= POOL.length" @click="count++">+ add</NKLButton>
-        </DemoActions>
-      </DemoFieldset>
+        </ButtonGroup>
+      </Fieldset>
 
-      <DemoFieldset legend="Motion">
-        <DemoRange v-model="duration" label="duration (ms)" :min="0" :max="2000" :step="10" />
+      <Fieldset legend="Motion">
+        <RangeField v-model="duration" label="duration (ms)" :min="0" :max="2000" :step="10" />
         <NKLSelect v-model="easing" label="easing" :options="easingOptions" />
-      </DemoFieldset>
-    </DemoControls>
+      </Fieldset>
+    </ControlPanel>
   </div>
 </template>
 

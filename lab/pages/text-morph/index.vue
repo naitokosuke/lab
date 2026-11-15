@@ -2,12 +2,12 @@
 import { computed, onBeforeUnmount, ref, useTemplateRef, watch } from "vue";
 import { NKLButton, NKLRadioGroup, NKLSelect } from "@lab/design/components";
 import {
-  DemoActions,
-  DemoControls,
-  DemoFieldset,
-  DemoRange,
-  DemoReadout,
-  DemoTextField,
+  ButtonGroup,
+  ControlPanel,
+  Fieldset,
+  RangeField,
+  Readout,
+  TextField,
 } from "../../components";
 import TextMorph from "../../feature/text-morph/component.vue";
 import type { MorphPart } from "../../feature/text-morph/core/glyphs";
@@ -97,13 +97,13 @@ const morph = useTemplateRef<InstanceType<typeof TextMorph>>("morph");
       />
     </section>
 
-    <DemoReadout>
+    <Readout class="status">
       <code>kept: {{ morph?.stats.kept ?? 0 }}</code>
       <code>entered: {{ morph?.stats.entered ?? 0 }}</code>
       <code>left: {{ morph?.stats.left ?? 0 }}</code>
-    </DemoReadout>
+    </Readout>
 
-    <DemoControls>
+    <ControlPanel>
       <NKLRadioGroup
         v-model="scenario"
         legend="Scenario"
@@ -111,30 +111,34 @@ const morph = useTemplateRef<InstanceType<typeof TextMorph>>("morph");
         :options="scenarioOptions"
       />
 
-      <DemoFieldset v-if="scenario === 'day'" legend="Day">
-        <DemoActions>
+      <Fieldset v-if="scenario === 'day'" legend="Day">
+        <ButtonGroup>
           <NKLButton :disabled="day <= 1" @click="day--">← prev</NKLButton>
           <NKLButton :disabled="day >= 14" @click="day++">next →</NKLButton>
-        </DemoActions>
-      </DemoFieldset>
+        </ButtonGroup>
+      </Fieldset>
 
-      <DemoFieldset v-else-if="scenario === 'free'" legend="Text">
-        <DemoTextField v-model="free" label="text" />
-        <DemoActions>
+      <Fieldset v-else-if="scenario === 'free'" legend="Text">
+        <TextField v-model="free" label="text" />
+        <ButtonGroup>
           <NKLButton v-for="p in presets" :key="p" @click="free = p">{{ p }}</NKLButton>
-        </DemoActions>
-      </DemoFieldset>
+        </ButtonGroup>
+      </Fieldset>
 
-      <DemoFieldset legend="Motion">
-        <DemoRange v-model="duration" label="duration (ms)" :min="0" :max="2000" :step="20" />
+      <Fieldset legend="Motion">
+        <RangeField v-model="duration" label="duration (ms)" :min="0" :max="2000" :step="20" />
         <NKLSelect v-model="easing" label="easing" :options="easingOptions" />
-      </DemoFieldset>
-    </DemoControls>
+      </Fieldset>
+    </ControlPanel>
   </div>
 </template>
 
 <style scoped>
 #text-morph-lab {
+  .status {
+    margin-block-end: var(--space-5);
+  }
+
   section {
     display: grid;
     place-items: center;

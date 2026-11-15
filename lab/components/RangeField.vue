@@ -1,13 +1,13 @@
 <script setup lang="ts">
 /** A labelled range slider; `value` is what to show beside it (the raw number when omitted) */
-const model = defineModel<number>({ required: true });
 defineProps<{ label: string; min: number; max: number; step?: number; value?: string }>();
+const model = defineModel<number>({ required: true });
 </script>
 
 <template>
-  <label class="demo-field">
+  <label class="field">
     <span>{{ label }}</span>
-    <input v-model.number="model" type="range" :min="min" :max="max" :step="step" />
+    <input v-model.number="model" type="range" :min :max :step />
     <output>{{ value ?? model }}</output>
   </label>
 </template>

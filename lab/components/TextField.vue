@@ -1,10 +1,10 @@
 <script setup lang="ts">
-const model = defineModel<string>({ required: true });
 defineProps<{ label: string }>();
+const model = defineModel<string>({ required: true });
 </script>
 
 <template>
-  <label class="demo-field">
+  <label class="field">
     <span>{{ label }}</span>
     <input v-model="model" type="text" />
   </label>
